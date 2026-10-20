@@ -16,9 +16,7 @@
 /* ===== Design tokens: colors, fonts, spacing ===== */
 :root {
   /* Colors */
-  /* Almost black (Figma: #000000). Slightly lighter, so MacBook screens
-     don't leave a glow behind the moving letters */
-  --color-background: #0a0a0a;
+  --color-background: #000000;
   --color-text: #ffffff;
 
   /* Fonts */

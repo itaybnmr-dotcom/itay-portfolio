@@ -18,7 +18,7 @@ const letters = chars.map((char) => {
 });
 
 // Animation settings
-const ROUND_TIME = 8000;    // one full round, in milliseconds (slower = softer on the eyes)
+const ROUND_TIME = 6000;    // one full round, in milliseconds
 const LETTER_GAP = 80;      // how much later each letter starts than the one before it
 const EASE_OUT_OF_SCREEN = "cubic-bezier(0.32, 0, 0.67, 0)"; // starts gently, speeds up as it leaves
 const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly, slows down softly

@@ -22,6 +22,8 @@ function splitIntoLetters(element, className) {
 // to the right and comes back in from the left.
 const title = document.querySelector(".coming-soon__title");
 const letters = splitIntoLetters(title, "letter");
+// On phones the headline breaks into two lines at the space (see styles.css)
+letters.find((letter) => letter.textContent === " ").classList.add("letter--break");
 
 // Animation settings
 const ROUND_TIME = 6000;    // one full round, in milliseconds
@@ -36,7 +38,14 @@ const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly
 //   "wave":     a wave runs through the headline; letters jump, stretch and squash
 //   "carousel": the letters spin in a ring, steered by the mouse
 //   "rain":     random letters rain down, then the real ones land and form the headline
-const MOTIONS = ["sideways", "falling", "cluster", "wave", "carousel", "rain"];
+//   "ticker":   three big sideways headlines, the middle one scrolling up, the others down
+//   "tilt":     the letters as real objects that fall, pile up and can be thrown around
+// Phones get their own list: motions that use the tall screen.
+// Same width as the phone layout in styles.css.
+const isPhone = window.matchMedia("(max-width: 700px)").matches;
+const MOTIONS = isPhone
+  ? ["falling", "tilt", "rain", "ticker", "wave"]
+  : ["sideways", "falling", "cluster", "wave", "carousel", "rain", "ticker", "tilt"];
 let motion = MOTIONS[0];
 
 // Where each letter of the headline goes in the current motion:
@@ -338,7 +347,178 @@ function startRain() {
 }
 
 // The motions that have their own layer (the others move the big headline)
-const LAYERS = { cluster, carousel, rain };
+// ===== Ticker: three big sideways headlines side by side, moved by styles.css =====
+// The middle one scrolls up, the ones on its sides scroll down.
+// Each has two identical halves, so moving by half loops with no visible jump.
+const ticker = createLayer("ticker");
+for (let i = 0; i < 3; i++) {
+  const tickerText = document.createElement("div");
+  tickerText.className = "ticker__text";
+  tickerText.textContent = (title.getAttribute("aria-label") + " ").repeat(4);
+  ticker.append(tickerText);
+}
+
+// ===== Tilt: the letters as real objects that fall, tumble and pile up =====
+// Uses the Matter.js physics engine (loaded in index.html). Every letter is a
+// solid block: it falls toward the low side of the phone, rotates, bumps into
+// the other letters and the screen's edges, and stacks up. A finger or the mouse can grab a
+// letter and throw it, and shaking the phone tosses them all around.
+// Without a tilt sensor (a computer, or a phone that said no) they just fall down.
+const SHAKE_FORCE = 0.0004; // how hard a shake tosses the letters
+const THROW_STIFFNESS = 0.2; // how tightly a grabbed letter follows the finger
+
+const tiltLayer = createLayer("tilt");
+let tiltLetters = [];
+let engine = null;
+let gravity = { x: 0, y: 1 }; // down, until the tilt sensor says otherwise
+let grab = null;              // the letter the finger is holding
+let tiltRunning = false;
+let tiltLastTime = null;
+
+// Builds the letters and the walls (on page load, when the window changes size,
+// and every time the tilt motion shows, so the headline collapses again)
+function startTilt() {
+  if (typeof Matter === "undefined") return; // the physics engine didn't load
+  const { Engine, Bodies, Composite } = Matter;
+  engine = Engine.create();
+  engine.gravity.x = gravity.x;
+  engine.gravity.y = gravity.y;
+  tiltLayer.textContent = "";
+
+  const width = document.documentElement.clientWidth;
+  const height = document.documentElement.clientHeight;
+  const fontSize = parseFloat(getComputedStyle(tiltLayer).fontSize);
+
+  // Four walls just outside the screen's edges
+  const wall = 200;
+  Composite.add(engine.world, [
+    Bodies.rectangle(width / 2, height + wall / 2, width * 3, wall, { isStatic: true }),
+    Bodies.rectangle(width / 2, -wall / 2, width * 3, wall, { isStatic: true }),
+    Bodies.rectangle(-wall / 2, height / 2, wall, height * 3, { isStatic: true }),
+    Bodies.rectangle(width + wall / 2, height / 2, wall, height * 3, { isStatic: true }),
+  ]);
+
+  tiltLetters = letters
+    .filter((letter) => letter.textContent !== " ")
+    .map((letter) => {
+      const element = document.createElement("span");
+      element.className = "tilt__letter";
+      element.textContent = letter.textContent;
+      element.style.left = `${letter.offsetLeft}px`;
+      element.style.top = `${letter.offsetTop}px`;
+      tiltLayer.append(element);
+
+      // The block is the size of the letter's ink, not its whole line box
+      const homeX = letter.offsetLeft + letter.offsetWidth / 2;
+      const homeY = letter.offsetTop + letter.offsetHeight / 2;
+      const isDot = letter.textContent === ".";
+      const blockWidth = letter.offsetWidth * 0.85;
+      const blockHeight = isDot ? blockWidth : fontSize * 0.72;
+      // A dot's ink sits low in its box, so its block (and the point it turns around) does too
+      const drop = isDot ? fontSize * 0.3 : 0;
+      element.style.transformOrigin = `50% calc(50% + ${drop}px)`;
+      const body = Bodies.rectangle(homeX, homeY + drop, blockWidth, blockHeight, {
+        restitution: 0.25, // a small bounce
+        friction: 0.4,
+        chamfer: { radius: Math.min(blockWidth, blockHeight) * 0.2 },
+      });
+      Composite.add(engine.world, body);
+      return { element, body, homeX, homeY: homeY + drop };
+    });
+}
+
+// Asks for the tilt and motion sensors (iPhones only allow it after a tap) and listens
+function listenToTilt() {
+  const listenTilt = () =>
+    window.addEventListener("deviceorientation", (event) => {
+      if (event.beta === null) return;
+      // Which way is down on the screen, from how the phone is held
+      const beta = (event.beta * Math.PI) / 180;
+      const gamma = (event.gamma * Math.PI) / 180;
+      gravity = { x: Math.cos(beta) * Math.sin(gamma), y: Math.sin(beta) };
+    });
+  const listenShake = () =>
+    window.addEventListener("devicemotion", (event) => {
+      const a = event.acceleration;
+      if (!a || motion !== "tilt") return;
+      const strength = Math.hypot(a.x || 0, a.y || 0);
+      if (strength < 8) return; // a real shake, not a hand moving a bit
+      tiltLetters.forEach(({ body }) => {
+        Matter.Body.applyForce(body, body.position, {
+          x: (Math.random() - 0.5) * strength * SHAKE_FORCE * body.mass,
+          y: (Math.random() - 0.5) * strength * SHAKE_FORCE * body.mass,
+        });
+      });
+    });
+  const ask = (Event, listen) => {
+    if (typeof Event === "undefined") return;
+    if (Event.requestPermission) {
+      Event.requestPermission().then((answer) => answer === "granted" && listen()).catch(() => {});
+    } else {
+      listen();
+    }
+  };
+  ask(window.DeviceOrientationEvent, listenTilt);
+  ask(window.DeviceMotionEvent, listenShake);
+}
+
+// The finger grabs the letter under it and drags it; letting go throws it
+function grabLetter(x, y) {
+  if (motion !== "tilt" || !engine) return;
+  const [body] = Matter.Query.point(tiltLetters.map((letter) => letter.body), { x, y });
+  if (!body) return;
+  grab = Matter.Constraint.create({
+    pointA: { x, y },
+    bodyB: body,
+    pointB: { x: x - body.position.x, y: y - body.position.y },
+    stiffness: THROW_STIFFNESS,
+    damping: 0.1,
+  });
+  Matter.Composite.add(engine.world, grab);
+}
+
+function moveGrab(x, y) {
+  if (grab) grab.pointA = { x, y };
+}
+
+function dropLetter() {
+  if (grab) Matter.Composite.remove(engine.world, grab);
+  grab = null;
+}
+
+function startTiltLoop() {
+  if (tiltRunning) return;
+  tiltRunning = true;
+  tiltLastTime = null;
+  requestAnimationFrame(updateTilt);
+}
+
+// Runs every frame while the tilt motion is showing
+function updateTilt(now) {
+  if (motion !== "tilt" || !engine) {
+    tiltRunning = false;
+    return;
+  }
+  // Time since the last frame, capped so a hiccup doesn't make letters jump through walls
+  const step = tiltLastTime === null ? 1000 / 60 : Math.min(now - tiltLastTime, 1000 / 30);
+  tiltLastTime = now;
+
+  if (!reduceMotion) {
+    engine.gravity.x = gravity.x;
+    engine.gravity.y = gravity.y;
+    Matter.Engine.update(engine, step);
+  }
+
+  tiltLetters.forEach(({ element, body, homeX, homeY }) => {
+    const x = body.position.x - homeX;
+    const y = body.position.y - homeY;
+    element.style.transform = `translate(${x}px, ${y}px) rotate(${body.angle}rad)`;
+  });
+
+  requestAnimationFrame(updateTilt);
+}
+
+const LAYERS = { cluster, carousel, rain, ticker, tilt: tiltLayer };
 
 // Shows the current motion: its own layer, or the big headline
 function showMotion() {
@@ -346,8 +526,17 @@ function showMotion() {
   Object.entries(LAYERS).forEach(([name, layer]) => layer.classList.toggle("is-visible", name === motion));
   title.classList.toggle("is-hidden", hasLayer);
   if (motion === "carousel") startCarousel();
+  if (motion === "tilt") {
+    if (!tiltAsked) listenToTilt(); // still inside the tap, so iPhones allow asking
+    tiltAsked = true;
+    startTilt(); // the headline stands up again, then collapses
+    startTiltLoop();
+  }
+  // Rain starts over from the first drop, instead of joining in the middle of a pause
+  if (motion === "rain") startRain();
   if (!hasLayer) switchMotion();
 }
+let tiltAsked = false;
 
 // Start once the font has loaded (so the measurements are right),
 // and start again whenever the window changes size
@@ -355,6 +544,7 @@ function startEverything() {
   startAnimation();
   startCluster();
   startRain();
+  startTilt();
 }
 document.fonts.ready.then(startEverything);
 window.addEventListener("resize", startEverything);
@@ -374,8 +564,36 @@ document.documentElement.classList.add("has-custom-cursor");
 // Where the mouse is right now (null = outside the window)
 let mouse = null;
 
+// Phones: the finger steers the carousel while it drags, and lets go when lifted.
+// (Phones also fake a mousemove after each tap; it's ignored below,
+// otherwise the carousel would keep spinning toward the last tap.)
+// A tap (finger lifted without dragging) switches the motion right away,
+// instead of waiting for the click, which Safari doesn't always send.
+let touchStart = null;
+document.addEventListener("touchstart", (event) => {
+  touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  grabLetter(touchStart.x, touchStart.y); // in the tilt motion: pick up a letter
+}, { passive: true });
+document.addEventListener("touchmove", (event) => {
+  mouse = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  moveGrab(mouse.x, mouse.y);
+}, { passive: true });
+document.addEventListener("touchend", (event) => {
+  mouse = null;
+  const heldLetter = grab !== null;
+  dropLetter();
+  const finger = event.changedTouches[0];
+  const dragged = !touchStart || Math.hypot(finger.clientX - touchStart.x, finger.clientY - touchStart.y) > 10;
+  // Links keep working as links, and touching a letter doesn't switch the motion
+  if (dragged || heldLetter || event.target.closest("a")) return;
+  event.preventDefault(); // no click afterwards, so the motion doesn't switch twice
+  nextMotion();
+});
+
 document.addEventListener("mousemove", (event) => {
+  if (isPhone) return;
   mouse = { x: event.clientX, y: event.clientY };
+  moveGrab(mouse.x, mouse.y);
 
   const half = cursor.offsetWidth / 2;
   cursor.style.transform = `translate(${event.clientX - half}px, ${event.clientY - half}px)`;
@@ -389,7 +607,7 @@ document.addEventListener("mousemove", (event) => {
 // (the palettes themselves are in styles.css)
 const PALETTE_COUNT = 7;
 
-document.addEventListener("click", () => {
+function nextMotion() {
   const current = Number(cursor.dataset.palette) || 0;
   let next = current;
   while (next === current) {
@@ -400,6 +618,28 @@ document.addEventListener("click", () => {
   // ...and switches the headline to the next way of moving
   motion = MOTIONS[(MOTIONS.indexOf(motion) + 1) % MOTIONS.length];
   showMotion();
+}
+// With a mouse: press on a letter of the tilt motion to grab it, release to throw it.
+// A click that grabbed a letter or dragged doesn't switch the motion.
+let mouseDownAt = null;
+let skipClick = false;
+document.addEventListener("mousedown", (event) => {
+  if (isPhone) return;
+  mouseDownAt = { x: event.clientX, y: event.clientY };
+  grabLetter(event.clientX, event.clientY);
+  if (grab) event.preventDefault(); // no text selection while dragging
+});
+document.addEventListener("mouseup", (event) => {
+  const dragged = mouseDownAt && Math.hypot(event.clientX - mouseDownAt.x, event.clientY - mouseDownAt.y) > 10;
+  skipClick = grab !== null || dragged;
+  dropLetter();
+});
+document.addEventListener("click", () => {
+  if (skipClick) {
+    skipClick = false;
+    return;
+  }
+  nextMotion();
 });
 
 // Hide the circle when the mouse leaves the browser window

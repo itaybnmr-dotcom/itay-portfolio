@@ -1,8 +1,5 @@
 # Mac system files
 .DS_Store
 
-# Trial fonts: the license does not allow sharing them publicly
-fonts/
-
 # Screen recordings used as references, not part of the site
 רפרנסים/

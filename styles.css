@@ -38,9 +38,24 @@
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
 
+  /* Small headline copies in the "cluster" motion */
+  --size-cluster: max(14px, 2.4vw);
+  --cluster-shift: 3.5em; /* how far every other row is shifted */
+
+  /* Letters in the "carousel" motion */
+  --size-carousel: 3vw;
   /* Custom mouse cursor */
-  --cursor-size: 60px;
-  --size-cursor-text: 12px;
+  --cursor-size: 80px;
+  --size-cursor-text: 15px;
+
+  /* Cursor color palettes (each click picks another one).
+     Inspired by ABC Dinamo's posters. */
+  --palette-pink: #f875c1;
+  --palette-green: #7de700;
+  --palette-purple: #b280b7;
+  --palette-red: #f03a59;
+  --palette-yellow: #f5d81a;
+  --palette-blue: #b4d1ee;
 }
 
 /* ===== Basics ===== */
@@ -95,8 +110,9 @@ body {
     width: var(--cursor-size);
     height: var(--cursor-size);
     border-radius: 50%;
-    background: var(--color-text);
-    color: var(--color-background);
+    /* Starts white with black text; script.js switches the palette on every click */
+    background: var(--cursor-background, var(--color-text));
+    color: var(--cursor-text, var(--color-background));
     font-family: var(--font-body);
     font-size: var(--size-cursor-text);
     font-weight: 500;
@@ -116,6 +132,15 @@ body {
   }
 }
 
+/* The cursor palettes: circle color + text color */
+.cursor[data-palette="1"] { --cursor-background: var(--palette-pink);   --cursor-text: var(--palette-green); }
+.cursor[data-palette="2"] { --cursor-background: var(--palette-green);  --cursor-text: var(--palette-purple); }
+.cursor[data-palette="3"] { --cursor-background: var(--palette-pink);   --cursor-text: var(--palette-red); }
+.cursor[data-palette="4"] { --cursor-background: var(--palette-yellow); --cursor-text: var(--palette-green); }
+.cursor[data-palette="5"] { --cursor-background: var(--palette-purple); --cursor-text: var(--palette-pink); }
+.cursor[data-palette="6"] { --cursor-background: var(--palette-blue);   --cursor-text: var(--palette-red); }
+.cursor[data-palette="7"] { --cursor-background: var(--palette-red);    --cursor-text: var(--palette-blue); }
+
 /* ===== Coming soon page ===== */
 
 /* One full screen, no scrolling */
@@ -128,6 +153,7 @@ body {
 /* Top bar with three parts: left, center, right */
 .top-bar {
   position: fixed;
+  z-index: 1; /* above the cluster */
   top: var(--space-top);
   left: var(--space-side);
   right: var(--space-side);
@@ -192,9 +218,93 @@ body {
   white-space: nowrap;
 }
 
+/* Hidden while the cluster is showing */
+.coming-soon__title.is-hidden {
+  visibility: hidden;
+}
+
+/* ===== Cluster: a few rows of small headline copies (created by script.js) ===== */
+.cluster {
+  position: fixed;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: var(--size-cluster);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.cluster.is-visible {
+  display: flex;
+}
+
+/* ===== Carousel and rain: their own letters (created and moved by script.js) ===== */
+.carousel,
+.rain {
+  position: fixed;
+  inset: 0;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
+}
+
+.carousel.is-visible,
+.rain.is-visible {
+  display: block;
+}
+
+.carousel {
+  font-size: var(--size-carousel);
+}
+
+.rain {
+  font-size: var(--size-display); /* same size as the big headline, so the letters land exactly on it */
+}
+
+.carousel__letter,
+.rain__letter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: pre;
+  will-change: transform;
+}
+
+.carousel__letter {
+  transform-origin: 0 0; /* script.js places each letter's center exactly on the ring */
+}
+
+/* The random letters that rain down before the real one: smaller and fainter */
+.rain__letter--random {
+  font-size: 0.4em;
+  opacity: 0.5;
+}
+
+/* Every other row shifted sideways, like bricks */
+.cluster__row:nth-child(odd) {
+  margin-right: var(--cluster-shift);
+}
+
+.cluster__row:nth-child(even) {
+  margin-left: var(--cluster-shift);
+}
+
 /* Each letter of the headline (created by script.js, which also moves them) */
 .letter {
   display: inline-block;
+  transform-origin: 50% 100%; /* in the "wave", letters stretch and squash from their bottom */
   white-space: pre; /* keeps the space between the words */
   /* Each letter gets its own layer, so moving it doesn't repaint the background
      (prevents leftover traces of letters) */

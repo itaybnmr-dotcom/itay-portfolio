@@ -37,6 +37,10 @@
 
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
+
+  /* Custom mouse cursor */
+  --cursor-size: 60px;
+  --size-cursor-text: 12px;
 }
 
 /* ===== Basics ===== */
@@ -56,6 +60,60 @@ body {
 ::selection {
   background: var(--color-text);
   color: var(--color-background);
+}
+
+/* ===== Custom mouse cursor ===== */
+
+/* Hidden by default: phones and tablets have no mouse */
+.cursor {
+  display: none;
+}
+
+/* Only on devices with a mouse or trackpad, and only once script.js has
+   added the "has-custom-cursor" class (so the page never ends up with no cursor) */
+@media (hover: hover) and (pointer: fine) {
+  /* Hide the normal arrow everywhere... */
+  .has-custom-cursor {
+    cursor: none;
+  }
+
+  /* ...except over the About / Contact / IG row: there the normal cursor
+     comes back (a hand over the links), so it's clear they can be clicked */
+  .has-custom-cursor .top-bar__links {
+    cursor: auto;
+  }
+
+  .has-custom-cursor .top-bar__links a {
+    cursor: pointer;
+  }
+
+  .has-custom-cursor .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100; /* above everything else */
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    border-radius: 50%;
+    background: var(--color-text);
+    color: var(--color-background);
+    font-family: var(--font-body);
+    font-size: var(--size-cursor-text);
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px; /* makes "coming soon" break into two lines */
+    pointer-events: none; /* clicks go through the circle to the page */
+    opacity: 0; /* invisible until the mouse moves into the page */
+  }
+
+  .has-custom-cursor .cursor.is-visible {
+    opacity: 1;
+  }
 }
 
 /* ===== Coming soon page ===== */

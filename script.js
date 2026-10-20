@@ -18,7 +18,7 @@ const letters = chars.map((char) => {
 });
 
 // Animation settings
-const ROUND_TIME = 6000;    // one full round, in milliseconds
+const ROUND_TIME = 8000;    // one full round, in milliseconds (slower = softer on the eyes)
 const LETTER_GAP = 80;      // how much later each letter starts than the one before it
 const EASE_OUT_OF_SCREEN = "cubic-bezier(0.32, 0, 0.67, 0)"; // starts gently, speeds up as it leaves
 const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly, slows down softly
@@ -46,8 +46,10 @@ function startAnimation() {
     letter.animate(
       [
         { offset: 0,     transform: "translateX(0)", easing: EASE_OUT_OF_SCREEN },
-        { offset: 0.2,   transform: `translateX(${exitRight}px)` },  // outside the right edge
-        { offset: 0.201, transform: `translateX(${enterLeft}px)` },  // jump to the left while hidden
+        // Two keyframes at the same moment = an instant jump from the right edge
+        // to the left edge, with no in-between frames (otherwise letters flash on screen)
+        { offset: 0.2,   transform: `translateX(${exitRight}px)` },
+        { offset: 0.2,   transform: `translateX(${enterLeft}px)` },
         { offset: 0.4,   transform: `translateX(${enterLeft}px)`, easing: EASE_BACK_IN }, // wait there
         { offset: 0.65,  transform: "translateX(0)" },               // back in place
         { offset: 1,     transform: "translateX(0)" },               // rest until the next round

@@ -373,6 +373,26 @@ body {
   to { transform: translateY(-50%); }
 }
 
+/* Computer: three rows instead, the middle one moving left, the others right */
+@media (min-width: 701px) {
+  .ticker {
+    flex-direction: column;
+    justify-content: center;
+    font-size: 28vh; /* three rows of it fill the screen's height */
+  }
+
+  .ticker__text {
+    width: max-content; /* as wide as the text, so -50% is exactly one half */
+    writing-mode: horizontal-tb;
+    animation-name: ticker-left;
+    animation-duration: 12s;
+  }
+}
+
+@keyframes ticker-left {
+  to { transform: translateX(-50%); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker__text {
     animation: none;

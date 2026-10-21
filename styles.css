@@ -194,14 +194,6 @@ body {
   }
 }
 
-/* Each letter of the name and tagline (created by script.js),
-   so the cursor circle can push them away one by one */
-.push-letter {
-  display: inline-block;
-  white-space: pre; /* keeps the spaces between words */
-  will-change: transform;
-}
-
 .top-bar__links {
   text-align: right;
 }

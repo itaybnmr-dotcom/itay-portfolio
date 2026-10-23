@@ -23,9 +23,9 @@
   --font-display: "Reckless Condensed", Georgia, serif;
   --font-body: "ABC Diatype", Helvetica, Arial, sans-serif;
 
-  /* Font sizes. The headline is 170px on a 1440px-wide frame,
-     so 11.8vw keeps the same proportion on every screen. */
-  --size-display: 11.8vw;
+  /* Font sizes. The headline is 230px on a 1440px-wide frame,
+     so 16vw keeps the same proportion on every screen. */
+  --size-display: 16vw;
   --size-small: 14px;
 
   /* Letter spacing (-2% in Figma) */

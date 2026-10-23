@@ -42,8 +42,6 @@
   --size-cluster: max(14px, 2.4vw);
   --cluster-shift: 3.5em; /* how far every other row is shifted */
 
-  /* Letters in the "carousel" motion */
-  --size-carousel: 3vw;
   /* Custom mouse cursor */
   --cursor-size: 16px;
 
@@ -156,7 +154,6 @@ body {
   :root {
     --size-small: 2.6vw;
     --size-cluster: 2.4vw;
-    --size-carousel: 5vw; /* 3vw is too small to read on a phone */
     --size-display: 25vw; /* the headline in two big lines, see below */
   }
 
@@ -259,8 +256,7 @@ body {
   display: flex;
 }
 
-/* ===== Carousel, rain and tilt: their own letters (created and moved by script.js) ===== */
-.carousel,
+/* ===== Rain and tilt: their own letters (created and moved by script.js) ===== */
 .rain,
 .tilt {
   position: fixed;
@@ -275,14 +271,9 @@ body {
   line-height: 1.2;
 }
 
-.carousel.is-visible,
 .rain.is-visible,
 .tilt.is-visible {
   display: block;
-}
-
-.carousel {
-  font-size: var(--size-carousel);
 }
 
 .rain,
@@ -290,7 +281,6 @@ body {
   font-size: var(--size-display); /* same size as the big headline, so the letters sit exactly on it */
 }
 
-.carousel__letter,
 .rain__letter,
 .tilt__letter {
   position: absolute;
@@ -298,10 +288,6 @@ body {
   left: 0;
   white-space: pre;
   will-change: transform;
-}
-
-.carousel__letter {
-  transform-origin: 0 0; /* script.js places each letter's center exactly on the ring */
 }
 
 /* The random letters that rain down before the real one: smaller and fainter */

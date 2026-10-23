@@ -36,7 +36,6 @@ const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly
 //   "falling":  out the bottom, back in from the top
 //   "cluster":  a small group of little copies, moving like "sideways"
 //   "wave":     a wave runs through the headline; letters jump, stretch and squash
-//   "carousel": the letters spin in a ring, steered by the mouse
 //   "rain":     random letters rain down, then the real ones land and form the headline
 //   "ticker":   three big sideways headlines, the middle one scrolling up, the others down
 //   "tilt":     the letters as real objects that fall, pile up and can be thrown around
@@ -45,7 +44,7 @@ const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly
 const isPhone = window.matchMedia("(max-width: 700px)").matches;
 const MOTIONS = isPhone
   ? ["falling", "tilt", "rain", "ticker", "wave"]
-  : ["sideways", "falling", "cluster", "wave", "carousel", "rain", "ticker", "tilt"];
+  : ["sideways", "falling", "cluster", "wave", "rain", "ticker", "tilt"];
 let motion = MOTIONS[0];
 
 // Where each letter of the headline goes in the current motion:
@@ -209,74 +208,6 @@ function startCluster() {
       return animateOneLetter(letter, row * ROW_GAP + order * LETTER_GAP, path);
     })
   );
-}
-
-// ===== Carousel: a cluster of letter rings spinning together, steered by the mouse =====
-// Rings of letters stacked on top of each other, like a cylinder made of text.
-// Each ring is turned a little more than the one above it, so the cylinder twists.
-// Seen from the side: letters at the front are big and bright, at the back
-// small and faint. Mouse on the right spins it right, on the left spins it left;
-// the further from the middle, the faster.
-const CAROUSEL_RINGS = 9;        // how many rings are stacked
-const CAROUSEL_COPIES = 2;       // how many times "COMING SOON..." goes around each ring
-const CAROUSEL_TWIST = 0.18;     // how much each ring is turned compared to the one above (radians)
-const CAROUSEL_MAX_SPEED = 2.5;  // radians per second, with the mouse at the screen's edge
-const CAROUSEL_IDLE_SPEED = 0.4; // when the mouse is outside the window
-
-const carousel = createLayer("carousel");
-const ringChars = [...(title.getAttribute("aria-label") + " ").repeat(CAROUSEL_COPIES)];
-const carouselLetters = [];
-for (let ring = 0; ring < CAROUSEL_RINGS; ring++) {
-  ringChars.forEach((char, slot) => {
-    const element = document.createElement("span");
-    element.className = "carousel__letter";
-    element.textContent = char;
-    carousel.append(element);
-    // ring: which ring it's in (0 = top); around: where around the ring (0 to 1)
-    carouselLetters.push({ element, ring, around: slot / ringChars.length });
-  });
-}
-
-let carouselAngle = 0;
-let carouselRunning = false;
-let carouselLastTime = null;
-
-// Starts the spinning (if it isn't already running)
-function startCarousel() {
-  if (carouselRunning) return;
-  carouselRunning = true;
-  carouselLastTime = null;
-  requestAnimationFrame(updateCarousel);
-}
-
-// Runs every frame while the carousel is showing
-function updateCarousel(now) {
-  if (motion !== "carousel") {
-    carouselRunning = false;
-    return; // stops until the carousel is shown again
-  }
-  const seconds = carouselLastTime === null ? 0 : (now - carouselLastTime) / 1000;
-  carouselLastTime = now;
-
-  const width = document.documentElement.clientWidth;
-  const height = document.documentElement.clientHeight;
-  const speed = mouse ? (mouse.x / width - 0.5) * 2 * CAROUSEL_MAX_SPEED : CAROUSEL_IDLE_SPEED;
-  if (!reduceMotion) carouselAngle += speed * seconds;
-
-  const radius = width * 0.3;
-  const ringGap = height * 0.065; // distance between rings
-  carouselLetters.forEach(({ element, ring, around }) => {
-    const angle = carouselAngle + around * 2 * Math.PI + ring * CAROUSEL_TWIST;
-    const depth = (Math.cos(angle) + 1) / 2; // 1 = right at the front, 0 = right at the back
-    const x = width / 2 + Math.sin(angle) * radius;
-    const ringY = (ring - (CAROUSEL_RINGS - 1) / 2) * ringGap; // stacks the rings around the middle
-    const y = height / 2 + ringY + (depth - 0.5) * height * 0.08; // front a bit lower, back a bit higher
-    element.style.transform = `translate(${x}px, ${y}px) scale(${0.45 + 0.55 * depth}) translate(-50%, -50%)`;
-    element.style.opacity = 0.2 + 0.8 * depth;
-    element.style.zIndex = Math.round(depth * 100); // front letters cover back ones
-  });
-
-  requestAnimationFrame(updateCarousel);
 }
 
 // ===== Rain: random letters rain down, then the real ones land =====
@@ -518,14 +449,13 @@ function updateTilt(now) {
   requestAnimationFrame(updateTilt);
 }
 
-const LAYERS = { cluster, carousel, rain, ticker, tilt: tiltLayer };
+const LAYERS = { cluster, rain, ticker, tilt: tiltLayer };
 
 // Shows the current motion: its own layer, or the big headline
 function showMotion() {
   const hasLayer = motion in LAYERS;
   Object.entries(LAYERS).forEach(([name, layer]) => layer.classList.toggle("is-visible", name === motion));
   title.classList.toggle("is-hidden", hasLayer);
-  if (motion === "carousel") startCarousel();
   if (motion === "tilt") {
     if (!tiltAsked) listenToTilt(); // still inside the tap, so iPhones allow asking
     tiltAsked = true;
@@ -563,9 +493,8 @@ document.documentElement.classList.add("has-custom-cursor");
 // Where the mouse is right now (null = outside the window)
 let mouse = null;
 
-// Phones: the finger steers the carousel while it drags, and lets go when lifted.
-// (Phones also fake a mousemove after each tap; it's ignored below,
-// otherwise the carousel would keep spinning toward the last tap.)
+// Phones: the finger drags a grabbed letter of the tilt motion, and lets go when lifted.
+// (Phones also fake a mousemove after each tap; it's ignored below.)
 // A tap (finger lifted without dragging) switches the motion right away,
 // instead of waiting for the click, which Safari doesn't always send.
 let touchStart = null;

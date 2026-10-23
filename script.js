@@ -550,11 +550,10 @@ document.fonts.ready.then(startEverything);
 window.addEventListener("resize", startEverything);
 
 // ===== Custom mouse cursor =====
-// Creates a white circle with "coming soon" and moves it so its center
+// Creates a small white dot and moves it so its center
 // is always at the mouse position.
 const cursor = document.createElement("div");
 cursor.className = "cursor";
-cursor.textContent = "coming soon";
 cursor.setAttribute("aria-hidden", "true");
 document.body.append(cursor);
 
@@ -603,9 +602,9 @@ document.addEventListener("mousemove", (event) => {
   cursor.classList.toggle("is-visible", !overLinks);
 });
 
-// Every left click switches the circle to another color palette
-// (the palettes themselves are in styles.css)
-const PALETTE_COUNT = 7;
+// Every left click switches the dot to another color
+// (the colors themselves are in styles.css)
+const PALETTE_COUNT = 3;
 
 function nextMotion() {
   const current = Number(cursor.dataset.palette) || 0;

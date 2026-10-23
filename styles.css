@@ -45,17 +45,12 @@
   /* Letters in the "carousel" motion */
   --size-carousel: 3vw;
   /* Custom mouse cursor */
-  --cursor-size: 80px;
-  --size-cursor-text: 15px;
+  --cursor-size: 16px;
 
-  /* Cursor color palettes (each click picks another one).
-     Inspired by ABC Dinamo's posters. */
-  --palette-pink: #f875c1;
-  --palette-green: #7de700;
-  --palette-purple: #b280b7;
-  --palette-red: #f03a59;
-  --palette-yellow: #f5d81a;
-  --palette-blue: #b4d1ee;
+  /* Cursor dot colors (each click picks another one): pure RGB */
+  --palette-red: #ff0000;
+  --palette-green: #00ff00;
+  --palette-blue: #0000ff;
 }
 
 /* ===== Basics ===== */
@@ -110,19 +105,9 @@ body {
     width: var(--cursor-size);
     height: var(--cursor-size);
     border-radius: 50%;
-    /* Starts white with black text; script.js switches the palette on every click */
+    display: block;
+    /* Starts white; script.js switches the color on every click */
     background: var(--cursor-background, var(--color-text));
-    color: var(--cursor-text, var(--color-background));
-    font-family: var(--font-body);
-    font-size: var(--size-cursor-text);
-    font-weight: 500;
-    letter-spacing: var(--tracking-tight);
-    line-height: 1;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 10px; /* makes "coming soon" break into two lines */
     pointer-events: none; /* clicks go through the circle to the page */
     opacity: 0; /* invisible until the mouse moves into the page */
   }
@@ -132,14 +117,10 @@ body {
   }
 }
 
-/* The cursor palettes: circle color + text color */
-.cursor[data-palette="1"] { --cursor-background: var(--palette-pink);   --cursor-text: var(--palette-green); }
-.cursor[data-palette="2"] { --cursor-background: var(--palette-green);  --cursor-text: var(--palette-purple); }
-.cursor[data-palette="3"] { --cursor-background: var(--palette-pink);   --cursor-text: var(--palette-red); }
-.cursor[data-palette="4"] { --cursor-background: var(--palette-yellow); --cursor-text: var(--palette-green); }
-.cursor[data-palette="5"] { --cursor-background: var(--palette-purple); --cursor-text: var(--palette-pink); }
-.cursor[data-palette="6"] { --cursor-background: var(--palette-blue);   --cursor-text: var(--palette-red); }
-.cursor[data-palette="7"] { --cursor-background: var(--palette-red);    --cursor-text: var(--palette-blue); }
+/* The cursor colors */
+.cursor[data-palette="1"] { --cursor-background: var(--palette-red); }
+.cursor[data-palette="2"] { --cursor-background: var(--palette-green); }
+.cursor[data-palette="3"] { --cursor-background: var(--palette-blue); }
 
 /* ===== Coming soon page ===== */
 

@@ -44,7 +44,7 @@ const EASE_BACK_IN = "cubic-bezier(0.25, 1, 0.5, 1)";        // comes in quickly
 const isPhone = window.matchMedia("(max-width: 700px)").matches;
 const MOTIONS = isPhone
   ? ["falling", "tilt", "rain", "ticker", "wave"]
-  : ["sideways", "falling", "cluster", "wave", "rain", "ticker", "tilt"];
+  : ["sideways", "cluster", "wave", "ticker", "tilt"];
 let motion = MOTIONS[0];
 
 // Where each letter of the headline goes in the current motion:

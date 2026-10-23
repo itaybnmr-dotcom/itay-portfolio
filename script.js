@@ -531,19 +531,8 @@ document.addEventListener("mousemove", (event) => {
   cursor.classList.toggle("is-visible", !overLinks);
 });
 
-// Every left click switches the dot to another color
-// (the colors themselves are in styles.css)
-const PALETTE_COUNT = 3;
-
+// Every left click switches the headline to the next way of moving
 function nextMotion() {
-  const current = Number(cursor.dataset.palette) || 0;
-  let next = current;
-  while (next === current) {
-    next = 1 + Math.floor(Math.random() * PALETTE_COUNT); // never the same one twice in a row
-  }
-  cursor.dataset.palette = next;
-
-  // ...and switches the headline to the next way of moving
   motion = MOTIONS[(MOTIONS.indexOf(motion) + 1) % MOTIONS.length];
   showMotion();
 }

@@ -44,11 +44,6 @@
 
   /* Custom mouse cursor */
   --cursor-size: 16px;
-
-  /* Cursor dot colors (each click picks another one): pure RGB */
-  --palette-red: #ff0000;
-  --palette-green: #00ff00;
-  --palette-blue: #0000ff;
 }
 
 /* ===== Basics ===== */
@@ -104,8 +99,7 @@ body {
     height: var(--cursor-size);
     border-radius: 50%;
     display: block;
-    /* Starts white; script.js switches the color on every click */
-    background: var(--cursor-background, var(--color-text));
+    background: var(--color-text);
     pointer-events: none; /* clicks go through the circle to the page */
     opacity: 0; /* invisible until the mouse moves into the page */
   }
@@ -114,11 +108,6 @@ body {
     opacity: 1;
   }
 }
-
-/* The cursor colors */
-.cursor[data-palette="1"] { --cursor-background: var(--palette-red); }
-.cursor[data-palette="2"] { --cursor-background: var(--palette-green); }
-.cursor[data-palette="3"] { --cursor-background: var(--palette-blue); }
 
 /* ===== Coming soon page ===== */
 

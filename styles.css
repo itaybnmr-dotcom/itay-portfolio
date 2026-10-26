@@ -83,13 +83,15 @@ body {
     cursor: none;
   }
 
-  /* ...except over the About / Contact / IG row: there the normal cursor
-     comes back (a hand over the links), so it's clear they can be clicked */
-  .has-custom-cursor .top-bar__links {
+  /* ...except over the About / Contact / IG row and the Email / IG / LinkedIn row:
+     there the normal cursor comes back (a hand over the links), so it's clear they can be clicked */
+  .has-custom-cursor .top-bar__links,
+  .has-custom-cursor .footer__links {
     cursor: auto;
   }
 
-  .has-custom-cursor .top-bar__links a {
+  .has-custom-cursor .top-bar__links a,
+  .has-custom-cursor .footer__links a {
     cursor: pointer;
   }
 
@@ -242,5 +244,62 @@ body {
 
   .process__option:first-child figcaption {
     padding-left: 0;
+  }
+}
+
+/* ===== Footer ===== */
+.footer {
+  margin-top: 70px;
+  padding: 0 15px 27px;
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.15;
+}
+
+/* Bio on the left, "Next project" on the right */
+.footer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-side);
+}
+
+.footer__bio {
+  max-width: 338px;
+}
+
+.footer__next {
+  margin-top: 64px;
+  white-space: nowrap;
+}
+
+/* The huge "Let's Collab" (353px on a 1440px frame) */
+.footer__collab {
+  font-family: var(--font-display);
+  font-size: 24.5vw;
+  font-weight: 300;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  white-space: nowrap;
+  margin: -0.03em 0 -0.06em -0.02em; /* pulled up and left, and the bottom row tucked under the letters, like in Figma */
+}
+
+/* Copyright and Works on the left, contact links on the right */
+.footer__bottom {
+  display: grid;
+  grid-template-columns: 8.5% 1fr auto; /* "Works" starts 120px in, like in Figma */
+  line-height: normal;
+}
+
+.footer__copyright {
+  font-size: 12px;
+}
+
+/* Phones: the bottom row just spaced out, so the copyright fits */
+@media (max-width: 700px) {
+  .footer__bottom {
+    grid-template-columns: auto 1fr auto;
+    gap: var(--space-side);
   }
 }

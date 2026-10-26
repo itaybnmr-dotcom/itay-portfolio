@@ -13,8 +13,8 @@ document.addEventListener("mousemove", (event) => {
   const half = cursor.offsetWidth / 2;
   cursor.style.transform = `translate(${event.clientX - half}px, ${event.clientY - half}px)`;
 
-  // Over the About / Contact / IG row the circle hides and the normal cursor shows
-  const overLinks = event.target.closest(".top-bar__links") !== null;
+  // Over the About / Contact / IG and Email / IG / LinkedIn rows the circle hides and the normal cursor shows
+  const overLinks = event.target.closest(".top-bar__links, .footer__links") !== null;
   cursor.classList.toggle("is-visible", !overLinks);
 });
 

@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Itay Benma — Coming soon</title>
+  <title>Itay Benma — Work in Progress</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Physics engine for the phone's "tilt" motion -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <script src="script.js" defer></script>
 </head>
-<body class="coming-soon">
+<body>
   <!-- Top bar: name (left), tagline (center), links (right) -->
   <header class="top-bar">
     <p class="top-bar__name">Itay Benma</p>
@@ -22,9 +20,26 @@
     </nav>
   </header>
 
-  <!-- Big centered headline -->
-  <main class="coming-soon__main">
-    <h1 class="coming-soon__title">COMING SOON...</h1>
+  <main class="process">
+    <!-- The wide gaps between the words are part of the design -->
+    <h1 class="process__title">The       Work  in                Progress</h1>
+    <p class="process__note">26.10 - Moved from “Coming Soon...” page to a Process page</p>
+
+    <!-- Screen recording of the old "Coming soon" page -->
+    <video class="process__recording" src="IMG/process/coming-soon.mov" autoplay muted loop playsinline></video>
+
+    <!-- The two options for the project page -->
+    <div class="process__options">
+      <figure class="process__option">
+        <figcaption>Opt.1</figcaption>
+        <img src="IMG/process/opt-1.png" alt="Option 1: Reach project page with a black and red layout">
+      </figure>
+      <figure class="process__option">
+        <figcaption>Opt. 2</figcaption>
+        <img src="IMG/process/opt-2.png" alt="Option 2: Reach project page with a white layout">
+      </figure>
+    </div>
+    <p class="process__note">Obviously went with the first option</p>
   </main>
 </body>
 </html>

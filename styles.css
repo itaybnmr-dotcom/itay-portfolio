@@ -7,6 +7,13 @@
 }
 
 @font-face {
+  font-family: "Reckless Condensed";
+  src: url("fonts/RecklessCondensedS-TRIAL-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "ABC Diatype";
   src: url("fonts/ABCDiatype-Medium-Trial.otf") format("opentype");
   font-weight: 500;
@@ -23,9 +30,9 @@
   --font-display: "Reckless Condensed", Georgia, serif;
   --font-body: "ABC Diatype", Helvetica, Arial, sans-serif;
 
-  /* Font sizes. The headline is 230px on a 1440px-wide frame,
-     so 16vw keeps the same proportion on every screen. */
-  --size-display: 16vw;
+  /* Font sizes. The headline is 108px on a 1440px-wide frame,
+     so 7.5vw keeps the same proportion on every screen. */
+  --size-display: 7.5vw;
   --size-small: 14px;
 
   /* Letter spacing (-2% in Figma) */
@@ -37,10 +44,6 @@
 
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
-
-  /* Small headline copies in the "cluster" motion */
-  --size-cluster: max(14px, 2.4vw);
-  --cluster-shift: 3.5em; /* how far every other row is shifted */
 
   /* Custom mouse cursor */
   --cursor-size: 16px;
@@ -109,19 +112,11 @@ body {
   }
 }
 
-/* ===== Coming soon page ===== */
-
-/* One full screen, no scrolling */
-.coming-soon {
-  height: 100vh;
-  height: 100dvh; /* better on phones, where the browser bar changes size */
-  overflow: hidden;
-}
-
-/* Top bar with three parts: left, center, right */
+/* Top bar with three parts: left, center, right.
+   It scrolls away with the page. */
 .top-bar {
-  position: fixed;
-  z-index: 1; /* above the cluster */
+  position: absolute;
+  z-index: 1; /* above the headline */
   top: var(--space-top);
   left: var(--space-side);
   right: var(--space-side);
@@ -137,32 +132,20 @@ body {
   text-align: center;
 }
 
+.top-bar__links {
+  text-align: right;
+}
+
 /* Phones: the same layout as desktop, just scaled down with the screen width
    so the top bar still fits in one row */
 @media (max-width: 700px) {
   :root {
     --size-small: 2.6vw;
-    --size-cluster: 2.4vw;
-    --size-display: 25vw; /* the headline in two big lines, see below */
   }
 
   .top-bar {
-    white-space: nowrap; /* each letter is its own span, so it could break mid-word */
+    white-space: nowrap;
   }
-}
-
-/* Touch screens: a tap anywhere switches the motion (iPhones only send
-   that tap to the page when it looks clickable), without a gray flash */
-@media (hover: none) {
-  .coming-soon {
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; /* fast taps switch the motion instead of zooming in */
-  }
-}
-
-.top-bar__links {
-  text-align: right;
 }
 
 /* Link with a line that enters from the left on hover
@@ -183,186 +166,81 @@ body {
   background-position: 0 100%;  /* anchored left, so it grows in from the left */
 }
 
-/* Centers the headline in the middle of the screen */
-.coming-soon__main {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* ===== Process page ===== */
+.process {
+  padding: 0 var(--space-side) var(--space-top);
 }
 
 /* The big headline */
-.coming-soon__title {
+.process__title {
+  margin-top: 1.4vw;
   font-family: var(--font-display);
   font-size: var(--size-display);
   font-weight: 300;
-  font-style: italic;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-/* Phones: "COMING" and "SOON..." on two lines, so the headline can be big */
-@media (max-width: 700px) {
-  .coming-soon__title {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* The space between the words (marked by script.js) becomes the line break */
-  .coming-soon__title .letter--break {
-    flex-basis: 100%;
-    height: 0;
-  }
-}
-
-/* Hidden while the cluster is showing */
-.coming-soon__title.is-hidden {
-  visibility: hidden;
-}
-
-/* ===== Cluster: a few rows of small headline copies (created by script.js) ===== */
-.cluster {
-  position: fixed;
-  inset: 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  font-family: var(--font-display);
-  font-size: var(--size-cluster);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.cluster.is-visible {
-  display: flex;
-}
-
-/* ===== Rain and tilt: their own letters (created and moved by script.js) ===== */
-.rain,
-.tilt {
-  position: fixed;
-  inset: 0;
-  display: none;
-  overflow: hidden;
-  pointer-events: none;
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.2;
-}
-
-.rain.is-visible,
-.tilt.is-visible {
-  display: block;
-}
-
-.rain,
-.tilt {
-  font-size: var(--size-display); /* same size as the big headline, so the letters sit exactly on it */
-}
-
-.rain__letter,
-.tilt__letter {
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: pre;
-  will-change: transform;
-}
-
-/* The random letters that rain down before the real one: smaller and fainter */
-.rain__letter--random {
-  font-size: 0.4em;
-  opacity: 0.5;
-}
-
-/* ===== Ticker: three headlines on their side, scrolling up and down (created by script.js) ===== */
-.ticker {
-  position: fixed;
-  inset: 0;
-  display: none;
-  justify-content: center;
-  overflow: hidden;
-  pointer-events: none;
-  font-family: var(--font-display);
-  font-size: 28vw; /* three columns of it fill the screen's width */
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: -0.03em;
   line-height: 1;
+  white-space: pre; /* keeps the wide gaps between the words */
 }
 
-.ticker.is-visible {
-  display: flex;
+/* Small lines of text under the headline and under the options */
+.process__note {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
 }
 
-.ticker__text {
-  align-self: flex-start; /* as tall as the text, so -50% is exactly one half */
-  writing-mode: vertical-rl; /* reads top to bottom, letters turned on their side */
-  white-space: nowrap;
-  animation: ticker-up 8s linear infinite;
+/* The screen recording, centered (1174px of the 1412px between the side margins) */
+.process__recording {
+  display: block;
+  width: 83.1%;
+  aspect-ratio: 1174 / 634;
+  margin: 3.3vw auto 0;
+  object-fit: cover;
 }
 
-/* The columns on both sides of the middle one scroll down */
-.ticker__text:not(:nth-child(2)) {
-  animation-direction: reverse;
+/* The two options side by side */
+.process__options {
+  display: grid;
+  grid-template-columns: 669fr 682fr;
+  gap: 4.65vw;
+  margin: 1.9vw 0 5px -6px; /* the first image starts 6px left of the text */
 }
 
-@keyframes ticker-up {
-  to { transform: translateY(-50%); }
+.process__option figcaption {
+  margin-bottom: 1px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
 }
 
-/* Computer: three rows instead, the middle one moving left, the others right */
-@media (min-width: 701px) {
-  .ticker {
-    flex-direction: column;
-    justify-content: center;
-    font-size: 28vh; /* three rows of it fill the screen's height */
+.process__option:first-child figcaption {
+  padding-left: 6px; /* lines up with the text, not the image */
+}
+
+.process__option img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 669 / 491;
+  object-fit: cover;
+}
+
+.process__option:last-child img {
+  aspect-ratio: 682 / 486;
+}
+
+/* Phones: the headline below the top bar, the options one under the other */
+@media (max-width: 700px) {
+  .process__title {
+    margin-top: 28px;
   }
 
-  .ticker__text {
-    width: max-content; /* as wide as the text, so -50% is exactly one half */
-    writing-mode: horizontal-tb;
-    animation-name: ticker-left;
-    animation-duration: 12s;
+  .process__options {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-left: 0;
   }
-}
 
-@keyframes ticker-left {
-  to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ticker__text {
-    animation: none;
+  .process__option:first-child figcaption {
+    padding-left: 0;
   }
-}
-
-/* Every other row shifted sideways, like bricks */
-.cluster__row:nth-child(odd) {
-  margin-right: var(--cluster-shift);
-}
-
-.cluster__row:nth-child(even) {
-  margin-left: var(--cluster-shift);
-}
-
-/* Each letter of the headline (created by script.js, which also moves them) */
-.letter {
-  display: inline-block;
-  transform-origin: 50% 100%; /* in the "wave", letters stretch and squash from their bottom */
-  white-space: pre; /* keeps the space between the words */
-  /* Each letter gets its own layer, so moving it doesn't repaint the background
-     (prevents leftover traces of letters) */
-  will-change: transform;
-  backface-visibility: hidden;
 }

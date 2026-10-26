@@ -191,11 +191,11 @@ body {
   letter-spacing: var(--tracking-tight);
 }
 
-/* The screen recording, centered (1174px of the 1412px between the side margins) */
+/* The screen recording, centered (854px of the 1412px between the side margins) */
 .process__recording {
   display: block;
-  width: 83.1%;
-  aspect-ratio: 1174 / 634;
+  width: 60.5%;
+  aspect-ratio: 854 / 461;
   margin: 3.3vw auto 0;
   object-fit: cover;
 }
@@ -203,9 +203,9 @@ body {
 /* The two options side by side */
 .process__options {
   display: grid;
-  grid-template-columns: 669fr 682fr;
-  gap: 4.65vw;
-  margin: 1.9vw 0 5px -6px; /* the first image starts 6px left of the text */
+  grid-template-columns: 702fr 696fr;
+  gap: 1.4vw;
+  margin: 3.26vw 0 0 -6px; /* the first image starts 6px left of the text */
 }
 
 .process__option figcaption {
@@ -222,12 +222,12 @@ body {
 .process__option img {
   display: block;
   width: 100%;
-  aspect-ratio: 669 / 491;
+  aspect-ratio: 702 / 515;
   object-fit: cover;
 }
 
 .process__option:last-child img {
-  aspect-ratio: 682 / 486;
+  aspect-ratio: 696 / 496;
 }
 
 /* Phones: the headline below the top bar, the options one under the other */
@@ -249,7 +249,7 @@ body {
 
 /* ===== Footer ===== */
 .footer {
-  margin-top: 70px;
+  margin-top: 210px;
   padding: 0 15px 27px;
   font-size: var(--size-small);
   font-weight: 500;
@@ -257,21 +257,8 @@ body {
   line-height: 1.15;
 }
 
-/* Bio on the left, "Next project" on the right */
-.footer__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--space-side);
-}
-
 .footer__bio {
   max-width: 338px;
-}
-
-.footer__next {
-  margin-top: 64px;
-  white-space: nowrap;
 }
 
 /* The huge "Let's Collab" (353px on a 1440px frame) */

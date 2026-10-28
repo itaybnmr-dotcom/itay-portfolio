@@ -80,6 +80,18 @@
   animation-timing-function: var(--ease-in-out);
 }
 
+/* Touch screens: quicker, so the new page follows the tap at once */
+@media (hover: none) {
+  ::view-transition-old(root) {
+    animation-duration: 0.15s;
+  }
+
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-delay: 0s;
+  }
+}
+
 @keyframes page-out {
   to { opacity: 0; transform: translateY(-12px); }
 }
@@ -292,7 +304,7 @@ body {
 }
 
 /* Touch screens: a tap leaves the "hover" stuck on, so there the line only comes
-   with .is-tapped (script.js draws it first, then opens the page) */
+   with .is-tapped (script.js adds it on the tap) */
 @media (hover: none) {
   .link-line:hover {
     background-size: 0% var(--line-thickness);
@@ -300,7 +312,7 @@ body {
 
   .link-line.is-tapped {
     background-size: 100% var(--line-thickness);
-    transition-duration: 0.2s; /* quicker, so the next page isn't kept waiting */
+    transition-duration: 0.2s; /* quick, so it's seen before the next page comes in */
   }
 }
 

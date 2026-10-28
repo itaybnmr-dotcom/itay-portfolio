@@ -35,26 +35,14 @@ document.querySelectorAll(".roll > span").forEach((word) => {
 });
 
 // ===== Tapping a link on a touch screen =====
-// The line is drawn first (styles.css, .is-tapped), and the page opens once it's in
-const LINE_TIME = 180; // a bit less than the tapped line's transition in styles.css: it's almost fully in by then
-
+// The line starts drawing on the tap (styles.css, .is-tapped), and the page opens right away
 if (window.matchMedia("(hover: none)").matches) {
   document.addEventListener("click", (event) => {
-    const link = event.target.closest("a.link-line");
-    if (!link || link.classList.contains("is-tapped")) return;
-    link.classList.add("is-tapped");
-    // A link to another site (like Instagram) opens a new tab: that has to happen right away,
-    // or the browser blocks it. The line is drawn anyway and cleared once the tab is open.
-    if (link.target === "_blank") {
-      setTimeout(() => link.classList.remove("is-tapped"), 600);
-      return;
-    }
-    event.preventDefault();
-    setTimeout(() => (location.href = link.href), LINE_TIME);
+    event.target.closest("a.link-line")?.classList.add("is-tapped");
   });
 
-  // Coming back with the Back button shows the page as it was left: clear the line
-  window.addEventListener("pageshow", () => {
-    document.querySelectorAll(".is-tapped").forEach((link) => link.classList.remove("is-tapped"));
-  });
+  // Coming back (Back button, or from the Instagram tab) shows the page as it was left: clear the line
+  const clearLines = () => document.querySelectorAll(".is-tapped").forEach((link) => link.classList.remove("is-tapped"));
+  window.addEventListener("pageshow", clearLines);
+  document.addEventListener("visibilitychange", clearLines);
 }

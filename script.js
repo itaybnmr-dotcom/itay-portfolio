@@ -42,8 +42,14 @@ if (window.matchMedia("(hover: none)").matches) {
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a.link-line");
     if (!link || link.classList.contains("is-tapped")) return;
-    event.preventDefault();
     link.classList.add("is-tapped");
+    // A link to another site (like Instagram) opens a new tab: that has to happen right away,
+    // or the browser blocks it. The line is drawn anyway and cleared once the tab is open.
+    if (link.target === "_blank") {
+      setTimeout(() => link.classList.remove("is-tapped"), 600);
+      return;
+    }
+    event.preventDefault();
     setTimeout(() => (location.href = link.href), LINE_TIME);
   });
 

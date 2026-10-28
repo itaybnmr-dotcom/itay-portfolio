@@ -55,25 +55,37 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* ===== Moving between pages: the old page fades up and out, the new one fades up in ===== */
+/* ===== Moving between pages =====
+   The top bar is the same on every page, so it stays put (its own "top-bar" group).
+   Everything else crossfades: the old page lifts a little and fades out,
+   the new one rises into place, both on the site's ease. */
 @view-transition {
   navigation: auto;
 }
 
+.top-bar {
+  view-transition-name: top-bar;
+}
+
 ::view-transition-old(root) {
-  animation: 0.2s ease-in both page-out;
+  animation: 0.3s var(--ease-in-out) both page-out;
 }
 
 ::view-transition-new(root) {
-  animation: 0.35s var(--ease) both page-in;
+  animation: 0.5s var(--ease) 0.1s both page-in; /* starts just after the old page begins to fade */
+}
+
+::view-transition-group(top-bar) {
+  animation-duration: 0.4s;
+  animation-timing-function: var(--ease-in-out);
 }
 
 @keyframes page-out {
-  to { opacity: 0; }
+  to { opacity: 0; transform: translateY(-12px); }
 }
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(16px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -359,6 +371,11 @@ body {
   opacity: 0.35;
 }
 
+/* Quick fades, so moving between logs feels crisp */
+.process__entry {
+  transition: opacity 0.15s linear;
+}
+
 /* The peek: on the left side of the page, top lined up with the hovered row.
    With no "top" set it stays at the row's own height.
    "left" is measured from the log, so this puts it 14px from the page edge. */
@@ -369,7 +386,7 @@ body {
   height: auto;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.12s linear;
 }
 
 .process__entry:hover .process__preview {

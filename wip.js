@@ -20,7 +20,9 @@ entries.forEach((entry) => {
     const opening = !entry.classList.contains("is-open");
     entries.forEach((other) => other.classList.remove("is-open"));
     entry.classList.toggle("is-open", opening);
-    if (opening) replay(entry);
+    if (!opening) return;
+    replay(entry);
+    navigator.vibrate?.(8); // a tiny haptic "tick" (Android; iPhones ignore it)
   });
 });
 

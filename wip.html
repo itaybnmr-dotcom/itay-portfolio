@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Work in Progress</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- The fonts load right away, so a new page shows up already in its own type -->
+  <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
+  <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
+  <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- Physics engine for the letters that fall when the headline is clicked -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <script src="script.js" defer></script>
@@ -20,7 +25,7 @@
     <nav class="top-bar__links">
       <a class="link-line" href="#">About</a> /
       <!-- Kept together: on phones they share one line in the stacked menu -->
-      <span class="top-bar__pair"><a class="link-line" href="#">Contact</a> / <a class="link-line" href="#">IG</a></span> /
+      <span class="top-bar__pair"><a class="link-line" href="#">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
       <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a>
     </nav>
   </header>

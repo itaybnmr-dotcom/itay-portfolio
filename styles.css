@@ -381,11 +381,6 @@ body {
   transition: opacity 0.3s ease;
 }
 
-/* Each part only as wide as its text, so the hover line matches the words */
-.process__entry > .link-line {
-  justify-self: start;
-}
-
 /* Hovering anywhere on the row draws the line under all of it */
 .process__entry:hover .link-line {
   background-size: 100% var(--line-thickness);
@@ -515,10 +510,12 @@ body {
     background-size: 0% var(--line-thickness);
   }
 
-  /* A text underline, so a name that wraps gets a line under each of its lines */
+  /* The opened row's line draws in from the left, like the current page's line in the menu.
+     It sits on the text itself, so a name that wraps gets it across its first line, then the next. */
   .process__entry.is-open .link-line {
-    text-decoration: underline var(--line-thickness);
-    text-underline-offset: 3px;
+    background-size: 100% var(--line-thickness);
+    background-position: 0 100%;
+    transition: background-size 0.5s var(--ease);
   }
 
   .process__drawer {

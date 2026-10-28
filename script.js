@@ -35,7 +35,7 @@ document.querySelectorAll(".roll > span").forEach((word) => {
 });
 
 // ===== Tapping a link on a touch screen =====
-// The line starts drawing on the tap (styles.css, .is-tapped), and the page opens right away
+// The line shows on the tap (styles.css, .is-tapped), and the page opens right away
 if (window.matchMedia("(hover: none)").matches) {
   document.addEventListener("click", (event) => {
     event.target.closest("a.link-line")?.classList.add("is-tapped");

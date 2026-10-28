@@ -310,9 +310,11 @@ body {
     background-size: 0% var(--line-thickness);
   }
 
+  /* The line is there at once: the page changes right on the tap, so a line still
+     drawing in would be caught half-drawn in the page change */
   .link-line.is-tapped {
     background-size: 100% var(--line-thickness);
-    transition-duration: 0.2s; /* quick, so it's seen before the next page comes in */
+    transition: none;
   }
 }
 

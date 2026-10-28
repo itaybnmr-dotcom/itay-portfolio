@@ -47,6 +47,37 @@
 
   /* Custom mouse cursor */
   --cursor-size: 16px;
+
+  /* The site's ease: comes in quickly, slows down softly
+     (the same curve the headline letters use to come back in) */
+  --ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ===== Moving between pages: the old page fades up and out, the new one fades up in ===== */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 0.4s var(--ease) both page-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.6s var(--ease) both page-in;
+}
+
+@keyframes page-out {
+  to { opacity: 0; transform: translateY(-24px); }
+}
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(24px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
 }
 
 /* ===== Basics ===== */
@@ -83,15 +114,8 @@ body {
     cursor: none;
   }
 
-  /* ...except over the About / Contact / IG row and the Email / IG / LinkedIn row:
-     there the normal cursor comes back (a hand over the links), so it's clear they can be clicked */
-  .has-custom-cursor .top-bar__links,
-  .has-custom-cursor .footer__links {
-    cursor: auto;
-  }
-
-  .has-custom-cursor .top-bar__links a,
-  .has-custom-cursor .footer__links a {
+  /* ...except over links: the hand comes back, so it's clear they can be clicked */
+  .has-custom-cursor a {
     cursor: pointer;
   }
 
@@ -130,6 +154,49 @@ body {
   letter-spacing: var(--tracking-tight);
 }
 
+/* The name leads home; it looks like the rest of the bar */
+.top-bar__name {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ===== Roll: on hover the letters roll up one by one and another word rolls in from below
+   (script.js splits both words into letters and numbers them in --i) ===== */
+.roll {
+  display: inline-grid;
+  justify-self: start;
+  overflow: hidden; /* the letters disappear above and below */
+}
+
+.roll > span {
+  grid-area: 1 / 1; /* both words in the same spot */
+  justify-self: start; /* as wide as its own text, so the line under "Works" fits it */
+}
+
+.roll__letter {
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.5s var(--ease);
+  transition-delay: calc(var(--i) * 25ms);
+}
+
+.roll__to .roll__letter {
+  transform: translateY(100%);
+}
+
+.roll:hover .roll__from .roll__letter {
+  transform: translateY(-100%);
+}
+
+.roll:hover .roll__to .roll__letter {
+  transform: none;
+}
+
+/* The line comes in with the word */
+.roll:hover .link-line {
+  background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
+}
 .top-bar__tagline {
   text-align: center;
 }
@@ -168,88 +235,220 @@ body {
   background-position: 0 100%;  /* anchored left, so it grows in from the left */
 }
 
-/* ===== Process page ===== */
-.process {
-  padding: 0 var(--space-side) var(--space-top);
+/* The page you're on: the hover line stays */
+.link-line.is-current {
+  background-size: 100% var(--line-thickness);
 }
 
-/* The big headline */
+/* ===== Process page ===== */
+
+/* Two units, so the page keeps the Figma proportions on any screen:
+   --x = 1px of the 1440px-wide frame (sideways), --u = 1px of its 1024px height (up and down) */
+.process {
+  --x: calc(100vw / 1440);
+  --u: calc(100vh / 1024);
+  /* The text column starts right under "Multidisciplinary Designer based in TLV",
+     which is centered and 235.6px wide */
+  --column: calc(50vw - 117.8px);
+  position: relative;
+  height: 100vh;
+  overflow: clip; /* letters flying off don't make the page wider */
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+}
+
+.process > * {
+  position: absolute;
+}
+
+.process__intro {
+  left: var(--column);
+  top: calc(78 * var(--u));
+  width: calc(633 * var(--x)); /* the first line ends at "Newest", like in Figma */
+  line-height: 1.15;
+}
+
+/* ===== The log ===== */
+.process__index {
+  left: var(--column);
+  top: calc(220 * var(--u));
+  right: 17px; /* the years end 17px from the edge, like in Figma */
+  list-style: none;
+  display: grid;
+  row-gap: 5px;
+}
+
+/* Name, date (starts 457px in, like in Figma), year on the right */
+.process__entry {
+  display: grid;
+  grid-template-columns: calc(457 * var(--x)) 1fr auto;
+  transition: opacity 0.3s ease;
+}
+
+/* Each part only as wide as its text, so the hover line matches the words */
+.process__entry > .link-line {
+  justify-self: start;
+}
+
+/* Hovering anywhere on the row draws the line under all of it */
+.process__entry:hover .link-line {
+  background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
+}
+
+/* Like the reference: hovering one row fades the others */
+.process__index:hover .process__entry:not(:hover) {
+  opacity: 0.35;
+}
+
+/* The peek: on the left side of the page, top lined up with the hovered row.
+   With no "top" set it stays at the row's own height.
+   "left" is measured from the log, so this puts it 14px from the page edge. */
+.process__preview {
+  position: absolute;
+  left: calc(14px - var(--column));
+  width: calc(560 * var(--x));
+  height: auto;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.process__entry:hover .process__preview {
+  opacity: 1;
+}
+
+/* On a computer the drawer is just a wrapper (it opens only on phones, see below) */
+.process__drawer {
+  display: contents;
+}
+
+/* ===== The big headline =====
+   Full width (154px on the 1440px frame), sitting on the bottom of the page */
 .process__title {
-  margin-top: 1.4vw;
+  left: calc(14 * var(--x));
+  bottom: calc(21 * var(--u));
   font-family: var(--font-display);
-  font-size: var(--size-display);
+  font-size: calc(154 * var(--x));
   font-weight: 300;
   letter-spacing: -0.03em;
-  line-height: 1;
+  word-spacing: -0.003em; /* the browser's spaces are a hair wider than Figma's */
+  line-height: normal;
   white-space: pre; /* keeps the wide gaps between the words */
 }
 
-/* Small lines of text under the headline and under the options */
+/* Each letter moves on its own (see script.js) */
+.letter {
+  display: inline-block;
+}
+
+/* Click the headline and the letters fall (see script.js) */
+.process__title {
+  user-select: none; /* dragging a letter shouldn't select the text */
+  touch-action: none; /* on phones a finger drags letters instead of moving the page */
+}
+
 .process__note {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  left: calc(14 * var(--x));
+  bottom: calc(22 * var(--u));
 }
 
-/* The screen recording, centered (854px of the 1412px between the side margins) */
-.process__recording {
-  display: block;
-  width: 60.5%;
-  aspect-ratio: 854 / 461;
-  margin: 3.3vw auto 0;
-  object-fit: cover;
+/* ===== Home page ===== */
+/* Empty for now: the page is one screen tall and the footer sits at its bottom */
+.home {
+  min-height: 100vh;
+  min-height: 100svh; /* phones: the screen without the browser's bars */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-/* The two options side by side */
-.process__options {
-  display: grid;
-  grid-template-columns: 702fr 696fr;
-  gap: 1.4vw;
-  margin: 3.26vw 0 0 -6px; /* the first image starts 6px left of the text */
-}
-
-.process__option figcaption {
-  margin-bottom: 1px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
-}
-
-.process__option:first-child figcaption {
-  padding-left: 6px; /* lines up with the text, not the image */
-}
-
-.process__option img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 702 / 515;
-  object-fit: cover;
-}
-
-.process__option:last-child img {
-  aspect-ratio: 696 / 496;
-}
-
-/* Phones: the headline below the top bar, the options one under the other */
+/* ===== Phones: the WIP page as a simple column ===== */
 @media (max-width: 700px) {
+  .process,
+  .footer {
+    font-size: 13px; /* the top bar shrinks to fit one row; the reading text stays readable */
+  }
+
+  /* Intro, log and headline one under the other, the headline at the bottom of the screen */
+  .process {
+    height: auto;
+    min-height: 100svh;
+    padding: 64px var(--space-side) 22px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .process > * {
+    position: static;
+  }
+
+  .process__intro {
+    width: auto;
+  }
+
+  .process__index {
+    margin-top: 48px;
+    row-gap: 10px;
+  }
+
+  /* Name, date, year; the name wraps if it has to */
+  .process__entry {
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: auto 0fr; /* the drawer's row starts closed */
+    column-gap: var(--space-side);
+    transition: grid-template-rows 0.6s var(--ease);
+  }
+
+  /* Tapped: the drawer slides open and pushes the rest of the list down */
+  .process__entry.is-open {
+    grid-template-rows: auto 1fr;
+  }
+
+  /* No hover on phones: no fading, and the line marks the open row instead */
+  .process__index:hover .process__entry:not(:hover) {
+    opacity: 1;
+  }
+
+  .process__entry:hover .link-line {
+    background-size: 0% var(--line-thickness);
+  }
+
+  /* A text underline, so a name that wraps gets a line under each of its lines */
+  .process__entry.is-open .link-line {
+    text-decoration: underline var(--line-thickness);
+    text-underline-offset: 3px;
+  }
+
+  .process__drawer {
+    display: block;
+    grid-column: 1 / -1;
+    min-height: 0;
+    overflow: hidden; /* hides the picture while the row is closed */
+  }
+
+  .process__preview {
+    position: static;
+    display: block;
+    width: 100%;
+    margin: 10px 0 4px;
+    opacity: 1;
+  }
+
   .process__title {
-    margin-top: 28px;
+    margin-top: auto; /* pushed to the bottom */
+    padding-top: 40px;
+    font-size: calc((100vw - 2 * var(--space-side)) * 154 / 1412); /* the whole line fits between the margins */
   }
 
-  .process__options {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-left: 0;
-  }
-
-  .process__option:first-child figcaption {
-    padding-left: 0;
+  .process__note {
+    margin-top: 2px;
   }
 }
 
 /* ===== Footer ===== */
 .footer {
-  margin-top: 210px;
   padding: 0 15px 27px;
   font-size: var(--size-small);
   font-weight: 500;

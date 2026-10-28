@@ -3,44 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Itay Benma — Work in Progress</title>
+  <title>Itay Benma</title>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
 </head>
-<body>
+<body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
   <header class="top-bar">
-    <p class="top-bar__name">Itay Benma</p>
+    <!-- On hover "Itay Benma" rolls into "Works" -->
+    <a class="top-bar__name roll" href="index.html" aria-label="Itay Benma" aria-current="page"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
     <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
     <!-- Links: real addresses still missing, "#" is a placeholder -->
     <nav class="top-bar__links">
       <a class="link-line" href="#">About</a> /
       <a class="link-line" href="#">Contact</a> /
-      <a class="link-line" href="#">IG</a>
+      <a class="link-line" href="#">IG</a> /
+      <a class="link-line" href="wip.html">WIP</a>
     </nav>
   </header>
 
-  <main class="process">
-    <!-- The wide gaps between the words are part of the design -->
-    <h1 class="process__title">The       Work  in                Progress</h1>
-    <p class="process__note">26.10 - Moved from “Coming Soon...” page to a Process page</p>
-
-    <!-- Screen recording of the old "Coming soon" page -->
-    <video class="process__recording" src="IMG/Process/coming-soon.mp4" autoplay muted loop playsinline></video>
-
-    <!-- The two options for the project page -->
-    <div class="process__options">
-      <figure class="process__option">
-        <figcaption>Opt.1</figcaption>
-        <img src="IMG/Process/opt-1.png" alt="Option 1: Reach project page with a black and red layout">
-      </figure>
-      <figure class="process__option">
-        <figcaption>Opt. 2</figcaption>
-        <img src="IMG/Process/opt-2.png" alt="Option 2: Reach project page with a white layout">
-      </figure>
-    </div>
-    <p class="process__note">Obviously went with the first option</p>
-  </main>
+  <!-- Empty for now: the home page content comes later -->
+  <main></main>
 
   <footer class="footer">
     <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Typography &amp; Editorial Design.</p>

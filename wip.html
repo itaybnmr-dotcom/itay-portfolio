@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itay Benma — Work in Progress</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Physics engine for the letters that fall when the headline is clicked -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="wip.js" defer></script>
+</head>
+<body>
+  <!-- Top bar: name (left), tagline (center), links (right) -->
+  <header class="top-bar">
+    <!-- On hover "Itay Benma" rolls into "Works" -->
+    <a class="top-bar__name roll" href="index.html" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
+    <!-- Links: real addresses still missing, "#" is a placeholder -->
+    <nav class="top-bar__links">
+      <a class="link-line" href="#">About</a> /
+      <a class="link-line" href="#">Contact</a> /
+      <a class="link-line" href="#">IG</a> /
+      <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a>
+    </nav>
+  </header>
+
+  <!-- Positions follow the 1024px-tall Figma frame -->
+  <main class="process">
+    <p class="process__intro">A portfolio in progress, logged as it happens: the drafts, the dead ends and the ones that made it. Newest first, nothing polished, everything honest. quite literally, Every change to this site, dated and kept.</p>
+
+    <!-- The log: hover a row to peek at it (the preview shows up on the left, at the row's height).
+         On phones a tap opens the row like a drawer instead. -->
+    <ol class="process__index">
+      <li class="process__entry">
+        <span class="link-line">Site is on air and designed a “Coming Soon...” page</span>
+        <span class="link-line">19.10</span>
+        <span class="link-line">2026</span>
+        <div class="process__drawer">
+          <video class="process__preview" src="IMG/Process/coming-soon.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+        </div>
+      </li>
+      <li class="process__entry">
+        <span class="link-line">Chose a direction to the site</span>
+        <span class="link-line">26.10</span>
+        <span class="link-line">2026</span>
+        <div class="process__drawer">
+          <img class="process__preview" src="IMG/Process/opt-1.png" alt="">
+        </div>
+      </li>
+    </ol>
+
+    <!-- The wide gaps between the words are part of the design -->
+    <h1 class="process__title">The       Work  in      Progress...</h1>
+    <p class="process__note">Of this portfolio</p>
+  </main>
+</body>
+</html>

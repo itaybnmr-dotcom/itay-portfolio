@@ -19,8 +19,8 @@
     <!-- Links: real addresses still missing, "#" is a placeholder -->
     <nav class="top-bar__links">
       <a class="link-line" href="#">About</a> /
-      <a class="link-line" href="#">Contact</a> /
-      <a class="link-line" href="#">IG</a> /
+      <!-- Kept together: on phones they share one line in the stacked menu -->
+      <span class="top-bar__pair"><a class="link-line" href="#">Contact</a> / <a class="link-line" href="#">IG</a></span> /
       <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a>
     </nav>
   </header>
@@ -37,7 +37,8 @@
         <span class="link-line">19.10</span>
         <span class="link-line">2026</span>
         <div class="process__drawer">
-          <video class="process__preview" src="IMG/Process/coming-soon.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+          <!-- No autoplay: the 37MB video only loads and plays when its row is hovered or opened (wip.js) -->
+          <video class="process__preview" src="IMG/Process/coming-soon.mp4" width="1920" height="1036" preload="metadata" muted loop playsinline aria-hidden="true"></video>
         </div>
       </li>
       <li class="process__entry">
@@ -45,7 +46,7 @@
         <span class="link-line">26.10</span>
         <span class="link-line">2026</span>
         <div class="process__drawer">
-          <img class="process__preview" src="IMG/Process/opt-1.png" alt="">
+          <img class="process__preview" src="IMG/Process/opt-1.png" width="1998" height="1466" alt="">
         </div>
       </li>
     </ol>

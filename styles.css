@@ -51,6 +51,8 @@
   /* The site's ease: comes in quickly, slows down softly
      (the same curve the headline letters use to come back in) */
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
+  /* Starts and ends softly: for things that open, like the WIP drawer */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* ===== Moving between pages: the old page fades up and out, the new one fades up in ===== */
@@ -59,19 +61,19 @@
 }
 
 ::view-transition-old(root) {
-  animation: 0.4s var(--ease) both page-out;
+  animation: 0.2s ease-in both page-out;
 }
 
 ::view-transition-new(root) {
-  animation: 0.6s var(--ease) both page-in;
+  animation: 0.35s var(--ease) both page-in;
 }
 
 @keyframes page-out {
-  to { opacity: 0; transform: translateY(-24px); }
+  to { opacity: 0; }
 }
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(8px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -252,8 +254,9 @@ body {
     font-size: 0;
   }
 
-  .top-bar__links a {
-    font-size: var(--size-small);
+  .top-bar__links a,
+  .top-bar__pair {
+    font-size: var(--size-small); /* the pair keeps its " / " */
   }
 }
 
@@ -285,6 +288,7 @@ body {
 
   .link-line.is-tapped {
     background-size: 100% var(--line-thickness);
+    transition-duration: 0.2s; /* quicker, so the next page isn't kept waiting */
   }
 }
 
@@ -451,7 +455,7 @@ body {
     grid-template-columns: 1fr auto auto;
     grid-template-rows: auto 0fr; /* the drawer's row starts closed */
     column-gap: var(--space-side);
-    transition: grid-template-rows 0.6s var(--ease);
+    transition: grid-template-rows 0.7s var(--ease-in-out);
   }
 
   /* Tapped: the drawer slides open and pushes the rest of the list down */
@@ -481,12 +485,20 @@ body {
     overflow: hidden; /* hides the picture while the row is closed */
   }
 
+  /* The picture fades and slides in with the drawer */
   .process__preview {
     position: static;
     display: block;
     width: 100%;
+    height: auto;
     margin: 10px 0 4px;
+    transform: translateY(-12px);
+    transition: opacity 0.7s var(--ease-in-out), transform 0.7s var(--ease-in-out);
+  }
+
+  .process__entry.is-open .process__preview {
     opacity: 1;
+    transform: none;
   }
 
   .process__title {
@@ -535,8 +547,12 @@ body {
   font-size: 12px;
 }
 
-/* Phones: the bottom row just spaced out, so the copyright fits */
+/* Phones: no bio, and the bottom row just spaced out, so the copyright fits */
 @media (max-width: 700px) {
+  .footer__bio {
+    display: none;
+  }
+
   .footer__bottom {
     grid-template-columns: auto 1fr auto;
     gap: var(--space-side);

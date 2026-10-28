@@ -36,7 +36,7 @@ document.querySelectorAll(".roll > span").forEach((word) => {
 
 // ===== Tapping a link on a touch screen =====
 // The line is drawn first (styles.css, .is-tapped), and the page opens once it's in
-const LINE_TIME = 300; // same as the line's transition in styles.css
+const LINE_TIME = 180; // a bit less than the tapped line's transition in styles.css: it's almost fully in by then
 
 if (window.matchMedia("(hover: none)").matches) {
   document.addEventListener("click", (event) => {

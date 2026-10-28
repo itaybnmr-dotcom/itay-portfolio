@@ -304,23 +304,35 @@ body {
 }
 
 /* Touch screens: a tap leaves the "hover" stuck on, so there the line only comes
-   with .is-tapped (script.js adds it on the tap) */
+   with .is-tapped (script.js adds it on the tap, for links that don't change the page;
+   a link that does gets its line drawn on the new page, see .is-current) */
 @media (hover: none) {
   .link-line:hover {
     background-size: 0% var(--line-thickness);
   }
 
-  /* The line is there at once: the page changes right on the tap, so a line still
-     drawing in would be caught half-drawn in the page change */
   .link-line.is-tapped {
     background-size: 100% var(--line-thickness);
-    transition: none;
+    transition-duration: 0.2s;
   }
 }
 
 /* The page you're on: the hover line stays */
 .link-line.is-current {
   background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
+  /* Draws in from the left as the page arrives, as if following the click that led here */
+  animation: line-in 0.5s var(--ease) 0.15s both;
+}
+
+@keyframes line-in {
+  from { background-size: 0% var(--line-thickness); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-line.is-current {
+    animation: none;
+  }
 }
 
 /* ===== Process page ===== */

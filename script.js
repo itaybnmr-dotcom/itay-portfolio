@@ -35,10 +35,13 @@ document.querySelectorAll(".roll > span").forEach((word) => {
 });
 
 // ===== Tapping a link on a touch screen =====
-// The line shows on the tap (styles.css, .is-tapped), and the page opens right away
+// A link that changes the page opens right away, and its line draws in on the new page
+// (styles.css, .is-current). A line drawn here would be caught half-drawn in the page change.
+// Links that don't change this page (a placeholder "#", or Instagram in a new tab) draw it on the tap.
 if (window.matchMedia("(hover: none)").matches) {
   document.addEventListener("click", (event) => {
-    event.target.closest("a.link-line")?.classList.add("is-tapped");
+    const link = event.target.closest("a.link-line");
+    if (link && (link.getAttribute("href") === "#" || link.target === "_blank")) link.classList.add("is-tapped");
   });
 
   // Coming back (Back button, or from the Instagram tab) shows the page as it was left: clear the line

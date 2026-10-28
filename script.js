@@ -33,3 +33,22 @@ document.querySelectorAll(".roll > span").forEach((word) => {
     word.append(letter);
   });
 });
+
+// ===== Tapping a link on a touch screen =====
+// The line is drawn first (styles.css, .is-tapped), and the page opens once it's in
+const LINE_TIME = 300; // same as the line's transition in styles.css
+
+if (window.matchMedia("(hover: none)").matches) {
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a.link-line");
+    if (!link || link.classList.contains("is-tapped")) return;
+    event.preventDefault();
+    link.classList.add("is-tapped");
+    setTimeout(() => (location.href = link.href), LINE_TIME);
+  });
+
+  // Coming back with the Back button shows the page as it was left: clear the line
+  window.addEventListener("pageshow", () => {
+    document.querySelectorAll(".is-tapped").forEach((link) => link.classList.remove("is-tapped"));
+  });
+}

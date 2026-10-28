@@ -360,8 +360,13 @@ body {
 .process__intro {
   left: var(--column);
   top: calc(78 * var(--u));
-  width: calc(633 * var(--x)); /* the first line ends at "Newest", like in Figma */
+  width: 345px; /* fixed, like the 14px text in it, so the lines break where they do in Figma on any screen */
   line-height: 1.15;
+}
+
+/* The second paragraph starts with an indent (10 spaces in Figma) */
+.process__intro p + p {
+  text-indent: 2em;
 }
 
 /* ===== The log ===== */

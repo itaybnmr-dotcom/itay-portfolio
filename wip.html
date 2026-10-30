@@ -13,8 +13,9 @@
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- Physics engine for the letters that fall when the headline is clicked -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="wip.js" defer></script>
+  <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
+  <script src="script.js?v=4" defer></script>
+  <script src="wip.js?v=2" defer></script>
 </head>
 <body>
   <!-- Top bar: name (left), tagline (center), links (right) -->

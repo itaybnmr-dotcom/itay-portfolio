@@ -11,8 +11,9 @@
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
-  <script src="script.js" defer></script>
-  <script src="home.js" defer></script>
+  <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
+  <script src="script.js?v=4" defer></script>
+  <script src="home.js?v=2" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -47,6 +48,19 @@
     <img class="hero__spark" src="IMG/spark.svg" width="86" height="62" alt="">
 
     <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span>Arts &amp; Design</span></p>
+
+    <!-- The works. Hovering a card turns the cursor into a red circle with the project's name (data-cursor, script.js) -->
+    <!-- ponytail: "#" until the Reach page exists -->
+    <a class="work" href="#" data-cursor="Reach">
+      <span class="work__frame">
+        <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+        <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+      </span>
+      <span class="work__info">
+        <span class="link-line">Landing Page &amp; App</span>
+        <span class="link-line">ux/ui, ux/ui · Product · Interactive · Branding · 2026</span>
+      </span>
+    </a>
   </main>
 
   <footer class="footer">

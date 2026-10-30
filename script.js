@@ -9,10 +9,27 @@ document.body.append(cursor);
 // Tells styles.css the circle is ready, so it can hide the normal arrow
 document.documentElement.classList.add("has-custom-cursor");
 
+// Over anything with data-cursor (the work cards) the circle grows, turns red
+// and its word goes around inside it, written several times
+let cursorWord = null;
+function showWord(word) {
+  if (word === cursorWord) return;
+  cursorWord = word;
+  cursor.classList.toggle("is-big", word !== null);
+  if (word === null) return;
+  const text = `${word} · `.repeat(4);
+  cursor.innerHTML = `<svg class="cursor__ring" viewBox="0 0 120 120">
+    <path id="cursor-ring" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/>
+    <text><textPath href="#cursor-ring" textLength="257" lengthAdjust="spacing">${text}</textPath></text>
+  </svg>`;
+}
+
 document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
-  // Over a link the circle hides and only the hand shows
-  cursor.classList.toggle("is-visible", event.target.closest("a") === null);
+  const card = event.target.closest("[data-cursor]");
+  showWord(card ? card.dataset.cursor : null);
+  // Over a link the circle hides and only the hand shows (but not over a card, where it grows)
+  cursor.classList.toggle("is-visible", card !== null || event.target.closest("a") === null);
 });
 
 // Hide the circle when the mouse leaves the browser window

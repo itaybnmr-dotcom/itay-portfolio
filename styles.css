@@ -176,6 +176,49 @@ nav,
   .has-custom-cursor .cursor.is-visible {
     opacity: 1;
   }
+
+  /* Over a work card: no hand, the circle grows instead */
+  .has-custom-cursor [data-cursor] {
+    cursor: none;
+  }
+
+  .has-custom-cursor .cursor {
+    transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.4s var(--ease);
+  }
+
+  /* Big red circle with the project's name going around inside it */
+  .has-custom-cursor .cursor.is-big {
+    --cursor-size: 120px;
+    background: #ff473f;
+  }
+
+  .cursor__ring {
+    width: 100%;
+    height: 100%;
+    fill: #0c0e12;
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 500; /* Medium */
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    animation: spin 8s linear infinite;
+  }
+
+  .cursor.is-big .cursor__ring {
+    opacity: 1;
+    transition-delay: 0.15s; /* the text shows once the circle has grown */
+  }
+}
+
+@keyframes spin {
+  to { rotate: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor__ring {
+    animation: none;
+  }
 }
 
 /* Top bar with three parts: left, center, right.
@@ -520,7 +563,7 @@ nav,
 
 .hero__statement {
   position: absolute;
-  top: calc(238 * var(--x));
+  top: calc(178 * var(--x));
   left: calc(30 * var(--x));
   right: calc(30 * var(--x));
   font-family: var(--font-display);
@@ -556,7 +599,7 @@ nav,
 /* The spark next to "Hi, I'm" (upside down in Figma) */
 .hero__spark {
   position: absolute;
-  top: calc(252 * var(--x));
+  top: calc(192 * var(--x));
   left: calc(249 * var(--x));
   width: calc(84.5 * var(--x));
   height: auto;
@@ -566,7 +609,7 @@ nav,
 /* Justified; on the last line "Arts & Design" is pushed to the right */
 .hero__note {
   position: absolute;
-  top: calc(639 * var(--x));
+  top: calc(579 * var(--x));
   left: calc(50% - 100px); /* centered */
   width: 201px; /* fixed, like the 14px text, so the lines break where they do in Figma */
   font-size: var(--size-small);
@@ -577,6 +620,54 @@ nav,
 
 .hero__note span {
   float: right;
+}
+
+/* ===== Work cards ===== */
+/* A light card (576 x 572 in Figma) with the landing page and a phone side by side */
+.work {
+  position: absolute;
+  top: calc(674 * var(--x)); /* 95px under the note, like in Figma */
+  left: calc(15 * var(--x));
+  width: calc(576 * var(--x));
+  color: inherit;
+  text-decoration: none;
+}
+
+.work__frame {
+  display: flex;
+  align-items: center;
+  gap: calc(12 * var(--x));
+  height: calc(572 * var(--x));
+  padding-left: calc(19 * var(--x));
+  background: #f5f5f5;
+}
+
+.work__site {
+  width: calc(402 * var(--x));
+  height: auto;
+}
+
+.work__phone {
+  width: calc(123 * var(--x));
+  height: auto;
+  border-radius: calc(21 * var(--x));
+}
+
+/* Name on the left, tags on the right, under the card */
+.work__info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: calc(14 * var(--x));
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  mix-blend-mode: difference;
+}
+
+/* Hovering anywhere on the card draws the line under its name and tags, like the menu links */
+.work:hover .link-line {
+  background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
 }
 
 /* Phones: the place and time sit under the stacked menu */

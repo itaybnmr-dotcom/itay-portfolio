@@ -119,6 +119,20 @@ body {
   font-family: var(--font-body);
 }
 
+/* Site rule: wherever text crosses something (an image, a video, other text), it turns negative.
+   "difference" keeps white text white on the black page and flips it over anything else.
+   Set on whole blocks of text, not single letters, so letters never cancel each other out.
+   New kinds of text blocks go in this list. */
+h1,
+h2,
+h3,
+p,
+nav,
+.top-bar,
+.process__entry > span {
+  mix-blend-mode: difference;
+}
+
 /* Selected text: white highlight with black text (instead of the default blue) */
 ::selection {
   background: var(--color-text);
@@ -454,6 +468,12 @@ body {
   bottom: calc(22 * var(--u));
 }
 
+/* Same line as the note, on the right */
+.process__copyright {
+  right: calc(15 * var(--x));
+  bottom: calc(22 * var(--u));
+}
+
 /* ===== Home page ===== */
 /* Empty for now: the page is one screen tall and the footer sits at its bottom */
 .home {
@@ -554,6 +574,12 @@ body {
 
   .process__note {
     margin-top: 2px;
+  }
+
+  /* Pulled up one line, onto the note's line, and to the right */
+  .process__copyright {
+    margin-top: -1lh;
+    align-self: flex-end;
   }
 }
 

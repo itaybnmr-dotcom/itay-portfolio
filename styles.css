@@ -475,13 +475,117 @@ nav,
 }
 
 /* ===== Home page ===== */
-/* Empty for now: the page is one screen tall and the footer sits at its bottom */
-.home {
-  min-height: 100vh;
-  min-height: 100svh; /* phones: the screen without the browser's bars */
+/* Everything scales with the width, so the page keeps the Figma proportions.
+   --x = 1px of the 1440px-wide frame. The works will fill the empty space under the note. */
+.hero {
+  --x: calc(100vw / 1440);
+  position: relative;
+  height: calc(1744 * var(--x)); /* the footer's bio starts 1744px down in Figma */
+}
+
+/* The visitor's date, time, time zone, coordinates and temperature (home.js) */
+.hero__here {
+  position: absolute;
+  top: calc(108 * var(--x));
+  right: var(--space-side);
+  width: 231px;
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.hero__here p {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.hero__gap {
+  margin-left: 1.15em;
+}
+
+/* The clock's colon blinks once a second, like a digital clock */
+.hero__colon {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__colon {
+    animation: none;
+  }
+}
+
+.hero__statement {
+  position: absolute;
+  top: calc(238 * var(--x));
+  left: calc(30 * var(--x));
+  right: calc(30 * var(--x));
+  font-family: var(--font-display);
+  font-size: calc(90 * var(--x));
+  font-weight: 300;
+  letter-spacing: -0.028em;
+  line-height: calc(85 * var(--x));
+}
+
+/* Each line runs from edge to edge, its parts pushed apart */
+.hero__line {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+.hero__bold {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+/* "Itay Ben Mayor," is a hair smaller than the rest */
+.hero__line:first-child .hero__bold {
+  font-size: calc(88 * var(--x));
+}
+
+/* "Interactive Experiences," sits a set gap after "I work across"; "Brand," goes to the right */
+.hero__line:nth-child(3) span:nth-child(2) {
+  margin: 0 auto 0 calc(54 * var(--x));
+}
+
+/* The spark next to "Hi, I'm" (upside down in Figma) */
+.hero__spark {
+  position: absolute;
+  top: calc(252 * var(--x));
+  left: calc(249 * var(--x));
+  width: calc(84.5 * var(--x));
+  height: auto;
+  rotate: 180deg;
+}
+
+/* Justified; on the last line "Arts & Design" is pushed to the right */
+.hero__note {
+  position: absolute;
+  top: calc(639 * var(--x));
+  left: calc(50% - 100px); /* centered */
+  width: 201px; /* fixed, like the 14px text, so the lines break where they do in Figma */
+  font-size: var(--size-small);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  text-align: justify;
+}
+
+.hero__note span {
+  float: right;
+}
+
+/* Phones: the place and time sit under the stacked menu */
+@media (max-width: 700px) {
+  .hero__here {
+    top: 100px;
+    left: var(--space-side);
+    right: auto;
+  }
 }
 
 /* ===== Phones: the WIP page as a simple column ===== */

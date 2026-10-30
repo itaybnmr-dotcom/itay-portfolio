@@ -12,6 +12,7 @@
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <script src="script.js" defer></script>
+  <script src="home.js" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -28,8 +29,25 @@
     </nav>
   </header>
 
-  <!-- Empty for now: the home page content comes later -->
-  <main></main>
+  <!-- Positions follow the 1440px-wide Figma frame ("Home screen") -->
+  <main class="hero">
+    <!-- Where the visitor is, right now: filled in by home.js -->
+    <div class="hero__here" aria-label="Your date, time, place and weather">
+      <p><span><span data-here="date"></span><span class="hero__gap" data-here="time"></span></span><span data-here="zone"></span></p>
+      <p><span data-here="place"></span><span data-here="temp"></span></p>
+    </div>
+
+    <!-- Each line is spread across the page, like in Figma -->
+    <h1 class="hero__statement">
+      <span class="hero__line"><span>Hi, I’m</span><span class="hero__bold">Itay Ben Mayor,</span></span>
+      <span class="hero__line"><span>a&nbsp; multidisciplinary designer based in</span><span class="hero__bold">Tel Aviv.</span></span>
+      <span class="hero__line"><span>I work across</span><span>Interactive Experiences,</span><span>Brand,</span></span>
+      <span class="hero__line"><span>Motion &amp;</span><span>Typography.</span></span>
+    </h1>
+    <img class="hero__spark" src="IMG/spark.svg" width="86" height="62" alt="">
+
+    <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span>Arts &amp; Design</span></p>
+  </main>
 
   <footer class="footer">
     <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Typography &amp; Editorial Design.</p>

@@ -642,7 +642,7 @@ nav,
   text-align: justify;
 }
 
-.hero__note span {
+.hero__note-end {
   float: right;
 }
 
@@ -679,14 +679,29 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__here, .hero__spark, .hero__note, .work) {
+.intro :is(.top-bar, .hero__here, .hero__spark, .work) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
 .intro .hero__here { --n: 1; }
 .intro .hero__spark { --n: 2; }
-.intro .hero__note { --n: 3; }
-.intro .work { --n: 4; }
+.intro .work { --n: 3; }
+
+/* ...while the note types itself in (home.js): each character appears at its turn,
+   first as a solid block for a moment, like a cursor, then as itself */
+.intro .intro__key {
+  animation:
+    key-show 0s calc(var(--rest) + 900ms + var(--k) * var(--type-gap)) both,
+    key-block var(--type-gap) steps(1, end) calc(var(--rest) + 900ms + var(--k) * var(--type-gap));
+}
+
+@keyframes key-show {
+  from { opacity: 0; }
+}
+
+@keyframes key-block {
+  from { background: currentColor; }
+}
 
 @keyframes write-in {
   from { clip-path: inset(0 100% 0 0); }

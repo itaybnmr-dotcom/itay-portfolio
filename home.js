@@ -89,12 +89,33 @@ statement.querySelectorAll(".hero__line > span").forEach((part) => {
 });
 statement.classList.add("is-split");
 
+// The note under the headline types itself in like code: one character after another,
+// each one flashing as a block first (styles.css, .intro__key). It starts with everything else.
+const TYPE_GAP = 25; // ms between characters
+let typed = 0;
+function typeOut(element) {
+  [...element.childNodes].forEach((node) => {
+    if (node.nodeType !== Node.TEXT_NODE) return typeOut(node);
+    const letters = [...node.textContent].map((char) => {
+      const letter = document.createElement("span");
+      letter.className = "intro__key";
+      letter.textContent = char;
+      letter.style.setProperty("--k", typed++);
+      return letter;
+    });
+    node.replaceWith(...letters);
+  });
+}
+if (document.documentElement.classList.contains("intro")) typeOut(document.querySelector(".hero__note"));
+
 if (document.documentElement.classList.contains("intro")) {
   const restStart = START + BEATS[BEATS.length - 1] + 900;
   document.documentElement.style.setProperty("--rest", `${restStart}ms`);
+  document.documentElement.style.setProperty("--type-gap", `${TYPE_GAP}ms`);
   document.fonts.ready.then(() => {
     document.documentElement.classList.add("intro-go");
     // After the last thing has written itself in, the page goes back to normal
-    setTimeout(() => document.documentElement.classList.remove("intro", "intro-go"), restStart + 900 + 4 * 150 + 1200);
+    const last = Math.max(3 * 150 + 1200, typed * TYPE_GAP + 150);
+    setTimeout(() => document.documentElement.classList.remove("intro", "intro-go"), restStart + 900 + last);
   });
 }

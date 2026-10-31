@@ -6,6 +6,8 @@
 const SMALL_TITLE = 21; // px: the small title's size, half again the menu's 14px, like in the reference
 const STICK_END = 44; // px from the top where the description ends up, under the small title
 const root = document.documentElement;
+// Phones get a plain column (styles.css): no shrinking, sticking, cutting, sliding or fading there
+const phone = matchMedia("(max-width: 700px)");
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 const clamp = (n) => Math.min(Math.max(n, 0), 1);
 
@@ -13,19 +15,23 @@ const clamp = (n) => Math.min(Math.max(n, 0), 1);
 // the description sits on, as if going under the title
 const vanishing = document.querySelectorAll(".project__collab, .project__course, .project__tags, .project__tools");
 
-// "Landing Page & App": each letter, spaces included, gets its own span
+// "Landing Page & App": each letter, spaces included, gets its own span.
+// On a phone it just wraps, with plain spaces.
+// ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
 const subtitle = document.querySelector(".project__subtitle");
-const subtitleLetters = [...subtitle.textContent].map((char) => {
+if (phone.matches) subtitle.textContent = subtitle.textContent.trim().replace(/\s+/g, " ");
+const subtitleLetters = phone.matches ? [] : [...subtitle.textContent].map((char) => {
   const letter = document.createElement("span");
   letter.textContent = char;
   return letter;
 });
-subtitle.replaceChildren(...subtitleLetters);
+if (subtitleLetters.length) subtitle.replaceChildren(...subtitleLetters);
 const visibleLetters = subtitleLetters.filter((letter) => letter.textContent.trim());
 
 // Where each letter ends up: the same words with single spaces, closed up against the right edge.
 // A hidden copy laid out like that tells how far each letter has to travel.
 function measureSubtitle() {
+  if (!visibleLetters.length) return;
   subtitleLetters.forEach((letter) => letter.style.setProperty("--go", 0));
   const packed = subtitle.cloneNode();
   packed.textContent = subtitle.textContent.trim().replace(/\s+/g, " ");
@@ -66,7 +72,7 @@ function update() {
   if (scrollY !== lastScroll) goingUp = scrollY < lastScroll; // frames without a scroll keep the last direction
   lastScroll = scrollY;
   vanishing.forEach((text) => {
-    const cut = stickTop - text.getBoundingClientRect().top;
+    const cut = phone.matches ? 0 : stickTop - text.getBoundingClientRect().top;
     if (goingUp) {
       text.style.clipPath = "";
       text.classList.toggle("is-faded", cut > 0);
@@ -84,7 +90,7 @@ function update() {
   });
 
   // At the footer the title, the menu and the descriptions are wiped away (styles.css)
-  root.classList.toggle("is-at-footer", document.querySelector(".footer").getBoundingClientRect().top < innerHeight * 0.9);
+  root.classList.toggle("is-at-footer", !phone.matches && document.querySelector(".footer").getBoundingClientRect().top < innerHeight * 0.9);
 }
 
 function requestUpdate() {

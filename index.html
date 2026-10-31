@@ -22,7 +22,7 @@
   </script>
   <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
   <script src="script.js?v=8" defer></script>
-  <script src="home.js?v=14" defer></script>
+  <script src="home.js?v=15" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -60,6 +60,10 @@
 
     <!-- The works. Hovering a card turns the cursor into a red circle with the project's name (data-cursor, script.js) -->
     <a class="work" href="reach.html" data-cursor="Reach">
+      <!-- Phones only: the row's head, like a list of works (name on the left, number and year on the right) -->
+      <span class="work__head" aria-hidden="true"><span>Reach</span><span>01 — 2026</span></span>
+      <!-- Touch screens have no cursor to grow, so the card wears the red circle as a sticker instead -->
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
       <span class="work__frame">
         <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
         <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">

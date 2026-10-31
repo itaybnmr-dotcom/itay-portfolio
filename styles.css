@@ -317,47 +317,24 @@ nav,
   text-align: right;
 }
 
-/* Phones: bigger text (like the phone reference: 18px, lines 22px apart),
-   so the top bar becomes two columns: name and tagline on the left,
-   the menu stacked one above another on the right */
+/* Phones: a short, light top bar, like the phone reference (ofirgu.cargo.site):
+   one line, the name on the left and the menu on the right; the tagline is said by the page itself */
 @media (max-width: 700px) {
   :root {
-    --size-small: 18px;
+    --size-small: 15px;
+    --space-side: 12px;
   }
 
   .top-bar {
     grid-template-columns: 1fr auto;
-    grid-template-rows: auto 1fr;
-    row-gap: 0; /* the tagline sits right under the name */
-    align-items: start;
     line-height: 1.2;
   }
 
-  .top-bar__name {
-    grid-row: 1;
-  }
-
   .top-bar__tagline {
-    grid-row: 2;
-    text-align: left;
-    max-width: 12em; /* "Multidisciplinary Designer" / "based in TLV" */
-  }
-
-  /* font-size 0 hides the " / " between the links; the links get their size back */
-  .top-bar__links {
-    grid-row: 1 / 3;
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 0;
-  }
-
-  .top-bar__links a,
-  .top-bar__pair {
-    font-size: var(--size-small); /* the pair keeps its " / " */
+    display: none;
   }
 }
+
 
 /* Link with a line that enters from the left on hover
    and leaves to the right when the mouse moves away */
@@ -756,14 +733,167 @@ nav,
   background-position: 0 100%;
 }
 
-/* Phones: the place and time sit under the stacked menu */
-@media (max-width: 700px) {
-  .hero__here {
-    top: 100px;
-    left: var(--space-side);
-    right: auto;
+/* ===== Touch screens: the card's sticker =====
+   No mouse, so no red circle following it: the card wears it on its top right corner instead */
+.work__sticker {
+  display: none;
+}
+
+@media (hover: none) {
+  .work__sticker {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: -34px;
+    right: -6px;
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: #ff473f;
+    rotate: 12deg;
+  }
+
+  .work__sticker svg {
+    width: 100%;
+    height: 100%;
+    fill: #0c0e12;
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    animation: spin 8s linear infinite;
   }
 }
+
+@media (hover: none) and (prefers-reduced-motion: reduce) {
+  .work__sticker svg {
+    animation: none;
+  }
+}
+
+/* Only the phone layout shows the works' row heads */
+.work__head {
+  display: none;
+}
+
+/* ===== Phones: the home page as one column =====
+   In the manner of signal-a.studio and ofirgu.cargo.site: the headline justified from edge to edge,
+   light serif against bold sans; the note a small centered block; the works as a list of rows,
+   each with a line on top, its name and number, then the work as big as the screen allows */
+@media (max-width: 700px) {
+  .hero {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 56px var(--space-side) 88px;
+  }
+
+  .hero > * {
+    position: static;
+  }
+
+  .hero__here {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .hero__statement {
+    margin-top: 36px;
+    font-size: 10.2vw;
+    line-height: 0.96;
+    text-align: justify;
+    text-align-last: right; /* "Typography." ends on the right, like on the computer */
+    hyphens: none;
+  }
+
+  /* The lines run on as one block now; the parts that were pushed apart get a plain space */
+  .hero__line {
+    display: inline;
+    white-space: normal;
+  }
+
+  .hero__line > span + span::before,
+  .hero__line + .hero__line::before {
+    content: " ";
+  }
+
+  .hero__line:first-child .hero__bold {
+    font-size: 0.98em;
+  }
+
+  .hero__line:nth-child(3) > span:nth-child(2) {
+    margin: 0;
+  }
+
+  .hero__spark {
+    align-self: center;
+    width: 48px;
+    margin-top: 28px;
+  }
+
+  .hero__note {
+    align-self: center;
+    width: 62%;
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
+  /* The work: a row of the list */
+  .work {
+    position: relative;
+    top: auto; /* the desktop spot would still nudge it */
+    left: auto;
+    width: auto;
+    margin-top: 64px;
+    padding-top: 8px;
+    border-top: 1px solid currentColor;
+  }
+
+  .work__head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+    mix-blend-mode: difference;
+  }
+
+  .work__head span:first-child {
+    font-size: 18px;
+  }
+
+  /* The site fills the card's width and the phone stands on its lower edge */
+  .work__frame {
+    position: relative;
+    display: block;
+    height: auto;
+    padding: 10px 10px 44%;
+  }
+
+  .work__site {
+    display: block;
+    width: 100%;
+  }
+
+  .work__phone {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 25%;
+    border-radius: calc((100vw - 2 * var(--space-side) - 20px) * 0.25 * 17 / 102); /* Figma's 17 on 102 */
+  }
+
+  .work__info {
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  .work__sticker {
+    top: 18px;
+  }
+}
+
 
 /* ===== Phones: the WIP page as a simple column ===== */
 @media (max-width: 700px) {
@@ -776,7 +906,7 @@ nav,
   .process {
     height: auto;
     min-height: 100svh;
-    padding: 140px var(--space-side) 22px; /* below the stacked menu */
+    padding: 72px var(--space-side) 22px; /* below the top bar */
     display: flex;
     flex-direction: column;
   }
@@ -1136,7 +1266,13 @@ nav,
   height: auto;
 }
 
+/* The strip's wrapper makes no box here: the phones sit on the page like everything else */
+.project__strip {
+  display: contents;
+}
+
 .project__phone {
+  position: absolute;
   width: calc(205 * var(--x));
   height: calc(422 * var(--x));
   top: calc(2228 * var(--x));
@@ -1171,6 +1307,237 @@ nav,
   font-weight: 300;
   letter-spacing: -0.03em;
   mix-blend-mode: difference;
+}
+
+/* ===== Phones: the Reach page as one column =====
+   Like the phone reference (ofirgu.cargo.site): small clean text, and the work as big as the screen.
+   The title big over three lines, the texts one under another, then each board from edge to edge
+   in its Figma proportions, with what sits on it in its place. The two app phones share the width;
+   the three phones on the dark board become a strip to swipe through.
+   No shrinking title or sticky texts here (reach.js skips them too). */
+@media (max-width: 700px) {
+  .project {
+    --x: calc(100vw / 1410);
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* the wider-than-the-screen route lines mustn't widen the columns */
+    grid-template-areas:
+      "title  title"
+      "about  about"
+      "collab collab"
+      "course course"
+      "tags   tags"
+      "tools  tools"
+      "site   site"
+      "still  still"
+      "before after"
+      "sub    sub"
+      "text   text"
+      "values values"
+      "logo   logo"
+      "dark   dark"
+      "next   next";
+    column-gap: 4px;
+    padding: 72px var(--space-side) 0;
+    overflow-x: clip; /* the route lines may not widen the page */
+    font-size: 16px;
+  }
+
+  /* In the column, not at their desktop spots (which would still nudge them) */
+  .project > *,
+  .project__phone {
+    position: relative;
+    inset: auto;
+  }
+
+  .project-page .top-bar__name {
+    visibility: visible;
+  }
+
+  /* Reach on the left, App for in the middle, Climbers on the right */
+  .project__title {
+    grid-area: title;
+    display: flex;
+    flex-direction: column;
+    font-size: 24vw;
+    line-height: 0.9;
+    white-space: normal;
+  }
+
+  .project__title span {
+    transform: none;
+  }
+
+  .project__title span:nth-child(2) {
+    align-self: center;
+  }
+
+  .project__title span:nth-child(3) {
+    align-self: flex-end;
+  }
+
+  .project__track {
+    grid-area: about;
+    margin-top: 28px;
+  }
+
+  .project__track--text {
+    grid-area: text;
+    margin-top: 14px;
+  }
+
+  .project__about,
+  .project__text {
+    position: static;
+    width: auto;
+    line-height: 1.25;
+  }
+
+  /* The details: small, as rows of a table, each with a line on top */
+  .project__collab,
+  .project__course,
+  .project__tags,
+  .project__tools,
+  .project__values {
+    padding: 7px 0 8px;
+    border-top: 1px solid currentColor;
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .project__collab { grid-area: collab; margin-top: 28px; }
+  .project__course { grid-area: course; }
+  .project__tags { grid-area: tags; }
+  .project__tools { grid-area: tools; border-bottom: 1px solid currentColor; }
+  .project__values { grid-area: values; margin-top: 20px; border-bottom: 1px solid currentColor; }
+
+  /* Edge to edge: out past the page's side margins */
+  .project__board,
+  .project__site,
+  .project__still,
+  .project__route,
+  .project__logo,
+  .project__strip {
+    margin-left: calc(-1 * var(--space-side));
+    margin-right: calc(-1 * var(--space-side));
+  }
+
+  /* Each board fills its row; what's on it sets the row's height through its margins */
+  .project__board {
+    width: auto;
+    height: auto;
+  }
+
+  .project__board--site,
+  .project__site {
+    grid-area: site;
+    margin-top: 40px;
+  }
+
+  .project__site {
+    width: calc(1222 * var(--x));
+    margin: calc(40px + 44 * var(--x)) 0 calc(44 * var(--x)) calc(96 * var(--x) - var(--space-side));
+  }
+
+  .project__board--still,
+  .project__still {
+    --x: calc(100vw / 815);
+    grid-area: still;
+    margin-top: 4px;
+  }
+
+  .project__still {
+    width: calc(735 * var(--x));
+    margin: calc(4px + 43 * var(--x)) 0 calc(44 * var(--x)) calc(42 * var(--x) - var(--space-side));
+  }
+
+  /* The two app phones share the width, out to the screen's edges */
+  .project__app {
+    width: calc(100% + var(--space-side)); /* its half, plus out to the screen's edge */
+    height: auto;
+    margin-top: 4px;
+    background: #0c0e12;
+  }
+
+  .project__app--before {
+    grid-area: before;
+    margin-left: calc(-1 * var(--space-side));
+  }
+
+  .project__app--after {
+    grid-area: after;
+    margin-right: calc(-1 * var(--space-side));
+  }
+
+  .project__subtitle {
+    grid-area: sub;
+    margin-top: 48px;
+    font-size: 20vw; /* "Landing Page" over "& App" */
+    line-height: 0.92;
+    white-space: normal;
+    text-align: right;
+  }
+
+  /* The logo board: 1 Figma pixel is a 695th of the screen, and the route lines and logo
+     keep their places on it */
+  .project__board--logo,
+  .project__route--1,
+  .project__route--3,
+  .project__logo {
+    --x: calc(100vw / 695);
+    grid-area: logo;
+    align-self: start;
+    justify-self: start;
+  }
+
+  .project__board--logo {
+    justify-self: stretch;
+    height: calc(601 * var(--x));
+    margin-top: 40px;
+  }
+
+  .project__route--1 { margin: calc(40px + 83.15 * var(--x)) 0 0 calc(-14 * var(--x) - var(--space-side)); }
+  .project__route--3 { margin: calc(40px + 70 * var(--x)) 0 0 calc(-13.84 * var(--x) - var(--space-side)); }
+  .project__logo { margin: calc(40px + 251.1 * var(--x)) 0 0 calc(215 * var(--x) - var(--space-side)); }
+
+  /* The dark board's phones: a strip to swipe through, each phone big, stopping on each one */
+  .project__board--dark,
+  .project__route--2,
+  .project__route--4 {
+    display: none;
+  }
+
+  .project__strip {
+    grid-area: dark;
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+    padding: 28px var(--space-side);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    background: #0c0e12;
+  }
+
+  .project__strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project__phone {
+    flex: none;
+    width: 64vw;
+    height: auto;
+    margin: 0;
+    border-radius: calc(64vw * 36 / 205); /* Figma's 36 on 205 */
+    scroll-snap-align: center;
+  }
+
+  .project__next {
+    grid-area: next;
+    justify-self: end;
+    margin: 64px 0 28px;
+    font-size: 13vw;
+  }
 }
 
 /* ===== Footer ===== */

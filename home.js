@@ -47,7 +47,15 @@ const topName = document.querySelector(".top-bar__name");
 const aboutLink = document.querySelector(".top-bar__links a");
 const reached = (selector) => document.querySelector(selector).getBoundingClientRect().top < innerHeight / 2;
 
+// Phones get no scroll effects: the bar just stays as it is there
+const phoneLayout = matchMedia("(max-width: 700px)");
+
 function markSection() {
+  if (phoneLayout.matches) {
+    topName.classList.remove("is-active");
+    aboutLink.classList.remove("is-active");
+    return;
+  }
   const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 1;
   const inFooter = reached(".footer") || atBottom;
   topName.classList.toggle("is-active", reached(".work") && !inFooter);

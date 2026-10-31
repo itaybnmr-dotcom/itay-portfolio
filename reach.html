@@ -13,7 +13,7 @@
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
   <script src="script.js?v=8" defer></script>
-  <script src="reach.js?v=5" defer></script>
+  <script src="reach.js?v=7" defer></script>
 </head>
 <body class="project-page">
   <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
@@ -76,9 +76,12 @@
     <span class="project__route project__route--3"><span><img src="IMG/Reach/page/vector-140.svg" width="710.284" height="52.9908" alt=""></span></span>
     <span class="project__route project__route--4"><span><img src="IMG/Reach/page/vector-142.svg" width="708.558" height="52.9908" alt=""></span></span>
     <img class="project__logo" src="IMG/Reach/page/reach-logo.svg" width="265.991" height="72.0001" alt="reach">
-    <img class="project__phone project__phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="">
-    <img class="project__phone project__phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="">
-    <img class="project__phone project__phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+    <!-- On a phone the three become a strip to swipe through; on a computer the wrapper isn't there (display: contents) -->
+    <div class="project__strip">
+      <img class="project__phone project__phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="">
+      <img class="project__phone project__phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="">
+      <img class="project__phone project__phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+    </div>
 
     <!-- On hover it rolls into the next project's name, like the name into "Works" -->
     <!-- ponytail: "#" until the Israel Museum Index page exists -->

@@ -321,7 +321,7 @@ nav,
    one line, the name on the left and the menu on the right; the tagline is said by the page itself */
 @media (max-width: 700px) {
   :root {
-    --size-small: 15px;
+    --size-small: 14px;
     --space-side: 12px;
   }
 
@@ -771,42 +771,37 @@ nav,
   }
 }
 
-/* Only the phone layout shows the works' row heads */
-.work__head {
-  display: none;
-}
-
-/* ===== Phones: the home page as one column =====
-   In the manner of signal-a.studio and ofirgu.cargo.site: the headline justified from edge to edge,
-   light serif against bold sans; the note a small centered block; the works as a list of rows,
-   each with a line on top, its name and number, then the work as big as the screen allows */
+/* ===== Phones: the home page from the Figma phone frame ("iPhone 16 & 17 Pro - 1", 402px wide) =====
+   Like the computer, everything scales with the width: --p = 1px of the 402px frame.
+   The headline is justified edge to edge, broken where Figma breaks it, with the spark
+   in the third line (home.js puts the breaks and the spark in); the card is the computer's card,
+   scaled down to 378px */
 @media (max-width: 700px) {
   .hero {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 56px var(--space-side) 88px;
-  }
-
-  .hero > * {
-    position: static;
+    --p: calc(100vw / 402);
+    height: calc(1869 * var(--p)); /* "Let's Collab" starts 1869px down */
   }
 
   .hero__here {
-    width: 100%;
-    font-size: 12px;
+    top: calc(62 * var(--p));
+    left: calc(161 * var(--p));
+    right: auto;
+    width: calc(238 * var(--p));
+    font-size: calc(14 * var(--p));
   }
 
   .hero__statement {
-    margin-top: 36px;
-    font-size: 10.2vw;
-    line-height: 0.96;
+    top: calc(104 * var(--p));
+    left: calc(2.5 * var(--p));
+    right: calc(2.5 * var(--p));
+    font-size: calc(40 * var(--p));
+    letter-spacing: -0.03em;
+    line-height: calc(36 * var(--p));
     text-align: justify;
-    text-align-last: right; /* "Typography." ends on the right, like on the computer */
-    hyphens: none;
+    text-align-last: justify; /* every line runs edge to edge, the broken ones too */
   }
 
-  /* The lines run on as one block now; the parts that were pushed apart get a plain space */
+  /* The lines run on as one block; the parts that were pushed apart get a plain space */
   .hero__line {
     display: inline;
     white-space: normal;
@@ -817,82 +812,61 @@ nav,
     content: " ";
   }
 
+  .hero__bold,
   .hero__line:first-child .hero__bold {
-    font-size: 0.98em;
+    font-size: 0.975em; /* 39 on 40 */
   }
 
   .hero__line:nth-child(3) > span:nth-child(2) {
     margin: 0;
   }
 
-  .hero__spark {
-    align-self: center;
-    width: 48px;
-    margin-top: 28px;
+  /* "Typography." alone in the middle of the last line */
+  .hero__statement .is-centered {
+    display: block;
+    text-align: center;
+    text-align-last: center;
+  }
+
+  /* The spark sits in the line without making it taller */
+  .hero__statement .hero__spark {
+    position: static;
+    display: inline-block;
+    width: calc(51 * var(--p));
+    margin: calc(-8 * var(--p)) 0;
+    vertical-align: middle;
   }
 
   .hero__note {
-    align-self: center;
-    width: 62%;
-    margin-top: 20px;
-    font-size: 13px;
+    top: calc(436 * var(--p));
+    left: calc(101 * var(--p));
+    width: calc(200 * var(--p));
+    font-size: calc(14 * var(--p));
+    letter-spacing: -0.03em;
   }
 
-  /* The work: a row of the list */
+  /* The computer's card at 378px: 1 of its Figma pixels is 378/476 of the frame's */
   .work {
-    position: relative;
-    top: auto; /* the desktop spot would still nudge it */
-    left: auto;
-    width: auto;
-    margin-top: 64px;
-    padding-top: 8px;
-    border-top: 1px solid currentColor;
-  }
-
-  .work__head {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 13px;
-    mix-blend-mode: difference;
-  }
-
-  .work__head span:first-child {
-    font-size: 18px;
-  }
-
-  /* The site fills the card's width and the phone stands on its lower edge */
-  .work__frame {
-    position: relative;
-    display: block;
-    height: auto;
-    padding: 10px 10px 44%;
-  }
-
-  .work__site {
-    display: block;
-    width: 100%;
-  }
-
-  .work__phone {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    width: 25%;
-    border-radius: calc((100vw - 2 * var(--space-side) - 20px) * 0.25 * 17 / 102); /* Figma's 17 on 102 */
+    --x: calc(var(--p) * 378 / 476);
+    top: calc(535 * var(--p));
+    left: calc(12 * var(--p));
   }
 
   .work__info {
-    flex-direction: column;
-    gap: 2px;
-    margin-top: 8px;
-    font-size: 13px;
+    margin-top: calc(6 * var(--p));
+    font-size: calc(14 * var(--p));
   }
 
-  .work__sticker {
-    top: 18px;
+  .work__info > :first-child {
+    max-width: calc(111 * var(--p));
+  }
+
+  .work__info > :last-child {
+    width: calc(210 * var(--p));
+    text-align: right;
   }
 }
+
 
 
 /* ===== Phones: the WIP page as a simple column ===== */
@@ -1612,14 +1586,19 @@ nav,
   font-size: 12px;
 }
 
-/* Phones: no bio, and the bottom row just spaced out, so the copyright fits */
+/* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 in the middle,
+   and "Works" a third of the way across, like on the computer */
 @media (max-width: 700px) {
   .footer__bio {
     display: none;
   }
 
+  .footer__collab {
+    font-size: calc(100vw * 96 / 402);
+    text-align: center;
+  }
+
   .footer__bottom {
-    grid-template-columns: auto 1fr auto;
-    gap: var(--space-side);
+    grid-template-columns: calc(100vw / 3 - 15px) 1fr auto;
   }
 }

@@ -11,9 +11,18 @@
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
+  <!-- The opening (home.js, styles.css "Intro"): on arriving or reloading,
+       not when coming from another page of the site, going Back, or prepared in the background -->
+  <script>
+    const fromSite = document.referrer.startsWith(location.origin) || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+    const isReload = performance.getEntriesByType("navigation")[0]?.type === "reload";
+    if ((isReload || !fromSite) && !document.prerendering && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("intro");
+    }
+  </script>
   <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
   <script src="script.js?v=4" defer></script>
-  <script src="home.js?v=2" defer></script>
+  <script src="home.js?v=12" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->

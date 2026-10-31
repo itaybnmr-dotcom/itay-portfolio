@@ -222,9 +222,9 @@ nav,
 }
 
 /* Top bar with three parts: left, center, right.
-   It scrolls away with the page. */
+   It stays at the top while the page scrolls under it. */
 .top-bar {
-  position: absolute;
+  position: fixed;
   z-index: 1; /* above the headline */
   top: var(--space-top);
   left: var(--space-side);
@@ -290,6 +290,24 @@ nav,
   .roll:hover .roll__from .roll__letter {
     transform: none;
   }
+
+  .roll.is-active .roll__to {
+    display: inline;
+  }
+}
+
+/* Scrolled down to the works (home.js): the name stays rolled into "Works", with its line */
+.roll.is-active .roll__from .roll__letter {
+  transform: translateY(-100%);
+}
+
+.roll.is-active .roll__to .roll__letter {
+  transform: none;
+}
+
+.roll.is-active .link-line {
+  background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
 }
 .top-bar__tagline {
   text-align: center;
@@ -372,6 +390,12 @@ nav,
     background-size: 100% var(--line-thickness);
     transition-duration: 0.2s;
   }
+}
+
+/* The part of the home page you've scrolled to (home.js): its link keeps the line */
+.link-line.is-active {
+  background-size: 100% var(--line-thickness);
+  background-position: 0 100%;
 }
 
 /* The page you're on: the hover line stays */
@@ -592,7 +616,7 @@ nav,
 }
 
 /* "Interactive Experiences," sits a set gap after "I work across"; "Brand," goes to the right */
-.hero__line:nth-child(3) span:nth-child(2) {
+.hero__line:nth-child(3) > span:nth-child(2) {
   margin: 0 auto 0 calc(54 * var(--x));
 }
 
@@ -620,6 +644,53 @@ nav,
 
 .hero__note span {
   float: right;
+}
+
+/* ===== Intro (home.js) =====
+   Every word of the headline is a window; the word rises in from just below its own spot.
+   The window reaches a little above and below the line, so tall letters and tails aren't cut. */
+.intro__word {
+  display: inline-block;
+  overflow: clip;
+  padding: 0.15em 0 0.2em;
+  margin: -0.15em 0 -0.2em;
+}
+
+.intro__word > span {
+  display: inline-block;
+}
+
+/* Nothing moves until the fonts are in (home.js adds .intro-go), so the type doesn't swap mid-way */
+.intro:not(.intro-go) * {
+  animation-play-state: paused;
+}
+
+/* Until home.js splits it, the headline stays hidden behind the black */
+.intro .hero__statement:not(.is-split) {
+  visibility: hidden;
+}
+
+.intro .intro__word > span {
+  animation: word-drop 0.9s var(--ease) var(--d) both;
+}
+
+@keyframes word-drop {
+  from { transform: translateY(130%); }
+}
+
+/* Then everything else writes itself in, left to right, one after another */
+.intro :is(.top-bar, .hero__here, .hero__spark, .hero__note, .work) {
+  animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
+}
+
+.intro .hero__here { --n: 1; }
+.intro .hero__spark { --n: 2; }
+.intro .hero__note { --n: 3; }
+.intro .work { --n: 4; }
+
+@keyframes write-in {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
 }
 
 /* ===== Work cards ===== */

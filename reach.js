@@ -1,0 +1,104 @@
+// ===== The title shrinks into the top bar =====
+// Over the first stretch of scrolling each word of "Reach App for Climbers" shrinks in its own spot
+// down to a small title, and the description rises with it to sit right under the title.
+// Scrolling back up grows them back. The movement trails the scroll a little and eases in and out.
+// (styles.css, "Project page")
+const SMALL_TITLE = 21; // px: the small title's size, half again the menu's 14px, like in the reference
+const STICK_END = 44; // px from the top where the description ends up, under the small title
+const root = document.documentElement;
+const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+const clamp = (n) => Math.min(Math.max(n, 0), 1);
+
+// The rest of the small text at the top isn't faded: it slides up and is cut off at the line
+// the description sits on, as if going under the title
+const vanishing = document.querySelectorAll(".project__collab, .project__course, .project__tags, .project__tools");
+
+// "Landing Page & App": each letter, spaces included, gets its own span
+const subtitle = document.querySelector(".project__subtitle");
+const subtitleLetters = [...subtitle.textContent].map((char) => {
+  const letter = document.createElement("span");
+  letter.textContent = char;
+  return letter;
+});
+subtitle.replaceChildren(...subtitleLetters);
+const visibleLetters = subtitleLetters.filter((letter) => letter.textContent.trim());
+
+// Where each letter ends up: the same words with single spaces, closed up against the right edge.
+// A hidden copy laid out like that tells how far each letter has to travel.
+function measureSubtitle() {
+  subtitleLetters.forEach((letter) => letter.style.setProperty("--go", 0));
+  const packed = subtitle.cloneNode();
+  packed.textContent = subtitle.textContent.trim().replace(/\s+/g, " ");
+  packed.style.cssText = "visibility: hidden; left: auto; right: calc(15 * var(--x));";
+  subtitle.after(packed);
+  const range = document.createRange();
+  let index = 0;
+  [...packed.textContent].forEach((char, position) => {
+    if (char === " ") return;
+    range.setStart(packed.firstChild, position);
+    range.setEnd(packed.firstChild, position + 1);
+    const letter = visibleLetters[index++];
+    letter.style.setProperty("--shift", `${range.getBoundingClientRect().left - letter.getBoundingClientRect().left}px`);
+  });
+  packed.remove();
+}
+
+let shown = 0; // the title's progress as drawn, trailing the scroll
+let lastScroll = scrollY;
+let goingUp = false;
+let frame = null;
+
+function update() {
+  frame = null;
+  const x = innerWidth / 1440; // 1px of the Figma frame
+  const target = clamp(scrollY / (400 * x));
+  shown += (target - shown) * 0.18;
+  if (Math.abs(target - shown) < 0.001) shown = target;
+  else frame = requestAnimationFrame(update);
+
+  const progress = easeInOut(shown);
+  const stickTop = 117 * x + (STICK_END - 117 * x) * progress;
+  root.style.setProperty("--title-scale", 1 + (SMALL_TITLE / (108 * x) - 1) * progress);
+  root.style.setProperty("--stick-top", `${stickTop}px`);
+
+  // Going down they're cut off at the line; coming back up they fade in instead, once they're
+  // below the line again (the fade itself is a CSS transition on the site's ease)
+  if (scrollY !== lastScroll) goingUp = scrollY < lastScroll; // frames without a scroll keep the last direction
+  lastScroll = scrollY;
+  vanishing.forEach((text) => {
+    const cut = stickTop - text.getBoundingClientRect().top;
+    if (goingUp) {
+      text.style.clipPath = "";
+      text.classList.toggle("is-faded", cut > 0);
+    } else {
+      text.classList.remove("is-faded");
+      text.style.clipPath = cut > 0 ? `inset(${cut}px 0 0 0)` : "";
+    }
+  });
+
+  // The subtitle's letters go one after another as it rises through the screen, the rightmost first
+  const rise = clamp((innerHeight * 0.9 - subtitle.getBoundingClientRect().top) / (innerHeight * 0.6));
+  visibleLetters.forEach((letter, index) => {
+    const wait = (visibleLetters.length - 1 - index) / (visibleLetters.length - 1) * 0.5;
+    letter.style.setProperty("--go", easeInOut(clamp((rise - wait) / 0.5)));
+  });
+
+  // At the footer the title, the menu and the descriptions are wiped away (styles.css)
+  root.classList.toggle("is-at-footer", document.querySelector(".footer").getBoundingClientRect().top < innerHeight * 0.9);
+}
+
+function requestUpdate() {
+  if (!frame) frame = requestAnimationFrame(update);
+}
+
+root.style.setProperty("--stick-end", `${STICK_END}px`);
+document.fonts.ready.then(() => {
+  measureSubtitle();
+  update();
+});
+update();
+addEventListener("scroll", requestUpdate, { passive: true });
+addEventListener("resize", () => {
+  measureSubtitle();
+  requestUpdate();
+});

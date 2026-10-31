@@ -21,7 +21,7 @@
     }
   </script>
   <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
-  <script src="script.js?v=4" defer></script>
+  <script src="script.js?v=8" defer></script>
   <script src="home.js?v=14" defer></script>
 </head>
 <body class="home">
@@ -59,8 +59,7 @@
     <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span class="hero__note-end">Arts &amp; Design</span></p>
 
     <!-- The works. Hovering a card turns the cursor into a red circle with the project's name (data-cursor, script.js) -->
-    <!-- ponytail: "#" until the Reach page exists -->
-    <a class="work" href="#" data-cursor="Reach">
+    <a class="work" href="reach.html" data-cursor="Reach">
       <span class="work__frame">
         <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
         <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
@@ -75,7 +74,8 @@
   <footer class="footer">
     <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Typography &amp; Editorial Design.</p>
 
-    <p class="footer__collab">Let’s Collab</p>
+    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
+    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
 
     <!-- Bottom row: copyright, works, contact links -->
     <div class="footer__bottom">
@@ -83,9 +83,9 @@
       <p>Works</p>
       <!-- Links: real addresses still missing, "#" is a placeholder -->
       <nav class="footer__links">
-        <a class="link-line" href="#">Email</a> /
-        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a> /
-        <a class="link-line" href="#">LinkedIn</a>
+        <a class="link-line" href="#" data-collab="Email">Email</a> /
+        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
+        <a class="link-line" href="#" data-collab="LinkedIn">LinkedIn</a>
       </nav>
     </div>
   </footer>

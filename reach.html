@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itay Benma — Reach</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <!-- The fonts load right away, so a new page shows up already in its own type -->
+  <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
+  <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
+  <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
+  <!-- "?v=": raise the number after changing a script, so browsers drop their old saved copy -->
+  <script src="script.js?v=8" defer></script>
+  <script src="reach.js?v=5" defer></script>
+</head>
+<body class="project-page">
+  <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
+  <header class="top-bar">
+    <a class="top-bar__name roll" href="index.html" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
+    <!-- Links: real addresses still missing, "#" is a placeholder -->
+    <nav class="top-bar__links">
+      <a class="link-line" href="#">About</a> /
+      <!-- Kept together: on phones they share one line in the stacked menu -->
+      <span class="top-bar__pair"><a class="link-line" href="#">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
+      <a class="link-line" href="wip.html">WIP</a>
+    </nav>
+  </header>
+
+  <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט") -->
+  <main class="project">
+    <!-- The spaces spread the words across the page, like in Figma.
+         Scrolling down, each word shrinks in its own spot into a small title at the top (reach.js) -->
+    <h1 class="project__title project__big"><span>Reach</span>         <span>App for</span>               <span>Climbers</span></h1>
+
+    <!-- The two descriptions stay in view under the title, one under the other (the track is how far each one sticks) -->
+    <div class="project__track project__track--about">
+      <div class="project__about">
+        <p>Reach is a training app for intermediate boulderers who have reached the point where climbing more isn’t enough.</p>
+        <p>It brings session logging, structured workout plans and progress tracking into one simple tool. Working as a team of two, we took it from user interviews to a full product: a core user flow, a visual identity built on how climbers read a wall, and a landing page to launch it.</p>
+      </div>
+    </div>
+    <p class="project__collab">In  collaboration  with:   Or Sinalevich</p>
+    <p class="project__course">Course: Startup! Intro to ux/ui and Product Design, Third-year  (2026)<br>Mentor(s): Ben Lev, Ofir Gurevich</p>
+    <p class="project__tags">ux/ui,  Product,  Web,  Branding,  Research</p>
+    <p class="project__tools">Designed and prototyped in Figma</p>
+
+    <!-- The landing page on a red board -->
+    <div class="project__board project__board--site"></div>
+    <video class="project__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <!-- The landing page's still screen, and two phones running the app -->
+    <div class="project__board project__board--still"></div>
+    <video class="project__still" src="IMG/Reach/still-page.mp4" width="3456" height="2234" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__app project__app--before" src="IMG/Reach/reach-before-1.5x.mp4" width="844" height="1738" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__app project__app--after" src="IMG/Reach/reach-after-1.5x.mp4" width="844" height="1738" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <!-- Scrolling past it, its letters slide right one by one until the words close up against the right edge (reach.js) -->
+    <h2 class="project__subtitle project__big">   Landing       Page      &amp;  App        </h2>
+    <div class="project__track project__track--text">
+      <div class="project__text">
+        <p>The main use case of the app happens between attempts, with chalky hands and little time, so interaction during a session is kept to a minimum.</p>
+        <p>Almost every screen has one red CTA on a black background, and holds are logged by tapping them on a map, an affordance taken straight from the wall.</p>
+        <p>The landing page reflects the experience of a climb: an upwards scroll and a route line that leads the visitor through the sections in order, using the same black, red and hold shapes as the app.</p>
+      </div>
+    </div>
+    <p class="project__values">Brand values:  Instinctive / Responsive / Grounded / Minimal / Calculated / Outdoorsy</p>
+
+    <!-- The logo on red with the route lines running across, and three app screens on dark -->
+    <div class="project__board project__board--dark"></div>
+    <div class="project__board project__board--logo"></div>
+    <span class="project__route project__route--1"><span><img src="IMG/Reach/page/vector-139.svg" width="706.787" height="52.4959" alt=""></span></span>
+    <span class="project__route project__route--2"><span><img src="IMG/Reach/page/vector-141.svg" width="708.85" height="52.4959" alt=""></span></span>
+    <span class="project__route project__route--3"><span><img src="IMG/Reach/page/vector-140.svg" width="710.284" height="52.9908" alt=""></span></span>
+    <span class="project__route project__route--4"><span><img src="IMG/Reach/page/vector-142.svg" width="708.558" height="52.9908" alt=""></span></span>
+    <img class="project__logo" src="IMG/Reach/page/reach-logo.svg" width="265.991" height="72.0001" alt="reach">
+    <img class="project__phone project__phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="">
+    <img class="project__phone project__phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="">
+    <img class="project__phone project__phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+
+    <!-- On hover it rolls into the next project's name, like the name into "Works" -->
+    <!-- ponytail: "#" until the Israel Museum Index page exists -->
+    <a class="project__next roll" href="#" aria-label="Next project: Israel Museum Index"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Israel Museum Index</span></a>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Typography &amp; Editorial Design.</p>
+
+    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
+    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
+
+    <!-- Bottom row: copyright, works, contact links -->
+    <div class="footer__bottom">
+      <p><span class="footer__copyright">©</span>itay benma</p>
+      <p><a class="link-line" href="index.html" data-collab="Works">Works</a></p>
+      <!-- Links: real addresses still missing, "#" is a placeholder -->
+      <nav class="footer__links">
+        <a class="link-line" href="#" data-collab="Email">Email</a> /
+        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
+        <a class="link-line" href="#" data-collab="LinkedIn">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

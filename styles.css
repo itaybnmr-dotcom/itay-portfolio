@@ -864,8 +864,318 @@ nav,
   }
 }
 
+/* ===== Project page (reach.html) =====
+   Like the home page, everything scales with the width: --x = 1px of the 1440px-wide Figma frame.
+   The footer's bio starts 2837px down in Figma, so the page is that tall before it. */
+.project {
+  --x: calc(100vw / 1440);
+  position: relative;
+  height: calc(2837 * var(--x));
+  font-size: calc(14 * var(--x)); /* the small text scales too, so its lines break where they do in Figma at any width */
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+}
+
+.project > * {
+  position: absolute;
+}
+
+/* Here the title holds the top left, so the bar keeps only its links */
+.project-page .top-bar__name,
+.project-page .top-bar__tagline {
+  visibility: hidden;
+}
+
+/* The big lines: their spaces spread the words across the page, like in Figma */
+.project__big {
+  font-family: var(--font-display);
+  font-size: calc(108 * var(--x));
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: normal;
+  white-space: pre;
+}
+
+/* The title stays at the top; each word shrinks from its own left edge as the page scrolls
+   (reach.js sets --title-scale from 1 down to the top bar's size, and back up on the way up) */
+.project__title {
+  position: fixed;
+  z-index: 1;
+  top: calc(6 * var(--x));
+  left: calc(13 * var(--x));
+}
+
+.project__title span {
+  display: inline-block;
+  transform: scale(var(--title-scale, 1));
+  transform-origin: 0 0;
+}
+
+/* At the footer the title, the menu and the descriptions fade out,
+   and fade back in on the way up (reach.js adds .is-at-footer) */
+.project-page :is(.top-bar, .project__title, .project__about, .project__text) {
+  transition: opacity 0.35s var(--ease-in-out);
+}
+
+.is-at-footer .project-page :is(.top-bar, .project__title, .project__about, .project__text) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.project__subtitle {
+  top: calc(1810 * var(--x));
+  left: calc(15 * var(--x));
+}
+
+/* Each letter slides right by its own --shift, as far as its --go says (reach.js) */
+.project__subtitle span {
+  display: inline-block;
+  transform: translateX(calc(var(--shift, 0px) * var(--go, 0)));
+}
+
+/* The small texts keep their Figma spacing (double spaces included) */
+.project__course,
+.project__collab,
+.project__tags,
+.project__values {
+  white-space: pre;
+}
+
+/* Coming back down into view (scrolling up), the small text at the top fades in (reach.js) */
+.project__collab,
+.project__course,
+.project__tags,
+.project__tools {
+  transition: opacity 0.7s var(--ease);
+}
+
+.project__collab.is-faded,
+.project__course.is-faded,
+.project__tags.is-faded,
+.project__tools.is-faded {
+  opacity: 0;
+}
+
+/* Each description sticks inside its track, which runs from its spot to the footer.
+   The first rises with the shrinking title (reach.js moves --stick-top from its spot to under the title);
+   the second stops a couple of lines under the first. */
+.project__track {
+  left: calc(15 * var(--x));
+  bottom: 0;
+}
+
+.project__track--about {
+  top: calc(117 * var(--x));
+}
+
+.project__track--text {
+  top: calc(1921 * var(--x));
+}
+
+.project__about,
+.project__text {
+  position: sticky;
+  z-index: 1; /* above the work it passes over */
+  line-height: 1.15;
+  mix-blend-mode: difference; /* sticky makes its own layer, so the turning negative is set here, not on the lines */
+}
+
+.project__about {
+  top: var(--stick-top, calc(117 * var(--x)));
+  width: calc(346 * var(--x));
+}
+
+.project__next > span {
+  justify-self: end;
+}
+
+.project__text {
+  top: calc(var(--stick-end, 44px) + 145 * var(--x)); /* 8 lines of the first, then 1 line of space */
+  width: calc(338 * var(--x));
+}
+
+/* A new paragraph starts indented, not on a gap */
+.project__about p + p,
+.project__text p + p {
+  text-indent: 2em;
+}
+
+.project__collab {
+  top: calc(118 * var(--x));
+  left: calc(610 * var(--x));
+}
+
+.project__course {
+  top: calc(196 * var(--x));
+  left: calc(372 * var(--x));
+}
+
+.project__tags {
+  top: calc(118 * var(--x));
+  left: calc(1172 * var(--x));
+}
+
+.project__tools {
+  top: calc(213 * var(--x));
+  left: calc(1087 * var(--x));
+}
+
+.project__values {
+  top: calc(2065 * var(--x));
+  right: calc(15 * var(--x));
+}
+
+/* The colored boards the work sits on */
+.project__board {
+  background: #ff473f;
+}
+
+.project__board--site {
+  top: calc(346 * var(--x));
+  left: calc(13 * var(--x));
+  width: calc(1410 * var(--x));
+  height: calc(855 * var(--x));
+}
+
+.project__board--still {
+  top: calc(1232 * var(--x));
+  left: calc(15 * var(--x));
+  width: calc(815 * var(--x));
+  height: calc(562 * var(--x));
+}
+
+.project__board--logo {
+  top: calc(2105 * var(--x));
+  left: calc(15 * var(--x));
+  width: calc(695 * var(--x));
+  height: calc(601 * var(--x));
+}
+
+.project__board--dark {
+  top: calc(2171 * var(--x));
+  left: calc(730 * var(--x));
+  width: calc(699 * var(--x));
+  height: calc(535 * var(--x));
+  background: #0c0e12;
+}
+
+.project__site {
+  top: calc(390 * var(--x));
+  left: calc(109 * var(--x));
+  width: calc(1222 * var(--x));
+  height: auto;
+}
+
+.project__still {
+  top: calc(1275 * var(--x));
+  left: calc(57 * var(--x));
+  width: calc(735 * var(--x));
+  height: auto;
+}
+
+/* The two phones running the app */
+/* The whole phone shows: the video is a hair narrower than its Figma spot, so it isn't cropped to fill it */
+.project__app {
+  top: calc(1232 * var(--x));
+  width: calc(280 * var(--x));
+  height: calc(562 * var(--x));
+  object-fit: contain;
+}
+
+.project__app--before {
+  left: calc(849 * var(--x));
+}
+
+.project__app--after {
+  left: calc(1142 * var(--x));
+  width: calc(281 * var(--x));
+}
+
+/* The route lines: Figma turns them almost upside down and slants them a little.
+   The outer box is the spot they take, the inner one the line itself. */
+.project__route {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project__route > span {
+  flex: none;
+  position: relative;
+  rotate: -172.14deg;
+  scale: 1 -0.99;
+  transform: skewX(-5.86deg);
+}
+
+.project__route img {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.project__route--1 { top: calc(2188.15 * var(--x)); left: calc(1 * var(--x)); width: calc(712.388 * var(--x)); height: calc(146.848 * var(--x)); }
+.project__route--2 { top: calc(2302.01 * var(--x)); left: calc(718.96 * var(--x)); width: calc(714.451 * var(--x)); height: calc(147.133 * var(--x)); }
+.project__route--3 { top: calc(2175 * var(--x)); left: calc(1.16 * var(--x)); width: calc(715.751 * var(--x)); height: calc(146.837 * var(--x)); }
+.project__route--4 { top: calc(2288.89 * var(--x)); left: calc(719.35 * var(--x)); width: calc(714.041 * var(--x)); height: calc(146.601 * var(--x)); }
+
+.project__route--1 > span { width: calc(706.768 * var(--x)); height: calc(51.696 * var(--x)); }
+.project__route--2 > span { width: calc(708.85 * var(--x)); height: calc(51.696 * var(--x)); }
+.project__route--3 > span { width: calc(710.284 * var(--x)); height: calc(51.189 * var(--x)); }
+.project__route--4 > span { width: calc(708.558 * var(--x)); height: calc(51.189 * var(--x)); }
+
+/* The lines are a hair taller than their spot, like in Figma */
+.project__route--1 img,
+.project__route--2 img { top: -0.77%; height: 101.54%; }
+.project__route--3 img,
+.project__route--4 img { top: -1.76%; height: 103.52%; }
+
+.project__logo {
+  top: calc(2356.1 * var(--x));
+  left: calc(230 * var(--x));
+  width: calc(266 * var(--x));
+  height: auto;
+}
+
+.project__phone {
+  width: calc(205 * var(--x));
+  height: calc(422 * var(--x));
+  top: calc(2228 * var(--x));
+  object-fit: cover;
+  border-radius: calc(36 * var(--x));
+}
+
+.project__phone--congrats {
+  left: calc(752 * var(--x));
+  border-radius: calc(33 * var(--x));
+}
+
+.project__phone--timer {
+  left: calc(982 * var(--x));
+}
+
+.project__phone--arm {
+  left: calc(1212 * var(--x));
+  top: calc(2227 * var(--x));
+  height: calc(421 * var(--x));
+}
+
+/* Anchored on the right, so the longer "Israel Museum Index" it rolls into grows to the left */
+.project__next {
+  z-index: 1; /* the top of the footer's Let's Collab box reaches over it */
+  top: calc(2857 * var(--x));
+  right: calc(15 * var(--x));
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: calc(65 * var(--x));
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  mix-blend-mode: difference;
+}
+
 /* ===== Footer ===== */
 .footer {
+  overflow: clip; /* the Let's Collab window reaches below the footer; it mustn't make the page longer */
   padding: 0 15px 27px;
   font-size: var(--size-small);
   font-weight: 500;
@@ -886,6 +1196,42 @@ nav,
   line-height: 1;
   white-space: nowrap;
   margin: -0.03em 0 -0.06em -0.02em; /* pulled up and left, and the bottom row tucked under the letters, like in Figma */
+}
+
+/* Hovering a link under it rolls the words into that link's word (script.js).
+   Every word is its own layer in the same spot: the new one rises in from below while the old one
+   rolls out the top from wherever it is, so a quick move between links never jumps or waits.
+   The window reaches below the line so tails (the g of Instagram) aren't cut */
+.footer__collab {
+  display: grid;
+  overflow: hidden;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.26em; /* the -0.06em above, plus the window's extra 0.2em */
+}
+
+.footer__word {
+  grid-area: 1 / 1;
+}
+
+/* Quick, and soft at the end: it starts moving the moment the mouse arrives */
+.footer__collab .roll__letter {
+  transition: transform 0.55s var(--ease);
+  transition-delay: calc(var(--i) * 18ms);
+}
+
+.footer__word.is-below .roll__letter {
+  transform: translateY(130%); /* out of the taller window */
+  transition: none;
+}
+
+.footer__word.is-out .roll__letter {
+  transform: translateY(-130%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__collab .roll__letter {
+    transition: none;
+  }
 }
 
 /* Copyright and Works on the left, contact links on the right */

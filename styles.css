@@ -665,9 +665,14 @@ nav,
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
-/* On phones the drawn headline takes the live one's place in the opening: it wipes in first */
-.intro .hero__phone-statement {
-  animation: write-in 1.4s var(--ease-in-out) 0.6s both;
+/* On phones the drawn headline takes the live one's place: its words rise into their lines' windows
+   at the live words' moments (home.js copies each word's --d; --drop is its window's height) */
+.intro .hero__phone-statement path {
+  animation: drawn-word-rise 0.9s var(--ease) var(--d) both;
+}
+
+@keyframes drawn-word-rise {
+  from { transform: translateY(calc(var(--drop) * 1px)); }
 }
 
 .intro .hero__here { --n: 1; }
@@ -834,7 +839,7 @@ nav,
 
   /* Figma's paragraph as drawn, a little smaller and centred: --w wide, its top at --t */
   .hero__phone-statement {
-    --w: calc(350 * var(--p));
+    --w: calc(368 * var(--p));
     --t: calc(139 * var(--p) + var(--down));
     display: block;
     position: absolute;
@@ -846,7 +851,7 @@ nav,
 
   /* The spark in its gap in the paragraph (126.6, 73.8 and 51px wide on the 386px drawing) */
   .hero__spark {
-    --w: calc(350 * var(--p));
+    --w: calc(368 * var(--p));
     top: calc(139 * var(--p) + var(--down) + var(--w) * 73.8 / 386);
     left: calc((100vw - var(--w)) / 2 + var(--w) * 126.6 / 386);
     width: calc(var(--w) * 51 / 386);

@@ -97,6 +97,12 @@ statement.querySelectorAll(".hero__line > span").forEach((part) => {
 });
 statement.classList.add("is-split");
 
+// Phones: the drawn headline's words take the same moments, in order ("Hi," "I'm" "Itay" "Ben" "Mayor,"
+// on their beats, the rest with the rest of the headline)
+document.querySelectorAll(".hero__phone-statement path").forEach((word, index) => {
+  word.style.setProperty("--d", index < BEATS.length ? `${START + BEATS[index]}ms` : "var(--rest)");
+});
+
 
 // The note under the headline types itself in like code: one character after another,
 // each one flashing as a block first (styles.css, .intro__key). It starts with everything else.

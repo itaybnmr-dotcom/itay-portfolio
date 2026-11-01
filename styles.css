@@ -815,9 +815,12 @@ nav,
 }
 
 /* Hovering anywhere on the card draws the line under its name and tags, like the menu links */
-.work:hover .link-line {
-  background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+/* (only with a mouse: a tap on a card that isn't a link yet would leave the line stuck on) */
+@media (hover: hover) {
+  .work:hover .link-line {
+    background-size: 100% var(--line-thickness);
+    background-position: 0 100%;
+  }
 }
 
 /* ===== Touch screens: the card's sticker =====

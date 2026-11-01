@@ -877,7 +877,7 @@ nav,
   .hero {
     --p: calc(100vw / 402);
     --down: calc(48 * var(--p)); /* the headline and everything under it sit lower than in the frame, with more air */
-    height: calc(1869 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down */
+    height: calc(1925 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down in Figma, moved down for the extra cards */
   }
 
   /* The menu ends where the place and time end (they reach 399 of the frame's 402) */
@@ -930,7 +930,8 @@ nav,
   }
 
   /* The computer's cards at 378px, one under the other: 1 of their Figma pixels is 378/457 of the frame's.
-     Figma's phone frame only has the first; the others follow 40px apart, filling the space before "Let's Collab" */
+     Figma's phone frame only has the first; the others follow far enough apart that a sticker
+     (34px above its card) clears the two lines of tags above it */
   .work {
     --x: calc(var(--p) * 378 / 457);
     top: calc(535 * var(--p) + var(--down));
@@ -938,24 +939,27 @@ nav,
   }
 
   .work--museum {
-    top: calc(973 * var(--p) + var(--down));
+    top: calc(995 * var(--p) + var(--down));
   }
 
   .work--record {
-    top: calc(1411 * var(--p) + var(--down));
+    top: calc(1455 * var(--p) + var(--down));
   }
 
+  /* Name and tags at Figma's 14px, a little wider than the card: the name on one line,
+     the tags filling the rest and only wrapping when they must */
   .work__info {
+    gap: calc(8 * var(--p));
     margin-top: calc(6 * var(--p));
+    margin-right: calc(-6 * var(--p));
     font-size: calc(14 * var(--p));
   }
 
   .work__info > :first-child {
-    max-width: calc(111 * var(--p));
+    white-space: nowrap;
   }
 
   .work__info > :last-child {
-    width: calc(210 * var(--p));
     text-align: right;
   }
 }

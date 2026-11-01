@@ -239,3 +239,10 @@ function markFooter() {
 markFooter();
 addEventListener("scroll", markFooter, { passive: true });
 addEventListener("resize", markFooter);
+
+// ===== Videos that didn't start =====
+// iPhone in Low Power Mode won't autoplay and shows a play button instead (hidden in styles.css):
+// the first touch anywhere starts them all
+const playAll = () => document.querySelectorAll("video[autoplay]").forEach((video) => video.paused && video.play().catch(() => {}));
+addEventListener("touchend", playAll, { once: true });
+addEventListener("click", playAll, { once: true });

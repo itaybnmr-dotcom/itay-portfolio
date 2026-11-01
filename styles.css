@@ -1707,3 +1707,10 @@ nav,
     grid-template-columns: calc(100vw / 3 - 15px) 1fr auto;
   }
 }
+
+/* iPhone's play button over a video that didn't autoplay (script.js starts it on the first touch) */
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}

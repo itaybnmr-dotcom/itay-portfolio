@@ -9,25 +9,64 @@ document.body.append(cursor);
 // Tells styles.css the circle is ready, so it can hide the normal arrow
 document.documentElement.classList.add("has-custom-cursor");
 
-// Over anything with data-cursor (the work cards) the circle grows, turns red
-// and its word goes around inside it, written several times
+// ===== Rings of words =====
+// A card's word written around a circle as many times as fits (four "Reach", two "Record Day"),
+// each letter its own tspan (so the stickers can write them in one by one, styles.css).
+// The letters keep their natural spacing, so every ring reads like "Reach";
+// whatever is left of the circle is shared out evenly around the dots
+const RING = 257; // the circle's length (its radius is 41)
+function writeRing(textPath, word) {
+  const unit = `${word} · `;
+  textPath.removeAttribute("textLength");
+  // Keep the space at the very end, which SVG would otherwise drop
+  textPath.parentNode.setAttributeNS("http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
+  textPath.textContent = unit;
+  const unitLength = textPath.getComputedTextLength();
+  const times = Math.max(1, Math.floor(RING / unitLength + 0.05)); // a hair tight is fine, too many isn't
+  const half = (RING - unitLength * times) / times / 2;
+  const letters = [...unit.repeat(times)].map((char, index) => {
+    const letter = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+    letter.textContent = char;
+    letter.style.setProperty("--i", index);
+    // The gap's two halves: before each dot and before each word
+    if (char === "·" || index % unit.length === 0) letter.setAttribute("dx", half);
+    return letter;
+  });
+  textPath.replaceChildren(...letters);
+}
+
+// Touch screens: the cards' stickers (the only time they're shown), once their font is in
+if (matchMedia("(hover: none)").matches) {
+  document.fonts.ready.then(() => {
+    document.querySelectorAll(".work__sticker textPath").forEach((textPath) => {
+      writeRing(textPath, textPath.closest("[data-cursor]").dataset.cursor);
+    });
+  });
+}
+
+// Over anything with data-cursor (the work cards) the circle grows, takes the card's colors
+// (--circle and --circle-ink in styles.css) and its word goes around inside it
 let cursorWord = null;
-function showWord(word) {
+function showWord(card) {
+  const word = card ? card.dataset.cursor : null;
   if (word === cursorWord) return;
   cursorWord = word;
   cursor.classList.toggle("is-big", word !== null);
   if (word === null) return;
-  const text = `${word} · `.repeat(4);
+  const colors = getComputedStyle(card);
+  cursor.style.setProperty("--circle", colors.getPropertyValue("--circle"));
+  cursor.style.setProperty("--circle-ink", colors.getPropertyValue("--circle-ink"));
   cursor.innerHTML = `<svg class="cursor__ring" viewBox="0 0 120 120">
     <path id="cursor-ring" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/>
-    <text><textPath href="#cursor-ring" textLength="257" lengthAdjust="spacing">${text}</textPath></text>
+    <text><textPath href="#cursor-ring"></textPath></text>
   </svg>`;
+  writeRing(cursor.querySelector("textPath"), word);
 }
 
 document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
-  showWord(card ? card.dataset.cursor : null);
+  showWord(card);
   // Over a link (that isn't a card, where it grows) the circle shrinks to a small red dot
   cursor.classList.toggle("is-small", card === null && event.target.closest("a") !== null);
   cursor.classList.add("is-visible");

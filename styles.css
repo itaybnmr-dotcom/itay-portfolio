@@ -188,16 +188,16 @@ nav,
     mix-blend-mode: difference;
   }
 
-  /* Big red circle with the project's name going around inside it */
+  /* Big circle in the card's colors with the project's name going around inside it */
   .has-custom-cursor .cursor.is-big {
     --cursor-size: 120px;
-    background: #ff473f;
+    background: var(--circle); /* the card's colors (script.js copies them over) */
   }
 
   .cursor__ring {
     width: 100%;
     height: 100%;
-    fill: #0c0e12;
+    fill: var(--circle-ink);
     font-family: var(--font-body);
     font-size: 17px;
     font-weight: 500; /* Medium */
@@ -713,12 +713,15 @@ nav,
 }
 
 /* ===== Work cards ===== */
-/* A light card (476 x 473 in Figma) with the landing page and a phone side by side */
+/* Three light cards (457 x 454 in Figma) in a row, each with its project's colors
+   for the circle that follows the mouse (and the sticker on touch screens) */
 .work {
+  --circle: #ff473f; /* Reach's red */
+  --circle-ink: #0c0e12;
   position: absolute;
   top: calc(692 * var(--x)); /* 113px under the note, like in Figma */
   left: calc(15 * var(--x));
-  width: calc(476 * var(--x));
+  width: calc(457 * var(--x));
   color: inherit;
   text-decoration: none;
   scroll-margin-top: calc(113 * var(--x)); /* "Works" in the footer lands here, clear of the top bar */
@@ -731,24 +734,65 @@ nav,
   }
 }
 
+/* The Israel Museum site: its gray-black type on white (sampled from the site) */
+.work--museum {
+  --circle: #fff;
+  --circle-ink: #212123;
+  left: calc(491 * var(--x));
+}
+
+/* Record Day: the posters' green on their paper (sampled from the bus poster) */
+.work--record {
+  --circle: #2c5242;
+  --circle-ink: #eeefee;
+  left: calc(968 * var(--x));
+}
+
 .work__frame {
   display: flex;
   align-items: center;
-  gap: calc(10 * var(--x));
-  height: calc(473 * var(--x));
-  padding-left: calc(16 * var(--x));
-  background: #f5f5f5;
+  justify-content: center;
+  gap: calc(12 * var(--x));
+  height: calc(454 * var(--x));
+  border-radius: calc(49 * var(--x));
+  background: #faf9f6;
+}
+
+.work--record .work__frame {
+  background: #fff;
 }
 
 .work__site {
-  width: calc(332 * var(--x));
+  width: calc(324 * var(--x));
   height: auto;
 }
 
 .work__phone {
-  width: calc(102 * var(--x));
+  width: calc(99 * var(--x));
   height: auto;
-  border-radius: calc(17 * var(--x));
+  border-radius: calc(21 * var(--x));
+}
+
+/* A black screen in the middle of the card, the work playing on it */
+.work__screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(16 * var(--x));
+  width: calc(414 * var(--x));
+  height: calc(245 * var(--x));
+  background: #000;
+}
+
+.work__reel {
+  width: calc(338 * var(--x));
+  height: auto;
+}
+
+.work__poster {
+  width: calc(116 * var(--x));
+  height: calc(206 * var(--x));
+  object-fit: cover;
 }
 
 /* Name on the left, tags on the right, under the card */
@@ -784,14 +828,14 @@ nav,
     width: 104px;
     height: 104px;
     border-radius: 50%;
-    background: #ff473f;
+    background: var(--circle);
     rotate: 12deg;
   }
 
   .work__sticker svg {
     width: 100%;
     height: 100%;
-    fill: #0c0e12;
+    fill: var(--circle-ink);
     font-family: var(--font-body);
     font-size: 17px;
     font-weight: 500;
@@ -885,11 +929,20 @@ nav,
     letter-spacing: -0.03em;
   }
 
-  /* The computer's card at 378px: 1 of its Figma pixels is 378/476 of the frame's */
+  /* The computer's cards at 378px, one under the other: 1 of their Figma pixels is 378/457 of the frame's.
+     Figma's phone frame only has the first; the others follow 40px apart, filling the space before "Let's Collab" */
   .work {
-    --x: calc(var(--p) * 378 / 476);
+    --x: calc(var(--p) * 378 / 457);
     top: calc(535 * var(--p) + var(--down));
     left: calc(12 * var(--p));
+  }
+
+  .work--museum {
+    top: calc(973 * var(--p) + var(--down));
+  }
+
+  .work--record {
+    top: calc(1411 * var(--p) + var(--down));
   }
 
   .work__info {

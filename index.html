@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=10">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -21,8 +21,8 @@
     }
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=11" defer></script>
-  <script src="home.js?v=20" defer></script>
+  <script src="script.js?v=18" defer></script>
+  <script src="home.js?v=22" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -62,9 +62,10 @@
 
     <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span class="hero__note-end">Arts &amp; Design</span></p>
 
-    <!-- The works. Hovering a card turns the cursor into a red circle with the project's name (data-cursor, script.js) -->
-    <a class="work" id="works" href="reach.html" data-cursor="Reach">
-      <!-- Touch screens have no cursor to grow, so the card wears the red circle as a sticker instead -->
+    <!-- The works. Hovering a card turns the cursor into a circle in the project's colors with its name
+         (data-cursor, script.js; the colors are --circle and --circle-ink in styles.css) -->
+    <a class="work work--reach" id="works" href="reach.html" data-cursor="Reach">
+      <!-- Touch screens have no cursor to grow, so the card wears the circle as a sticker instead -->
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
       <span class="work__frame">
         <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
@@ -73,6 +74,35 @@
       <span class="work__info">
         <span class="link-line">Landing Page &amp; App</span>
         <span class="link-line">ux/ui · Product · Interactive · Branding · 2026</span>
+      </span>
+    </a>
+
+    <!-- No pages for these two yet, so they aren't links -->
+    <a class="work work--museum" data-cursor="Israel Museum">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-museum" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-museum" textLength="257" lengthAdjust="spacing">Israel Museum · Israel Museum · </textPath></text></svg></span>
+      <span class="work__frame">
+        <span class="work__screen">
+          <video class="work__reel" src="IMG/Israel-Museum-Index/showreel.mp4" width="1038" height="556" autoplay muted loop playsinline aria-hidden="true"></video>
+        </span>
+      </span>
+      <span class="work__info">
+        <span class="link-line">Website</span>
+        <span class="link-line">Web · Layout · Interactive · Typography · 2026</span>
+      </span>
+    </a>
+
+    <a class="work work--record" data-cursor="Record Day">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-record" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-record" textLength="257" lengthAdjust="spacing">Record Day · Record Day · </textPath></text></svg></span>
+      <span class="work__frame">
+        <span class="work__screen">
+          <video class="work__poster" src="IMG/Record-Day/bus-poster.mp4" width="1080" height="1920" autoplay muted loop playsinline aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Record-Day/story-3.mp4" width="1080" height="1920" autoplay muted loop playsinline aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Record-Day/story-2.mp4" width="1080" height="1920" autoplay muted loop playsinline aria-hidden="true"></video>
+        </span>
+      </span>
+      <span class="work__info">
+        <span class="link-line">Branding in Motion</span>
+        <span class="link-line">Motion · Branding · Poster · Typography · 2026</span>
       </span>
     </a>
   </main>

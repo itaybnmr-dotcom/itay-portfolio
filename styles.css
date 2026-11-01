@@ -947,8 +947,8 @@ nav,
     top: calc(1485 * var(--p) + var(--down));
   }
 
-  /* Name on the left and tags on the right at Figma's 14px, like the phone frame:
-     the name breaks at Figma's width, the tags take the rest and break only if they must */
+  /* Name on the left and tags on the right at Figma's 14px, both at the phone frame's widths,
+     so every card's tags break the same way */
   .work__info {
     gap: calc(12 * var(--p));
     margin-top: calc(6 * var(--p));
@@ -960,6 +960,7 @@ nav,
   }
 
   .work__info > :last-child {
+    width: calc(210 * var(--p));
     text-align: right;
   }
 }

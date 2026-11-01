@@ -136,14 +136,13 @@ if (document.documentElement.classList.contains("intro")) {
 }
 
 // ===== The cards' stickers (touch screens) =====
-// Each one pops in once half its card is in the upper three quarters of the screen (so the first
-// doesn't pop in under the headline right away, before it's scrolled to), then its letters write themselves in one after
+// Each one pops in once its card's top has been scrolled up past 60% of the screen (so the first
+// doesn't pop in under the headline right away), then its letters write themselves in one after
 // another (styles.css, .work__sticker; script.js splits the letters)
 if (matchMedia("(hover: none)").matches) document.querySelectorAll(".work__sticker").forEach((sticker) => {
-  sticker.classList.add("is-ready");
   new IntersectionObserver((entries, observer) => {
     if (!entries[0].isIntersecting) return;
     sticker.classList.add("is-in");
     observer.disconnect();
-  }, { threshold: 0.5, rootMargin: "0px 0px -25% 0px" }).observe(sticker.parentElement);
+  }, { rootMargin: "0px 0px -40% 0px" }).observe(sticker.parentElement);
 });

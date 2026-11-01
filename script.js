@@ -1,8 +1,20 @@
 // ===== A refresh starts at the top =====
-// Not where the page was left, nor at a #works or #contact it had jumped to
+// Not where the page was left, nor at a #works or #contact it had jumped to: the # is dropped
+// from the address, and the page is put back at the top once it has loaded (and again right after,
+// for browsers that restore their spot late). Without the smooth scrolling, so it doesn't glide up
 history.scrollRestoration = "manual";
 if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
-  addEventListener("load", () => scrollTo({ top: 0, behavior: "instant" }));
+  history.replaceState(null, "", location.pathname + location.search);
+  const toTop = () => {
+    document.documentElement.style.scrollBehavior = "auto";
+    scrollTo(0, 0);
+    document.documentElement.style.scrollBehavior = "";
+  };
+  toTop();
+  addEventListener("load", () => {
+    toTop();
+    setTimeout(toTop, 50);
+  });
 }
 
 // ===== Custom mouse cursor =====

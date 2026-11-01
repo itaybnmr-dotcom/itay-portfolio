@@ -797,8 +797,13 @@ nav,
 @media (max-width: 700px) {
   .hero {
     --p: calc(100vw / 402);
-    --down: calc(24 * var(--p)); /* the headline and everything under it sit a little lower than in the frame */
+    --down: calc(48 * var(--p)); /* the headline and everything under it sit lower than in the frame, with more air */
     height: calc(1869 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down */
+  }
+
+  /* The menu ends where the place and time end (they reach 399 of the frame's 402) */
+  .home .top-bar {
+    right: calc(100vw * 3 / 402);
   }
 
   .hero__here {

@@ -138,8 +138,10 @@ if (window.matchMedia("(hover: none)").matches) {
 // ===== At the footer =====
 // Once the footer comes up the top bar fades away, and comes back on the way up
 // (styles.css, .is-at-footer; on the project page the title and descriptions go with it)
+// (the WIP page has no footer)
 const footer = document.querySelector(".footer");
 function markFooter() {
+  if (!footer) return;
   document.documentElement.classList.toggle("is-at-footer", footer.getBoundingClientRect().top < innerHeight * 0.9);
 }
 markFooter();

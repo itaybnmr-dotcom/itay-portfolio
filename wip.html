@@ -14,7 +14,7 @@
   <!-- Physics engine for the letters that fall when the headline is clicked -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=10" defer></script>
+  <script src="script.js?v=11" defer></script>
   <script src="wip.js?v=2" defer></script>
 </head>
 <body>
@@ -27,7 +27,7 @@
     <nav class="top-bar__links">
       <a class="link-line" href="#">About</a> /
       <!-- Kept together: on phones they share one line in the stacked menu -->
-      <span class="top-bar__pair"><a class="link-line" href="#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
+      <span class="top-bar__pair"><a class="link-line" href="index.html#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
       <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a>
     </nav>
   </header>
@@ -66,23 +66,5 @@
     <p class="process__note">Of this portfolio</p>
     <p class="process__copyright"><span class="footer__copyright">©</span>itay benma</p>
   </main>
-
-  <footer class="footer" id="contact">
-    <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Brand, Typography &amp; Editorial Design.</p>
-
-    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
-    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
-
-    <!-- Bottom row: copyright, works, contact links -->
-    <div class="footer__bottom">
-      <p><span class="footer__copyright">©</span>itay benma</p>
-      <p><a class="link-line" href="index.html#works" data-collab="Works">Works</a></p>
-      <nav class="footer__links">
-        <a class="link-line" href="mailto:itaybnmr@gmail.com" data-collab="Email">Email</a> /
-        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
-        <a class="link-line" href="https://www.linkedin.com/in/itay-ben-mayor-765231284/" target="_blank" rel="noopener" data-collab="LinkedIn">LinkedIn</a>
-      </nav>
-    </div>
-  </footer>
 </body>
 </html>

@@ -113,6 +113,13 @@
   box-sizing: border-box;
 }
 
+/* Nothing passing the side for a moment (letters rolling, a sticker popping in) may let
+   Safari slide the whole page sideways */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--color-background);
   color: var(--color-text);

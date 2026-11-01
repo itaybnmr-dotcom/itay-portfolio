@@ -1,3 +1,10 @@
+// ===== A refresh starts at the top =====
+// Not where the page was left, nor at a #works or #contact it had jumped to
+history.scrollRestoration = "manual";
+if (performance.getEntriesByType("navigation")[0]?.type === "reload") {
+  addEventListener("load", () => scrollTo({ top: 0, behavior: "instant" }));
+}
+
 // ===== Custom mouse cursor =====
 // Creates a small white dot and moves it so its center
 // is always at the mouse position.
@@ -10,34 +17,44 @@ document.body.append(cursor);
 document.documentElement.classList.add("has-custom-cursor");
 
 // ===== Rings of words =====
-// A card's word written around a circle as many times as fits (four "Reach", two "Record Day"),
-// each letter its own tspan (so the stickers can write them in one by one, styles.css).
-// The letters keep their natural spacing, so every ring reads like "Reach";
-// whatever is left of the circle is shared out evenly around the dots
+// A card's word written around a circle as many times as fits (four "Reach", two "Record Day").
+// The circle is cut into that many equal slots: each word starts its slot at its natural spacing,
+// and its dot sits in the middle of what's left. Every word and dot is placed on its own, so a
+// browser measuring a little differently can't push the last dot off the end of the circle.
+// Each letter is its own tspan, so the stickers can write them in one by one (styles.css)
 const RING = 257; // the circle's length (its radius is 41)
 function writeRing(textPath, word) {
-  const unit = `${word} · `;
-  textPath.removeAttribute("textLength");
-  // Keep the space at the very end, which SVG would otherwise drop
-  textPath.parentNode.setAttributeNS("http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
-  // Measured without the space at the end (browsers disagree on counting it), then the space added on;
-  // counting it wrong pushed the last dot off the end of the circle
-  const measure = (text) => {
-    textPath.textContent = text;
+  const text = textPath.parentNode;
+  const href = textPath.getAttribute("href");
+  // A width taken between two letters, so no browser leaves out a space or letter spacing at an end
+  const measure = (string) => {
+    textPath.textContent = string;
     return textPath.getComputedTextLength();
   };
-  const unitLength = measure(`${word} ·`) + measure("a a") - measure("aa");
-  const times = Math.max(1, Math.floor(RING / unitLength + 0.05)); // a hair tight is fine, too many isn't
-  const half = (RING - unitLength * times) / times / 2;
-  const letters = [...unit.repeat(times)].map((char, index) => {
-    const letter = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
-    letter.textContent = char;
-    letter.style.setProperty("--i", index);
-    // The gap's two halves: before each dot and before each word
-    if (char === "·" || index % unit.length === 0) letter.setAttribute("dx", half);
-    return letter;
-  });
-  textPath.replaceChildren(...letters);
+  const width = (string) => measure(`a${string}a`) - measure("aa");
+  const wordWidth = width(word);
+  const dotWidth = width("·");
+  const times = Math.max(1, Math.floor(RING / (wordWidth + width(" · ")) + 0.05)); // a hair tight is fine
+  const slot = RING / times;
+  let index = 0;
+  const piece = (string, offset) => {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
+    path.setAttribute("href", href);
+    path.setAttribute("startOffset", offset);
+    path.append(...[...string].map((char) => {
+      const letter = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+      letter.textContent = char;
+      letter.style.setProperty("--i", index++);
+      return letter;
+    }));
+    return path;
+  };
+  const pieces = [];
+  for (let k = 0; k < times; k++) {
+    pieces.push(piece(word, k * slot));
+    pieces.push(piece("·", k * slot + wordWidth + (slot - wordWidth - dotWidth) / 2));
+  }
+  text.replaceChildren(...pieces);
 }
 
 // Touch screens: the cards' stickers (the only time they're shown), once their font is in

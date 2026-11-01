@@ -946,21 +946,13 @@ nav,
     top: calc(1455 * var(--p) + var(--down));
   }
 
-  /* Name and tags at Figma's 14px, a little wider than the card: the name on one line,
-     the tags filling the rest and only wrapping when they must */
+  /* Name and tags at Figma's 14px: too long for one line together on a phone,
+     so the tags go under the name, each on a single line */
   .work__info {
-    gap: calc(8 * var(--p));
+    flex-direction: column;
     margin-top: calc(6 * var(--p));
-    margin-right: calc(-6 * var(--p));
     font-size: calc(14 * var(--p));
-  }
-
-  .work__info > :first-child {
     white-space: nowrap;
-  }
-
-  .work__info > :last-child {
-    text-align: right;
   }
 }
 

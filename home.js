@@ -136,7 +136,8 @@ if (document.documentElement.classList.contains("intro")) {
 }
 
 // ===== The cards' stickers (touch screens) =====
-// Each one pops in when its card comes into view, then its letters write themselves in one after
+// Each one pops in once half its card is in the upper three quarters of the screen (so the first
+// doesn't pop in under the headline right away, before it's scrolled to), then its letters write themselves in one after
 // another (styles.css, .work__sticker; script.js splits the letters)
 if (matchMedia("(hover: none)").matches) document.querySelectorAll(".work__sticker").forEach((sticker) => {
   sticker.classList.add("is-ready");
@@ -144,5 +145,5 @@ if (matchMedia("(hover: none)").matches) document.querySelectorAll(".work__stick
     if (!entries[0].isIntersecting) return;
     sticker.classList.add("is-in");
     observer.disconnect();
-  }, { threshold: 0.5 }).observe(sticker.parentElement);
+  }, { threshold: 0.5, rootMargin: "0px 0px -25% 0px" }).observe(sticker.parentElement);
 });

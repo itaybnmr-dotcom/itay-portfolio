@@ -28,8 +28,9 @@ document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
   showWord(card ? card.dataset.cursor : null);
-  // Over a link the circle hides and only the hand shows (but not over a card, where it grows)
-  cursor.classList.toggle("is-visible", card !== null || event.target.closest("a") === null);
+  // Over a link (that isn't a card, where it grows) the circle shrinks to a small red dot
+  cursor.classList.toggle("is-small", card === null && event.target.closest("a") !== null);
+  cursor.classList.add("is-visible");
 });
 
 // Hide the circle when the mouse leaves the browser window

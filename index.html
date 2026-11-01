@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=7">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -21,7 +21,7 @@
     }
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=8" defer></script>
+  <script src="script.js?v=9" defer></script>
   <script src="home.js?v=19" defer></script>
 </head>
 <body class="home">
@@ -63,7 +63,7 @@
     <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span class="hero__note-end">Arts &amp; Design</span></p>
 
     <!-- The works. Hovering a card turns the cursor into a red circle with the project's name (data-cursor, script.js) -->
-    <a class="work" href="reach.html" data-cursor="Reach">
+    <a class="work" id="works" href="reach.html" data-cursor="Reach">
       <!-- Touch screens have no cursor to grow, so the card wears the red circle as a sticker instead -->
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
       <span class="work__frame">
@@ -86,7 +86,7 @@
     <!-- Bottom row: copyright, works, contact links -->
     <div class="footer__bottom">
       <p><span class="footer__copyright">©</span>itay benma</p>
-      <p>Works</p>
+      <p><a class="link-line" href="#works" data-collab="Works">Works</a></p>
       <!-- Links: real addresses still missing, "#" is a placeholder -->
       <nav class="footer__links">
         <a class="link-line" href="#" data-collab="Email">Email</a> /

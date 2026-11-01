@@ -154,9 +154,9 @@ nav,
     cursor: none;
   }
 
-  /* ...except over links: the hand comes back, so it's clear they can be clicked */
+  /* ...including over links, which show their own circle state instead of the hand */
   .has-custom-cursor a {
-    cursor: pointer;
+    cursor: none;
   }
 
   .has-custom-cursor .cursor {
@@ -177,13 +177,15 @@ nav,
     opacity: 1;
   }
 
-  /* Over a work card: no hand, the circle grows instead */
-  .has-custom-cursor [data-cursor] {
-    cursor: none;
-  }
-
   .has-custom-cursor .cursor {
     transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.4s var(--ease);
+  }
+
+  /* Over a link: the circle grows a little and turns into a negative of what's under it */
+  .has-custom-cursor .cursor.is-small {
+    --cursor-size: 36px;
+    background: #fff;
+    mix-blend-mode: difference;
   }
 
   /* Big red circle with the project's name going around inside it */
@@ -709,6 +711,14 @@ nav,
   width: calc(476 * var(--x));
   color: inherit;
   text-decoration: none;
+  scroll-margin-top: calc(113 * var(--x)); /* "Works" in the footer lands here, clear of the top bar */
+}
+
+/* The footer's "Works" glides up to the cards instead of jumping */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 .work__frame {

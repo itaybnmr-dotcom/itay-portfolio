@@ -673,7 +673,7 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__here, .hero__spark, .work) {
+.intro :is(.top-bar, .hero__here, .hero__spark, .work__frame, .work__info) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
@@ -689,7 +689,8 @@ nav,
 
 .intro .hero__here { --n: 1; }
 .intro .hero__spark { --n: 2; }
-.intro .work { --n: 3; }
+/* The cards' insides, not the cards: clipping a card would cut its sticker, which sits over its edge */
+.intro :is(.work__frame, .work__info) { --n: 3; }
 
 /* ...while the note types itself in (home.js): each character appears at its turn,
    first as a solid block for a moment, like a cursor, then as itself */
@@ -1684,7 +1685,7 @@ nav,
   font-size: 12px;
 }
 
-/* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 in the middle,
+/* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 on the left,
    and "Works" a third of the way across, like on the computer */
 @media (max-width: 700px) {
   .footer__bio {
@@ -1693,7 +1694,6 @@ nav,
 
   .footer__collab {
     font-size: calc(100vw * 96 / 402);
-    text-align: center;
   }
 
   .footer__bottom {

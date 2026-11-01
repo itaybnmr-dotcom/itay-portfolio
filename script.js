@@ -190,6 +190,25 @@ if (collab) {
     link.addEventListener("mouseleave", leave);
     link.addEventListener("blur", leave);
   });
+
+  // Touch screens: a tapped link keeps its focus, so its word would stay. Coming back to the page
+  // (from the app or tab the link opened) rolls back to "Let's Collab", and so does staying here
+  // (saying no to opening the app), a couple of seconds after the tap
+  if (matchMedia("(hover: none)").matches) {
+    const comeBack = () => {
+      document.activeElement?.blur();
+      clearTimeout(leaving);
+      rollTo(restingText);
+    };
+    collab.parentElement.addEventListener("click", (event) => {
+      if (event.target.closest("[data-collab]")) setTimeout(comeBack, 2000);
+    });
+    addEventListener("pageshow", comeBack);
+    addEventListener("focus", comeBack);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) comeBack();
+    });
+  }
 }
 
 // ===== Tapping a link on a touch screen =====

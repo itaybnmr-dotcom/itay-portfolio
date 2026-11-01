@@ -20,8 +20,13 @@ function writeRing(textPath, word) {
   textPath.removeAttribute("textLength");
   // Keep the space at the very end, which SVG would otherwise drop
   textPath.parentNode.setAttributeNS("http://www.w3.org/XML/1998/namespace", "xml:space", "preserve");
-  textPath.textContent = unit;
-  const unitLength = textPath.getComputedTextLength();
+  // Measured without the space at the end (browsers disagree on counting it), then the space added on;
+  // counting it wrong pushed the last dot off the end of the circle
+  const measure = (text) => {
+    textPath.textContent = text;
+    return textPath.getComputedTextLength();
+  };
+  const unitLength = measure(`${word} ·`) + measure("a a") - measure("aa");
   const times = Math.max(1, Math.floor(RING / unitLength + 0.05)); // a hair tight is fine, too many isn't
   const half = (RING - unitLength * times) / times / 2;
   const letters = [...unit.repeat(times)].map((char, index) => {

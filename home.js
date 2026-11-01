@@ -97,16 +97,6 @@ statement.querySelectorAll(".hero__line > span").forEach((part) => {
 });
 statement.classList.add("is-split");
 
-// Phones: break the headline where the Figma phone frame breaks it, put the spark between
-// "designer" and "based", and centre "Typography." (styles.css)
-// ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
-if (phoneLayout.matches) {
-  const words = [...statement.querySelectorAll(".intro__word")];
-  const word = (text) => words.find((mask) => mask.textContent === text);
-  ["Ben", "multidisciplinary", "Tel", "across", "Experiences,", "&"].forEach((text) => word(text).after(document.createElement("br")));
-  word("designer").after(" ", document.querySelector(".hero__spark"));
-  word("Typography.").classList.add("is-centered");
-}
 
 // The note under the headline types itself in like code: one character after another,
 // each one flashing as a block first (styles.css, .intro__key). It starts with everything else.

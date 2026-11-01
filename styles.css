@@ -597,6 +597,11 @@ nav,
   margin: 0 auto 0 calc(54 * var(--x));
 }
 
+/* Only phones show the drawn headline */
+.hero__phone-statement {
+  display: none;
+}
+
 /* The spark next to "Hi, I'm" (upside down in Figma) */
 .hero__spark {
   position: absolute;
@@ -658,6 +663,11 @@ nav,
 /* Then everything else writes itself in, left to right, one after another */
 .intro :is(.top-bar, .hero__here, .hero__spark, .work) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
+}
+
+/* On phones the drawn headline takes the live one's place in the opening: it wipes in first */
+.intro .hero__phone-statement {
+  animation: write-in 1.4s var(--ease-in-out) 0.6s both;
 }
 
 .intro .hero__here { --n: 1; }
@@ -814,53 +824,32 @@ nav,
     font-size: calc(14 * var(--p));
   }
 
+  /* The live headline stays for screen readers only; the drawn one shows instead */
   .hero__statement {
-    /* Within the page's 12px margins: 378 of the frame's 397, so the type shrinks by the same
-       amount and every line still breaks where it does in Figma */
-    top: calc(104 * var(--p) + var(--down));
-    left: calc(12 * var(--p));
-    right: calc(12 * var(--p));
-    font-size: calc(40 * var(--p) * 378 / 397);
-    letter-spacing: -0.03em;
-    line-height: calc(36 * var(--p) * 378 / 397);
-    text-align: justify;
-    text-align-last: justify; /* every line runs edge to edge, the broken ones too */
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 
-  /* The lines run on as one block; the parts that were pushed apart get a plain space */
-  .hero__line {
-    display: inline;
-    white-space: normal;
-  }
-
-  .hero__line > span + span::before,
-  .hero__line + .hero__line::before {
-    content: " ";
-  }
-
-  .hero__bold,
-  .hero__line:first-child .hero__bold {
-    font-size: 0.975em; /* 39 on 40 */
-  }
-
-  .hero__line:nth-child(3) > span:nth-child(2) {
-    margin: 0;
-  }
-
-  /* "Typography." alone in the middle of the last line */
-  .hero__statement .is-centered {
+  /* Figma's paragraph as drawn, a little smaller and centred: --w wide, its top at --t */
+  .hero__phone-statement {
+    --w: calc(350 * var(--p));
+    --t: calc(139 * var(--p) + var(--down));
     display: block;
-    text-align: center;
-    text-align-last: center;
+    position: absolute;
+    top: var(--t);
+    left: calc((100vw - var(--w)) / 2);
+    width: var(--w);
+    height: auto;
   }
 
-  /* The spark sits in the line without making it taller */
-  .hero__statement .hero__spark {
-    position: static;
-    display: inline-block;
-    width: calc(51 * var(--p) * 378 / 397);
-    margin: calc(-8 * var(--p)) 0;
-    vertical-align: middle;
+  /* The spark in its gap in the paragraph (126.6, 73.8 and 51px wide on the 386px drawing) */
+  .hero__spark {
+    --w: calc(350 * var(--p));
+    top: calc(139 * var(--p) + var(--down) + var(--w) * 73.8 / 386);
+    left: calc((100vw - var(--w)) / 2 + var(--w) * 126.6 / 386);
+    width: calc(var(--w) * 51 / 386);
   }
 
   .hero__note {

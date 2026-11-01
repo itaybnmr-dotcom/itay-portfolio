@@ -42,9 +42,9 @@ fetch("https://get.geojs.io/v1/ip/geo.json")
 
 // ===== The top bar follows the scroll =====
 // Once the works reach the middle of the screen the name rolls into "Works" and keeps its line;
-// at the footer (the bio) "About" gets the line instead (styles.css, .is-active)
+// at the footer (the bio) "Contact" gets the line instead (styles.css, .is-active)
 const topName = document.querySelector(".top-bar__name");
-const aboutLink = document.querySelector(".top-bar__links a");
+const contactLink = document.querySelector('.top-bar__links a[href="#contact"]');
 const reached = (selector) => document.querySelector(selector).getBoundingClientRect().top < innerHeight / 2;
 
 // Phones get no scroll effects: the bar just stays as it is there
@@ -53,13 +53,13 @@ const phoneLayout = matchMedia("(max-width: 700px)");
 function markSection() {
   if (phoneLayout.matches) {
     topName.classList.remove("is-active");
-    aboutLink.classList.remove("is-active");
+    contactLink.classList.remove("is-active");
     return;
   }
   const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 1;
   const inFooter = reached(".footer") || atBottom;
   topName.classList.toggle("is-active", reached(".work") && !inFooter);
-  aboutLink.classList.toggle("is-active", inFooter);
+  contactLink.classList.toggle("is-active", inFooter);
 }
 markSection();
 addEventListener("scroll", markSection, { passive: true });

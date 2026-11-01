@@ -239,6 +239,16 @@ nav,
   letter-spacing: var(--tracking-tight);
 }
 
+/* At the footer the top bar fades out, and back in on the way up (script.js adds .is-at-footer) */
+.top-bar {
+  transition: opacity 0.35s var(--ease-in-out);
+}
+
+.is-at-footer .top-bar {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* The name leads home; it looks like the rest of the bar */
 .top-bar__name {
   color: inherit;
@@ -1045,13 +1055,13 @@ nav,
   transform-origin: 0 0;
 }
 
-/* At the footer the title, the menu and the descriptions fade out,
-   and fade back in on the way up (reach.js adds .is-at-footer) */
-.project-page :is(.top-bar, .project__title, .project__about, .project__text) {
+/* At the footer the title and the descriptions fade out with the top bar,
+   and fade back in on the way up (script.js adds .is-at-footer) */
+.project-page :is(.project__title, .project__about, .project__text) {
   transition: opacity 0.35s var(--ease-in-out);
 }
 
-.is-at-footer .project-page :is(.top-bar, .project__title, .project__about, .project__text) {
+.is-at-footer .project-page :is(.project__title, .project__about, .project__text) {
   opacity: 0;
   pointer-events: none;
 }

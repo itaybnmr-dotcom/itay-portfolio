@@ -88,9 +88,6 @@ function update() {
     const wait = (visibleLetters.length - 1 - index) / (visibleLetters.length - 1) * 0.5;
     letter.style.setProperty("--go", easeInOut(clamp((rise - wait) / 0.5)));
   });
-
-  // At the footer the title, the menu and the descriptions are wiped away (styles.css)
-  root.classList.toggle("is-at-footer", !phone.matches && document.querySelector(".footer").getBoundingClientRect().top < innerHeight * 0.9);
 }
 
 function requestUpdate() {

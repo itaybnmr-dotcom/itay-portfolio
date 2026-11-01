@@ -763,6 +763,24 @@ nav,
     letter-spacing: 0.02em;
     animation: spin 8s linear infinite;
   }
+
+  /* When the card comes into view (home.js adds .is-in), the circle pops in on an ease
+     with a slight overshoot, then the four "Reach" write themselves around it, letter by letter */
+  .work__sticker {
+    transition: scale 0.8s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+
+  .work__sticker tspan {
+    transition: opacity 0.12s linear calc(0.55s + var(--i) * 40ms);
+  }
+
+  .work__sticker.is-ready:not(.is-in) {
+    scale: 0;
+  }
+
+  .work__sticker.is-ready:not(.is-in) tspan {
+    opacity: 0;
+  }
 }
 
 @media (hover: none) and (prefers-reduced-motion: reduce) {
@@ -779,7 +797,8 @@ nav,
 @media (max-width: 700px) {
   .hero {
     --p: calc(100vw / 402);
-    height: calc(1869 * var(--p)); /* "Let's Collab" starts 1869px down */
+    --down: calc(24 * var(--p)); /* the headline and everything under it sit a little lower than in the frame */
+    height: calc(1869 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down */
   }
 
   .hero__here {
@@ -791,12 +810,14 @@ nav,
   }
 
   .hero__statement {
-    top: calc(104 * var(--p));
-    left: calc(2.5 * var(--p));
-    right: calc(2.5 * var(--p));
-    font-size: calc(40 * var(--p));
+    /* Within the page's 12px margins: 378 of the frame's 397, so the type shrinks by the same
+       amount and every line still breaks where it does in Figma */
+    top: calc(104 * var(--p) + var(--down));
+    left: calc(12 * var(--p));
+    right: calc(12 * var(--p));
+    font-size: calc(40 * var(--p) * 378 / 397);
     letter-spacing: -0.03em;
-    line-height: calc(36 * var(--p));
+    line-height: calc(36 * var(--p) * 378 / 397);
     text-align: justify;
     text-align-last: justify; /* every line runs edge to edge, the broken ones too */
   }
@@ -832,13 +853,13 @@ nav,
   .hero__statement .hero__spark {
     position: static;
     display: inline-block;
-    width: calc(51 * var(--p));
+    width: calc(51 * var(--p) * 378 / 397);
     margin: calc(-8 * var(--p)) 0;
     vertical-align: middle;
   }
 
   .hero__note {
-    top: calc(436 * var(--p));
+    top: calc(436 * var(--p) + var(--down));
     left: calc(101 * var(--p));
     width: calc(200 * var(--p));
     font-size: calc(14 * var(--p));
@@ -848,7 +869,7 @@ nav,
   /* The computer's card at 378px: 1 of its Figma pixels is 378/476 of the frame's */
   .work {
     --x: calc(var(--p) * 378 / 476);
-    top: calc(535 * var(--p));
+    top: calc(535 * var(--p) + var(--down));
     left: calc(12 * var(--p));
   }
 

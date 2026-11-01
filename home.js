@@ -138,3 +138,24 @@ if (document.documentElement.classList.contains("intro")) {
     setTimeout(() => document.documentElement.classList.remove("intro", "intro-go"), restStart + 900 + last);
   });
 }
+
+// ===== The card's sticker (touch screens) =====
+// Its text is split into letters, so they can write themselves in one after another once the
+// circle has popped in; that happens when the card comes into view (styles.css, .work__sticker)
+const sticker = document.querySelector(".work__sticker");
+if (sticker && matchMedia("(hover: none)").matches) {
+  const path = sticker.querySelector("textPath");
+  const letters = [...path.textContent].map((char, index) => {
+    const letter = document.createElementNS("http://www.w3.org/2000/svg", "tspan");
+    letter.textContent = char;
+    letter.style.setProperty("--i", index);
+    return letter;
+  });
+  path.replaceChildren(...letters);
+  sticker.classList.add("is-ready");
+  new IntersectionObserver((entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+    sticker.classList.add("is-in");
+    observer.disconnect();
+  }, { threshold: 0.5 }).observe(sticker.parentElement);
+}

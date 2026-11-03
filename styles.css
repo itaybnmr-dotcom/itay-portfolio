@@ -762,7 +762,6 @@ nav,
   justify-content: center;
   gap: calc(12 * var(--x));
   height: calc(454 * var(--x));
-  border-radius: calc(49 * var(--x));
   background: #faf9f6;
 }
 

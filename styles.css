@@ -175,7 +175,8 @@ nav,
     height: var(--cursor-size);
     border-radius: 50%;
     display: block;
-    background: var(--color-text);
+    background: #fff;
+    mix-blend-mode: difference; /* everywhere, the dot is a negative of what's under it */
     pointer-events: none; /* clicks go through the circle to the page */
     opacity: 0; /* invisible until the mouse moves into the page */
   }
@@ -188,17 +189,16 @@ nav,
     transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.4s var(--ease);
   }
 
-  /* Over a link: the circle grows a little and turns into a negative of what's under it */
+  /* Over a link: the circle grows a little */
   .has-custom-cursor .cursor.is-small {
     --cursor-size: 36px;
-    background: #fff;
-    mix-blend-mode: difference;
   }
 
   /* Big circle in the card's colors with the project's name going around inside it */
   .has-custom-cursor .cursor.is-big {
     --cursor-size: 120px;
     background: var(--circle); /* the card's colors (script.js copies them over) */
+    mix-blend-mode: normal; /* the card's own colors, not a negative */
   }
 
   .cursor__ring {

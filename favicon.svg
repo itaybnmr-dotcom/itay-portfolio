@@ -1,5 +1,9 @@
-<!-- Tab icon: "I/B" in ABC Diatype Medium, turned into shapes so it doesn't need the font -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-18.6 -122.5 175 175">
-  <rect x="-18.6" y="-122.5" width="175" height="175" fill="#000"/>
-  <path fill="#fff" d="M8.4 0.0L19.5 0.0L19.5 -70.0L8.4 -70.0ZM29.4 0.0L39.3 0.0L66.1 -70.0L56.2 -70.0ZM76.0 0.0L102.5 0.0C116.4 0.0 129.4 -4.7 129.4 -19.9C129.4 -28.9 123.6 -34.8 114.9 -37.0C121.6 -39.0 127.5 -44.2 127.5 -52.4C127.5 -64.8 117.8 -70.0 104.5 -70.0L76.0 -70.0ZM103.5 -9.4L87.0 -9.4L87.0 -31.9L103.3 -31.9C114.0 -31.9 118.0 -27.8 118.0 -20.7C118.0 -13.3 113.5 -9.4 103.5 -9.4ZM103.0 -41.2L87.0 -41.2L87.0 -60.7L103.4 -60.7C112.5 -60.7 116.1 -56.9 116.1 -51.2C116.1 -44.9 111.8 -41.2 103.0 -41.2Z"/>
+<!-- Tab icon: "IB" in Reckless Condensed Light, turned into shapes so it doesn't need the font.
+     The letters are half the square's height. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+  <rect width="52" height="52" fill="#000"/>
+  <g fill="#fff" transform="translate(11.949 39.000) scale(0.03892 -0.03892)">
+    <path transform="translate(0 0)" d="M29 0H224V27C172 32 152 49 152 98V570C152 620 172 636 224 641V668H29V641C82 636 102 620 102 570V98C102 49 82 32 29 27Z"/>
+    <path transform="translate(224 0)" d="M29 0H267C385 0 469 73 469 178C469 267 402 334 298 349C380 368 430 432 430 507C430 610 355 668 241 668H29V641C82 636 102 620 102 570V98C102 49 82 32 29 27ZM216 30C171 30 152 48 152 98V332H246C350 332 411 274 411 178C411 84 348 30 261 30ZM152 362V638H230C320 638 375 590 375 505C375 418 321 362 245 362Z"/>
+  </g>
 </svg>

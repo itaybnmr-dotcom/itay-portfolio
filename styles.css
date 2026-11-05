@@ -25,6 +25,10 @@
   /* Colors */
   --color-background: #000000;
   --color-text: #ffffff;
+  --color-accent: #ff473f; /* Reach's red: its boards and its cursor circle */
+  --color-card: #faf9f6; /* the work cards on the home page */
+  --color-card-text: #000000; /* the labels on the cards */
+  --color-panel: #0c0e12; /* the dark boards behind the work */
 
   /* Fonts */
   --font-display: "Reckless Condensed", Georgia, serif;
@@ -34,6 +38,7 @@
      so 7.5vw keeps the same proportion on every screen. */
   --size-display: 7.5vw;
   --size-small: 16px;
+  --size-caption: 14px; /* the labels on the cards */
 
   /* Letter spacing (-2% in Figma) */
   --tracking-tight: -0.02em;
@@ -175,7 +180,7 @@ nav,
     height: var(--cursor-size);
     border-radius: 50%;
     display: block;
-    background: #fff;
+    background: var(--color-text);
     pointer-events: none; /* clicks go through the circle to the page */
     opacity: 0; /* invisible until the mouse moves into the page */
   }
@@ -289,16 +294,16 @@ nav,
   transform: translateY(100%);
 }
 
-.roll:hover .roll__from .roll__letter {
+.roll:is(:hover, :focus-visible, :active, [data-state]) .roll__from .roll__letter {
   transform: translateY(-100%);
 }
 
-.roll:hover .roll__to .roll__letter {
+.roll:is(:hover, :focus-visible, :active, [data-state]) .roll__to .roll__letter {
   transform: none;
 }
 
 /* The line comes in with the word */
-.roll:hover .link-line {
+.roll:is(:hover, :focus-visible, :active, [data-state]) .link-line {
   background-size: 100% var(--line-thickness);
   background-position: 0 100%;
 }
@@ -372,6 +377,8 @@ nav,
 
 .link-line:hover,
 .link-line:focus-visible,
+.link-line:active,
+.link-line[data-state],
 .link-line.is-tapped {
   background-size: 100% var(--line-thickness); /* full width */
   background-position: 0 100%;  /* anchored left, so it grows in from the left */
@@ -407,6 +414,31 @@ nav,
 
 @keyframes line-in {
   from { background-size: 0% var(--line-thickness); }
+}
+
+/* ===== States =====
+   Every link and card has four: as it is, hovered, pressed and focused from the keyboard.
+   [data-state] shows one of them held still, for the styleguide (styleguide.html) */
+
+/* Pressed: the link turns into its own negative for as long as it's held */
+.link-line:is(:active, [data-state="active"]),
+.roll:is(:active, [data-state="active"]) {
+  background-color: var(--color-text);
+  color: var(--color-background);
+}
+
+/* A pressed card: its labels turn negative */
+.work:is(:active, [data-state="active"]) :is(.work__label, .work__info) {
+  background: var(--color-card-text);
+  color: var(--color-card);
+}
+
+/* Keyboard focus: a line around whatever is focused, as thick as the line under a link.
+   Only from the keyboard (a click doesn't draw it) */
+:focus-visible,
+[data-state="focus"] {
+  outline: var(--line-thickness) solid var(--color-text);
+  outline-offset: var(--line-thickness);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -546,7 +578,7 @@ nav,
 .hero {
   --x: calc(100vw / 1440);
   position: relative;
-  height: calc(1971 * var(--x)); /* the footer's bio starts 2031px down in Figma; everything here sits 60px higher */
+  height: calc(1809 * var(--x)); /* the footer's bio starts 1869px down in Figma; everything here sits 60px higher */
 }
 
 .hero__statement {
@@ -696,8 +728,8 @@ nav,
 /* Light cards (458 x 452 in Figma), three in a row, each with its project's colors
    for the circle that follows the mouse (and the sticker on touch screens) */
 .work {
-  --circle: #ff473f; /* Reach's red */
-  --circle-ink: #0c0e12;
+  --circle: var(--color-accent); /* Reach's red */
+  --circle-ink: var(--color-panel);
   position: absolute;
   top: calc(711 * var(--x)); /* 134px under the note, like in Figma */
   left: calc(17 * var(--x));
@@ -744,7 +776,7 @@ nav,
   gap: calc(18.5 * var(--x));
   height: calc(452 * var(--x));
   padding-top: calc(9 * var(--x)); /* the work sits a little under the middle, below the label */
-  background: #faf9f6;
+  background: var(--color-card);
 }
 
 .work--record .work__frame {
@@ -770,7 +802,7 @@ nav,
   gap: calc(16 * var(--x));
   width: calc(414 * var(--x));
   height: calc(245 * var(--x));
-  background: #000;
+  background: var(--color-background);
 }
 
 .work__wide {
@@ -816,8 +848,8 @@ nav,
   display: flex;
   justify-content: space-between;
   margin: 0;
-  color: #000;
-  font-size: 14px;
+  color: var(--color-card-text);
+  font-size: var(--size-caption);
   font-weight: 500;
   letter-spacing: var(--tracking-tight);
   line-height: normal;
@@ -1214,7 +1246,7 @@ nav,
 
 /* The boards the work sits on */
 .project__board {
-  background: #ff473f;
+  background: var(--color-accent);
 }
 
 .project__board--site {
@@ -1229,7 +1261,7 @@ nav,
   left: calc(732 * var(--x));
   width: calc(693 * var(--x));
   height: calc(601 * var(--x));
-  background: #0c0e12;
+  background: var(--color-panel);
 }
 
 .project__board--still,
@@ -1542,7 +1574,7 @@ nav,
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    background: #0c0e12;
+    background: var(--color-panel);
   }
 
   .project__strip::-webkit-scrollbar {

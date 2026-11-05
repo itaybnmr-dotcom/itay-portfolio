@@ -800,42 +800,36 @@ nav,
   mix-blend-mode: difference;
 }
 
-/* Computers: the number and name across the card's top edge, and the name and tags
+/* The number and name across the card's top edge, and the name and tags
    across its bottom edge, in black on the card */
-.work__label {
-  display: none;
+.work__frame {
+  position: relative;
 }
 
-@media (min-width: 701px) {
-  .work__frame {
-    position: relative;
-  }
+/* 14px, with Figma's gaps to the card's edges kept in proportion to the text
+   (at Figma's 16px: 3px from the sides, flush with the top, 2px from the bottom) */
+.work__label,
+.work__info {
+  position: absolute;
+  left: 0.1875em;
+  right: 0.1875em;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  line-height: normal;
+  mix-blend-mode: normal;
+}
 
-  /* 14px, with Figma's gaps to the card's edges kept in proportion to the text
-     (at Figma's 16px: 3px from the sides, flush with the top, 2px from the bottom) */
-  .work__label,
-  .work__info {
-    position: absolute;
-    left: 0.1875em;
-    right: 0.1875em;
-    display: flex;
-    justify-content: space-between;
-    margin: 0;
-    color: #000;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: var(--tracking-tight);
-    line-height: normal;
-    mix-blend-mode: normal;
-  }
+.work__label {
+  top: 0;
+}
 
-  .work__label {
-    top: 0;
-  }
-
-  .work__info {
-    bottom: 0.125em;
-  }
+.work__info {
+  bottom: 0.125em;
 }
 
 /* ===== Touch screens: the card's sticker =====
@@ -903,8 +897,8 @@ nav,
 @media (max-width: 700px) {
   .hero {
     --p: calc(100vw / 402);
-    --down: calc(48 * var(--p)); /* the headline and everything under it sit lower than in the frame, with more air */
-    height: calc(2430 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down in Figma, moved down for the extra cards */
+    --down: calc(-40 * var(--p)); /* with no place and time corner, the headline and everything under it sit higher than in the frame */
+    height: calc(2233 * var(--p) + var(--down)); /* down to 64px under the last card */
   }
 
   /* The live headline stays for screen readers only; the drawn one shows instead */
@@ -944,8 +938,7 @@ nav,
   }
 
   /* The computer's cards at 378px, one under the other: 1 of their Figma pixels is 378/457 of the frame's.
-     Figma's phone frame only has the first; the others follow far enough apart that a sticker
-     (34px above its card) clears the two lines of tags above it */
+     Figma's phone frame only has the first; the others follow 46px apart, room for a sticker (34px above its card) */
   .work {
     --x: calc(var(--p) * 378 / 457);
     top: calc(535 * var(--p) + var(--down));
@@ -953,33 +946,23 @@ nav,
   }
 
   .work--museum {
-    top: calc(1010 * var(--p) + var(--down));
+    top: calc(955 * var(--p) + var(--down));
   }
 
   .work--record {
-    top: calc(1485 * var(--p) + var(--down));
+    top: calc(1375 * var(--p) + var(--down));
   }
 
   .work--haven {
-    top: calc(1960 * var(--p) + var(--down));
+    top: calc(1795 * var(--p) + var(--down));
   }
 
-  /* Name on the left and tags on the right at Figma's 14px, both at the phone frame's widths,
-     so every card's tags break the same way */
+  /* The labels shrink with the card, so they keep the computer's proportions */
+  .work__label,
   .work__info {
-    gap: calc(12 * var(--p));
-    margin-top: calc(6 * var(--p));
-    font-size: calc(14 * var(--p));
+    font-size: calc(14 * var(--x));
   }
 
-  .work__info > :first-child {
-    max-width: calc(111 * var(--p));
-  }
-
-  .work__info > :last-child {
-    width: calc(210 * var(--p));
-    text-align: right;
-  }
 }
 
 

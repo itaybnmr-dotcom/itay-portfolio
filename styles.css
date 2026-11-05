@@ -1409,7 +1409,7 @@ nav,
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט אינדקס מוזיאון ישראל") is set here */
 .project--museum {
-  height: calc(3897 * var(--x)); /* the footer's bio starts 3897px down */
+  height: calc(3729 * var(--x)); /* the footer's bio starts 3729px down */
 }
 
 .project--museum .project__track--about {
@@ -1417,75 +1417,73 @@ nav,
 }
 
 .project--museum .project__site {
-  top: calc(252 * var(--x));
-  left: calc(15 * var(--x));
-  width: calc(1410 * var(--x));
+  top: calc(245 * var(--x));
+  left: calc(60 * var(--x));
+  width: calc(1318 * var(--x));
 }
 
 /* The site, recorded */
 .project__clip {
+  width: calc(649 * var(--x));
   height: auto;
 }
 
 .project__clip--artwork {
-  top: calc(1155 * var(--x));
-  left: calc(15 * var(--x));
-  width: calc(695 * var(--x));
+  top: calc(1073 * var(--x));
+  left: calc(60 * var(--x));
 }
 
 .project__clip--index {
-  top: calc(1155 * var(--x));
+  top: calc(1073 * var(--x));
   left: calc(729 * var(--x));
-  width: calc(696 * var(--x));
 }
 
 .project__clip--hover {
-  top: calc(1602 * var(--x));
+  top: calc(1488 * var(--x));
   left: calc(729 * var(--x));
-  width: calc(697 * var(--x));
 }
 
 .project--museum .project__track--research {
-  top: calc(1602 * var(--x));
+  top: calc(1488 * var(--x));
   width: 349px;
 }
 
 .project--museum .project__subtitle {
-  top: calc(2050 * var(--x));
+  top: calc(1903 * var(--x));
 }
 
 .project--museum .project__track--graphic {
-  top: calc(2179 * var(--x));
+  top: calc(2040 * var(--x));
 }
 
 /* Six screens, each on a brown board: three rows of two */
 .project__board--museum {
-  width: calc(695 * var(--x));
-  height: calc(479 * var(--x));
+  width: calc(673 * var(--x));
+  height: calc(465 * var(--x));
   background: var(--color-board-museum);
 }
 
-.project__board--m1 { top: calc(2328 * var(--x)); left: calc(15 * var(--x)); }
-.project__board--m2 { top: calc(2328 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
-.project__board--m3 { top: calc(2830 * var(--x)); left: calc(15 * var(--x)); }
-.project__board--m4 { top: calc(2830 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
-.project__board--m5 { top: calc(3332 * var(--x)); left: calc(15 * var(--x)); }
-.project__board--m6 { top: calc(3332 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
+.project__board--m1 { top: calc(2198 * var(--x)); left: calc(37 * var(--x)); }
+.project__board--m2 { top: calc(2198 * var(--x)); left: calc(730 * var(--x)); width: calc(671 * var(--x)); }
+.project__board--m3 { top: calc(2685 * var(--x)); left: calc(37 * var(--x)); height: calc(463 * var(--x)); }
+.project__board--m4 { top: calc(2685 * var(--x)); left: calc(730 * var(--x)); width: calc(671 * var(--x)); height: calc(463 * var(--x)); }
+.project__board--m5 { top: calc(3170 * var(--x)); left: calc(37 * var(--x)); }
+.project__board--m6 { top: calc(3170 * var(--x)); left: calc(730 * var(--x)); width: calc(671 * var(--x)); }
 
 .project__shot {
-  width: calc(606 * var(--x));
+  width: calc(609 * var(--x));
   height: auto;
 }
 
-.project__shot--m1 { top: calc(2392 * var(--x)); left: calc(59 * var(--x)); }
-.project__shot--m2 { top: calc(2392 * var(--x)); left: calc(774 * var(--x)); }
-.project__shot--m3 { top: calc(2894 * var(--x)); left: calc(59 * var(--x)); }
-.project__shot--m4 { top: calc(2894 * var(--x)); left: calc(775 * var(--x)); }
-.project__shot--m5 { top: calc(3389 * var(--x)); left: calc(47 * var(--x)); width: calc(630 * var(--x)); }
-.project__shot--m6 { top: calc(3396 * var(--x)); left: calc(774 * var(--x)); }
+.project__shot--m1 { top: calc(2260 * var(--x)); left: calc(69 * var(--x)); }
+.project__shot--m2 { top: calc(2260 * var(--x)); left: calc(761 * var(--x)); }
+.project__shot--m3 { top: calc(2747 * var(--x)); left: calc(69 * var(--x)); }
+.project__shot--m4 { top: calc(2747 * var(--x)); left: calc(761 * var(--x)); }
+.project__shot--m5 { top: calc(3226 * var(--x)); left: calc(69 * var(--x)); }
+.project__shot--m6 { top: calc(3226 * var(--x)); left: calc(774 * var(--x)); }
 
 .project--museum .project__next {
-  top: calc(3928 * var(--x));
+  top: calc(3760 * var(--x));
 }
 
 /* ===== Phones: the Reach page as one column =====

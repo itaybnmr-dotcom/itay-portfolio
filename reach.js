@@ -3,19 +3,29 @@
 // down to a small title, and the description rises with it to sit right under the title.
 // Scrolling back up grows them back. The movement trails the scroll a little and eases in and out.
 // (styles.css, "Project page")
-const SMALL_TITLE = 21; // px: the small title's size, half again the menu's 14px, like in the reference
-const STICK_END = 44; // px from the top where the description ends up, under the small title
+const SMALL_TITLE = 24; // px: the small title's size, half again the menu's 16px, like in the reference
+const STICK_END = 48; // px from the top where the description ends up, under the small title
 const root = document.documentElement;
 // Phones get a plain column (styles.css): no shrinking, sticking, cutting, sliding or fading there
 const phone = matchMedia("(max-width: 700px)");
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 const clamp = (n) => Math.min(Math.max(n, 0), 1);
 
-// The rest of the small text at the top isn't faded: it slides up and is cut off at the line
-// the description sits on, as if going under the title
-const vanishing = document.querySelectorAll(".project__collab, .project__course, .project__tags, .project__tools");
+// The rest of the small text at the top isn't faded: it slides up and is cut off, as if going under
+// the title (the tags, at the line the description sits on) or under the description (the course and collaboration)
+const about = document.querySelector(".project__about");
+const vanishing = document.querySelectorAll(".project__course, .project__collab, .project__tags");
 
-// "Landing Page & App": each letter, spaces included, gets its own span.
+// The research and graphic texts each stick a line under the text before them
+const research = document.querySelector(".project__text--research");
+function measureStacks() {
+  const line = 16 * 1.15;
+  const researchTop = STICK_END + about.offsetHeight + line;
+  root.style.setProperty("--stick-research", `${researchTop}px`);
+  root.style.setProperty("--stick-graphic", `${researchTop + research.offsetHeight + line}px`);
+}
+
+// "Graphic Language & Direction": each letter, spaces included, gets its own span.
 // On a phone it just wraps, with plain spaces.
 // ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
 const subtitle = document.querySelector(".project__subtitle");
@@ -72,7 +82,8 @@ function update() {
   if (scrollY !== lastScroll) goingUp = scrollY < lastScroll; // frames without a scroll keep the last direction
   lastScroll = scrollY;
   vanishing.forEach((text) => {
-    const cut = phone.matches ? 0 : stickTop - text.getBoundingClientRect().top;
+    const line = text.parentElement === about.parentElement ? about.getBoundingClientRect().bottom : stickTop;
+    const cut = phone.matches ? 0 : line - text.getBoundingClientRect().top;
     if (goingUp) {
       text.style.clipPath = "";
       text.classList.toggle("is-faded", cut > 0);
@@ -97,11 +108,14 @@ function requestUpdate() {
 root.style.setProperty("--stick-end", `${STICK_END}px`);
 document.fonts.ready.then(() => {
   measureSubtitle();
+  measureStacks();
   update();
 });
+measureStacks();
 update();
 addEventListener("scroll", requestUpdate, { passive: true });
 addEventListener("resize", () => {
   measureSubtitle();
+  measureStacks();
   requestUpdate();
 });

@@ -1078,14 +1078,23 @@ nav,
 
 /* ===== Project page (reach.html) =====
    Like the home page, everything scales with the width: --x = 1px of the 1440px-wide Figma frame.
-   The footer's bio starts 2837px down in Figma, so the page is that tall before it. */
+   The footer's bio starts 3441px down in Figma, so the page is that tall before it. */
 .project {
   --x: calc(100vw / 1440);
   position: relative;
-  height: calc(2837 * var(--x));
-  font-size: calc(14 * var(--x)); /* the small text scales too, so its lines break where they do in Figma at any width */
+  height: calc(3441 * var(--x));
+  font-size: 16px; /* the small text stays 16px at any width; its blocks keep Figma's widths in px, so lines break where they do in Figma */
   font-weight: 500;
   letter-spacing: var(--tracking-tight);
+}
+
+/* Here the menu and the footer's small text are 16px, like the page's text */
+.project-page {
+  --size-small: 16px;
+}
+
+.project-page .footer__bio {
+  max-width: 379px;
 }
 
 .project > * {
@@ -1123,7 +1132,7 @@ nav,
   transform-origin: 0 0;
 }
 
-/* At the footer the title and the descriptions fade out with the top bar,
+/* At the footer the title and the texts fade out with the top bar,
    and fade back in on the way up (script.js adds .is-at-footer) */
 .project-page :is(.project__title, .project__about, .project__text) {
   transition: opacity 0.35s var(--ease-in-out);
@@ -1135,8 +1144,8 @@ nav,
 }
 
 .project__subtitle {
-  top: calc(1810 * var(--x));
-  left: calc(15 * var(--x));
+  top: calc(1969 * var(--x));
+  left: calc(-40 * var(--x));
 }
 
 /* Each letter slides right by its own --shift, as far as its --go says (reach.js) */
@@ -1145,99 +1154,84 @@ nav,
   transform: translateX(calc(var(--shift, 0px) * var(--go, 0)));
 }
 
-/* The small texts keep their Figma spacing (double spaces included) */
-.project__course,
-.project__collab,
-.project__tags,
-.project__values {
-  white-space: pre;
-}
-
 /* Coming back down into view (scrolling up), the small text at the top fades in (reach.js) */
-.project__collab,
 .project__course,
-.project__tags,
-.project__tools {
+.project__collab,
+.project__tags {
   transition: opacity 0.7s var(--ease);
 }
 
-.project__collab.is-faded,
 .project__course.is-faded,
-.project__tags.is-faded,
-.project__tools.is-faded {
+.project__collab.is-faded,
+.project__tags.is-faded {
   opacity: 0;
 }
 
-/* Each description sticks inside its track, which runs from its spot to the footer.
-   The first rises with the shrinking title (reach.js moves --stick-top from its spot to under the title);
-   the second stops a couple of lines under the first. */
+/* Each text sticks inside its track, which runs from its spot to the footer.
+   The description rises with the shrinking title (reach.js moves --stick-top from its spot to under the title);
+   each of the others stops a line under the one before it (reach.js measures where). */
 .project__track {
   left: calc(15 * var(--x));
   bottom: 0;
+  line-height: 1.15;
 }
 
 .project__track--about {
   top: calc(117 * var(--x));
+  width: 372px;
 }
 
-.project__track--text {
-  top: calc(1921 * var(--x));
+.project__track--research {
+  top: calc(1250 * var(--x));
+  width: 357px;
+}
+
+.project__track--graphic {
+  top: calc(2103 * var(--x));
+  width: 357px;
 }
 
 .project__about,
 .project__text {
   position: sticky;
   z-index: 1; /* above the work it passes over */
-  line-height: 1.15;
-  mix-blend-mode: difference; /* sticky makes its own layer, so the turning negative is set here, not on the lines */
 }
 
 .project__about {
   top: var(--stick-top, calc(117 * var(--x)));
-  width: calc(346 * var(--x));
+}
+
+.project__text--research {
+  top: var(--stick-research, 0px);
+}
+
+.project__text--graphic {
+  top: var(--stick-graphic, 0px);
+}
+
+/* On the project page only the title turns negative; the paragraphs stay plain white */
+.project-page .project p {
+  mix-blend-mode: normal;
+}
+
+/* A new paragraph starts indented by spaces, not on a gap; the spaces stay, like in Figma */
+.project__track p {
+  white-space: pre-wrap;
+}
+
+/* Starts on the description's fourth line */
+.project__tags {
+  top: calc(117 * var(--x) + 3 * 1.15em);
+  left: calc(491 * var(--x));
+  line-height: 1.15;
+  white-space: pre;
 }
 
 .project__next > span {
   justify-self: end;
 }
 
-.project__text {
-  top: calc(var(--stick-end, 44px) + 145 * var(--x)); /* 8 lines of the first, then 1 line of space */
-  width: calc(338 * var(--x));
-}
-
-/* A new paragraph starts indented, not on a gap */
-.project__about p + p,
-.project__text p + p {
-  text-indent: 2em;
-}
-
-.project__collab {
-  top: calc(118 * var(--x));
-  left: calc(610 * var(--x));
-}
-
-.project__course {
-  top: calc(196 * var(--x));
-  left: calc(372 * var(--x));
-}
-
-.project__tags {
-  top: calc(118 * var(--x));
-  left: calc(1172 * var(--x));
-}
-
-.project__tools {
-  top: calc(213 * var(--x));
-  left: calc(1087 * var(--x));
-}
-
-.project__values {
-  top: calc(2065 * var(--x));
-  right: calc(15 * var(--x));
-}
-
-/* The colored boards the work sits on */
+/* The boards the work sits on */
 .project__board {
   background: #ff473f;
 }
@@ -1249,26 +1243,27 @@ nav,
   height: calc(855 * var(--x));
 }
 
-.project__board--still {
-  top: calc(1232 * var(--x));
-  left: calc(15 * var(--x));
-  width: calc(815 * var(--x));
-  height: calc(562 * var(--x));
-}
-
-.project__board--logo {
-  top: calc(2105 * var(--x));
-  left: calc(15 * var(--x));
-  width: calc(695 * var(--x));
-  height: calc(601 * var(--x));
-}
-
 .project__board--dark {
-  top: calc(2171 * var(--x));
-  left: calc(730 * var(--x));
-  width: calc(699 * var(--x));
-  height: calc(535 * var(--x));
+  top: calc(2237 * var(--x));
+  left: calc(732 * var(--x));
+  width: calc(693 * var(--x));
+  height: calc(601 * var(--x));
   background: #0c0e12;
+}
+
+.project__board--still,
+.project__board--holds {
+  top: calc(2855 * var(--x));
+  width: calc(695 * var(--x));
+  height: calc(479 * var(--x));
+}
+
+.project__board--still {
+  left: calc(15 * var(--x));
+}
+
+.project__board--holds {
+  left: calc(732 * var(--x));
 }
 
 .project__site {
@@ -1279,31 +1274,48 @@ nav,
 }
 
 .project__still {
-  top: calc(1275 * var(--x));
-  left: calc(57 * var(--x));
-  width: calc(735 * var(--x));
+  top: calc(2892 * var(--x));
+  left: calc(51 * var(--x));
+  width: calc(627 * var(--x));
   height: auto;
 }
 
-/* The two phones running the app */
-/* The whole phone shows: the video is a hair narrower than its Figma spot, so it isn't cropped to fill it */
+.project__holds {
+  top: calc(2895 * var(--x));
+  left: calc(763 * var(--x));
+  width: calc(633 * var(--x));
+  height: calc(399 * var(--x));
+  object-fit: cover;
+}
+
+/* The two phones running the app, on the black page */
 .project__app {
-  top: calc(1232 * var(--x));
-  width: calc(280 * var(--x));
-  height: calc(562 * var(--x));
+  top: calc(1226 * var(--x));
+  width: calc(338 * var(--x));
+  height: calc(679 * var(--x));
   object-fit: contain;
+  border-radius: calc(49 * var(--x));
 }
 
 .project__app--before {
-  left: calc(849 * var(--x));
+  left: calc(710 * var(--x));
 }
 
 .project__app--after {
-  left: calc(1142 * var(--x));
-  width: calc(281 * var(--x));
+  left: calc(1064 * var(--x));
+  width: calc(339 * var(--x));
+  border-radius: calc(41 * var(--x));
 }
 
-/* The route lines: Figma turns them almost upside down and slants them a little.
+/* The logo, its board and its route lines are one drawing */
+.project__logo-board {
+  top: calc(2237 * var(--x));
+  left: calc(1 * var(--x));
+  width: calc(715.909 * var(--x));
+  height: auto;
+}
+
+/* The route lines on the dark board: Figma turns them almost upside down and slants them a little.
    The outer box is the spot they take, the inner one the line itself. */
 .project__route {
   display: flex;
@@ -1314,9 +1326,9 @@ nav,
 .project__route > span {
   flex: none;
   position: relative;
-  rotate: -172.14deg;
-  scale: 1 -0.99;
-  transform: skewX(-5.86deg);
+  rotate: -170.86deg;
+  scale: 1 -1;
+  transform: skewX(-2.68deg);
 }
 
 .project__route img {
@@ -1325,28 +1337,15 @@ nav,
   width: 100%;
 }
 
-.project__route--1 { top: calc(2188.15 * var(--x)); left: calc(1 * var(--x)); width: calc(712.388 * var(--x)); height: calc(146.848 * var(--x)); }
-.project__route--2 { top: calc(2302.01 * var(--x)); left: calc(718.96 * var(--x)); width: calc(714.451 * var(--x)); height: calc(147.133 * var(--x)); }
-.project__route--3 { top: calc(2175 * var(--x)); left: calc(1.16 * var(--x)); width: calc(715.751 * var(--x)); height: calc(146.837 * var(--x)); }
-.project__route--4 { top: calc(2288.89 * var(--x)); left: calc(719.35 * var(--x)); width: calc(714.041 * var(--x)); height: calc(146.601 * var(--x)); }
+.project__route--1 { top: calc(2430.29 * var(--x)); left: calc(722.3 * var(--x)); width: calc(706.557 * var(--x)); height: calc(168.197 * var(--x)); }
+.project__route--2 { top: calc(2415.46 * var(--x)); left: calc(722.09 * var(--x)); width: calc(706.833 * var(--x)); height: calc(167.707 * var(--x)); }
 
-.project__route--1 > span { width: calc(706.768 * var(--x)); height: calc(51.696 * var(--x)); }
-.project__route--2 > span { width: calc(708.85 * var(--x)); height: calc(51.696 * var(--x)); }
-.project__route--3 > span { width: calc(710.284 * var(--x)); height: calc(51.189 * var(--x)); }
-.project__route--4 > span { width: calc(708.558 * var(--x)); height: calc(51.189 * var(--x)); }
+.project__route--1 > span { width: calc(703.68 * var(--x)); height: calc(57.64 * var(--x)); }
+.project__route--2 > span { width: calc(704.078 * var(--x)); height: calc(57.075 * var(--x)); }
 
 /* The lines are a hair taller than their spot, like in Figma */
-.project__route--1 img,
-.project__route--2 img { top: -0.77%; height: 101.54%; }
-.project__route--3 img,
-.project__route--4 img { top: -1.76%; height: 103.52%; }
-
-.project__logo {
-  top: calc(2356.1 * var(--x));
-  left: calc(230 * var(--x));
-  width: calc(266 * var(--x));
-  height: auto;
-}
+.project__route--1 img { top: -0.69%; height: 101.38%; }
+.project__route--2 img { top: -1.58%; height: 103.16%; }
 
 /* The strip's wrapper makes no box here: the phones sit on the page like everything else */
 .project__strip {
@@ -1355,32 +1354,33 @@ nav,
 
 .project__phone {
   position: absolute;
-  width: calc(205 * var(--x));
-  height: calc(422 * var(--x));
-  top: calc(2228 * var(--x));
+  width: calc(213.251 * var(--x));
+  height: calc(439.135 * var(--x));
+  top: calc(2318.53 * var(--x));
   object-fit: cover;
   border-radius: calc(36 * var(--x));
 }
 
 .project__phone--congrats {
-  left: calc(752 * var(--x));
+  left: calc(755.25 * var(--x));
   border-radius: calc(33 * var(--x));
 }
 
 .project__phone--timer {
-  left: calc(982 * var(--x));
+  left: calc(976.88 * var(--x));
 }
 
 .project__phone--arm {
-  left: calc(1212 * var(--x));
-  top: calc(2227 * var(--x));
-  height: calc(421 * var(--x));
+  left: calc(1198.52 * var(--x));
+  top: calc(2317.39 * var(--x));
+  width: calc(212.998 * var(--x));
+  height: calc(438.615 * var(--x));
 }
 
 /* Anchored on the right, so the longer "Israel Museum Index" it rolls into grows to the left */
 .project__next {
   z-index: 1; /* the top of the footer's Let's Collab box reaches over it */
-  top: calc(2857 * var(--x));
+  top: calc(3472 * var(--x));
   right: calc(15 * var(--x));
   color: inherit;
   text-decoration: none;
@@ -1402,26 +1402,24 @@ nav,
     --x: calc(100vw / 1410);
     height: auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* the wider-than-the-screen route lines mustn't widen the columns */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* the wider-than-the-screen pictures mustn't widen the columns */
     grid-template-areas:
-      "title  title"
-      "about  about"
-      "collab collab"
-      "course course"
-      "tags   tags"
-      "tools  tools"
-      "site   site"
-      "still  still"
-      "before after"
-      "sub    sub"
-      "text   text"
-      "values values"
-      "logo   logo"
-      "dark   dark"
-      "next   next";
+      "title    title"
+      "about    about"
+      "tags     tags"
+      "site     site"
+      "research research"
+      "before   after"
+      "sub      sub"
+      "graphic  graphic"
+      "logo     logo"
+      "dark     dark"
+      "still    still"
+      "holds    holds"
+      "next     next";
     column-gap: 4px;
     padding: 72px var(--space-side) 0;
-    overflow-x: clip; /* the route lines may not widen the page */
+    overflow-x: clip; /* the logo drawing may not widen the page */
     font-size: 16px;
   }
 
@@ -1459,52 +1457,43 @@ nav,
   }
 
   .project__track {
-    grid-area: about;
-    margin-top: 28px;
-  }
-
-  .project__track--text {
-    grid-area: text;
-    margin-top: 14px;
-  }
-
-  .project__about,
-  .project__text {
-    position: static;
     width: auto;
     line-height: 1.25;
   }
 
+  .project__track--about { grid-area: about; margin-top: 28px; }
+  .project__track--research { grid-area: research; margin-top: 28px; }
+  .project__track--graphic { grid-area: graphic; margin-top: 14px; }
+
+  .project__about,
+  .project__text {
+    position: static;
+  }
+
   /* The details: small, as rows of a table, each with a line on top */
-  .project__collab,
   .project__course,
-  .project__tags,
-  .project__tools,
-  .project__values {
+  .project__collab,
+  .project__tags {
     padding: 7px 0 8px;
     border-top: 1px solid currentColor;
     font-size: 13px;
+    line-height: 1.15;
+    text-indent: 0;
     white-space: normal;
   }
 
-  .project__collab { grid-area: collab; margin-top: 28px; }
-  .project__course { grid-area: course; }
-  .project__tags { grid-area: tags; }
-  .project__tools { grid-area: tools; border-bottom: 1px solid currentColor; }
-  .project__values { grid-area: values; margin-top: 20px; border-bottom: 1px solid currentColor; }
+  .project__course { margin-top: 28px; }
+  .project__tags { grid-area: tags; border-bottom: 1px solid currentColor; }
 
   /* Edge to edge: out past the page's side margins */
   .project__board,
   .project__site,
-  .project__still,
-  .project__route,
-  .project__logo,
   .project__strip {
     margin-left: calc(-1 * var(--space-side));
     margin-right: calc(-1 * var(--space-side));
   }
 
-  /* Each board fills its row; what's on it sets the row's height through its margins */
+  /* Each board fills its row; what's on it sits in its place on it */
   .project__board {
     width: auto;
     height: auto;
@@ -1521,24 +1510,12 @@ nav,
     margin: calc(40px + 44 * var(--x)) 0 calc(44 * var(--x)) calc(96 * var(--x) - var(--space-side));
   }
 
-  .project__board--still,
-  .project__still {
-    --x: calc(100vw / 815);
-    grid-area: still;
-    margin-top: 4px;
-  }
-
-  .project__still {
-    width: calc(735 * var(--x));
-    margin: calc(4px + 43 * var(--x)) 0 calc(44 * var(--x)) calc(42 * var(--x) - var(--space-side));
-  }
-
   /* The two app phones share the width, out to the screen's edges */
   .project__app {
     width: calc(100% + var(--space-side)); /* its half, plus out to the screen's edge */
     height: auto;
-    margin-top: 4px;
-    background: #0c0e12;
+    margin-top: 20px;
+    border-radius: 0;
   }
 
   .project__app--before {
@@ -1554,38 +1531,24 @@ nav,
   .project__subtitle {
     grid-area: sub;
     margin-top: 48px;
-    font-size: 20vw; /* "Landing Page" over "& App" */
+    font-size: 20vw; /* "Graphic Language" over "& Direction" */
     line-height: 0.92;
     white-space: normal;
     text-align: right;
   }
 
-  /* The logo board: 1 Figma pixel is a 695th of the screen, and the route lines and logo
-     keep their places on it */
-  .project__board--logo,
-  .project__route--1,
-  .project__route--3,
-  .project__logo {
+  /* The logo drawing: its board (14px in, 695 wide) from edge to edge */
+  .project__logo-board {
     --x: calc(100vw / 695);
     grid-area: logo;
-    align-self: start;
-    justify-self: start;
+    width: calc(715.909 * var(--x));
+    max-width: none;
+    margin: 40px 0 0 calc(-14 * var(--x) - var(--space-side));
   }
-
-  .project__board--logo {
-    justify-self: stretch;
-    height: calc(601 * var(--x));
-    margin-top: 40px;
-  }
-
-  .project__route--1 { margin: calc(40px + 83.15 * var(--x)) 0 0 calc(-14 * var(--x) - var(--space-side)); }
-  .project__route--3 { margin: calc(40px + 70 * var(--x)) 0 0 calc(-13.84 * var(--x) - var(--space-side)); }
-  .project__logo { margin: calc(40px + 251.1 * var(--x)) 0 0 calc(215 * var(--x) - var(--space-side)); }
 
   /* The dark board's phones: a strip to swipe through, each phone big, stopping on each one */
   .project__board--dark,
-  .project__route--2,
-  .project__route--4 {
+  .project__route {
     display: none;
   }
 
@@ -1610,8 +1573,40 @@ nav,
     width: 64vw;
     height: auto;
     margin: 0;
-    border-radius: calc(64vw * 36 / 205); /* Figma's 36 on 205 */
+    border-radius: calc(64vw * 36 / 213); /* Figma's 36 on 213 */
     scroll-snap-align: center;
+  }
+
+  /* The two red boards, one under the other, from edge to edge; 1 Figma pixel is a 695th of the screen */
+  .project__board--still,
+  .project__still,
+  .project__board--holds,
+  .project__holds {
+    --x: calc(100vw / 695);
+    align-self: start;
+  }
+
+  .project__board--still,
+  .project__board--holds {
+    height: calc(479 * var(--x));
+    margin-top: 4px;
+  }
+
+  .project__board--still,
+  .project__still { grid-area: still; }
+
+  .project__board--holds,
+  .project__holds { grid-area: holds; }
+
+  .project__still {
+    width: calc(627 * var(--x));
+    margin: calc(4px + 37 * var(--x)) 0 0 calc(36 * var(--x) - var(--space-side));
+  }
+
+  .project__holds {
+    width: calc(633 * var(--x));
+    height: auto;
+    margin: calc(4px + 40 * var(--x)) 0 0 calc(31 * var(--x) - var(--space-side));
   }
 
   .project__next {
@@ -1625,7 +1620,9 @@ nav,
 /* ===== Footer ===== */
 .footer {
   overflow: clip; /* the Let's Collab window reaches below the footer; it mustn't make the page longer */
-  padding: 0 15px 27px;
+  /* The bottom row sits close to the bottom of the page, but low enough for the tail of
+     Instagram's g to show whole (measured: it reaches 2.78vw - 23px under the row) */
+  padding: 0 15px max(14px, calc(2.78vw - 17px));
   font-size: var(--size-small);
   font-weight: 500;
   letter-spacing: var(--tracking-tight);

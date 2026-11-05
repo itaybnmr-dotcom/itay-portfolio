@@ -101,7 +101,7 @@ document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
   showWord(card);
-  // Over a link (that isn't a card, where it grows) the circle shrinks to a small red dot
+  // Over a link (that isn't a card, where it grows) the circle turns into the negative of what's under it
   cursor.classList.toggle("is-small", card === null && event.target.closest("a") !== null);
   cursor.classList.add("is-visible");
 });

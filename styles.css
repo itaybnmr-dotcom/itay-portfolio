@@ -176,7 +176,6 @@ nav,
     border-radius: 50%;
     display: block;
     background: #fff;
-    mix-blend-mode: difference; /* everywhere, the dot is a negative of what's under it */
     pointer-events: none; /* clicks go through the circle to the page */
     opacity: 0; /* invisible until the mouse moves into the page */
   }
@@ -189,6 +188,11 @@ nav,
     transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.4s var(--ease);
   }
 
+  /* Over the site's text the dot is a negative of the letters under it (not over pictures or videos) */
+  .has-custom-cursor .cursor.is-negative {
+    mix-blend-mode: difference;
+  }
+
   /* Over a link: the circle grows a little */
   .has-custom-cursor .cursor.is-small {
     --cursor-size: 36px;
@@ -198,7 +202,6 @@ nav,
   .has-custom-cursor .cursor.is-big {
     --cursor-size: 120px;
     background: var(--circle); /* the card's colors (script.js copies them over) */
-    mix-blend-mode: normal; /* the card's own colors, not a negative */
   }
 
   .cursor__ring {

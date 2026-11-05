@@ -97,12 +97,18 @@ function showWord(card) {
   writeRing(cursor.querySelector("textPath"), word);
 }
 
+// Text is an element with letters of its own (not only spaces), so the gaps between the title's words don't count
+const hasText = (element) => [...element.childNodes].some((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+
 document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
   showWord(card);
-  // Over a link (that isn't a card, where it grows) the circle turns into the negative of what's under it
-  cursor.classList.toggle("is-small", card === null && event.target.closest("a") !== null);
+  // Over a link (that isn't a card, where it grows) the circle grows a little;
+  // over a link or the site's text it turns into the negative of what's under it
+  const link = card === null && event.target.closest("a") !== null;
+  cursor.classList.toggle("is-small", link);
+  cursor.classList.toggle("is-negative", link || (card === null && hasText(event.target)));
   cursor.classList.add("is-visible");
 });
 

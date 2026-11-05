@@ -29,6 +29,7 @@
   --color-card: #faf9f6; /* the work cards on the home page */
   --color-card-text: #000000; /* the labels on the cards */
   --color-panel: #0c0e12; /* the dark boards behind the work */
+  --color-board-museum: #33241d; /* the brown boards on the Israel Museum Index page */
 
   /* Fonts */
   --font-display: "Reckless Condensed", Georgia, serif;
@@ -1404,6 +1405,89 @@ nav,
   mix-blend-mode: difference;
 }
 
+/* ===== Project page: Israel Museum Index (israel-museum.html) =====
+   Built on the Reach page above; only what sits elsewhere in its Figma frame
+   ("עמוד פריט אינדקס מוזיאון ישראל") is set here */
+.project--museum {
+  height: calc(3897 * var(--x)); /* the footer's bio starts 3897px down */
+}
+
+.project--museum .project__track--about {
+  width: 391px;
+}
+
+.project--museum .project__site {
+  top: calc(252 * var(--x));
+  left: calc(15 * var(--x));
+  width: calc(1410 * var(--x));
+}
+
+/* The site, recorded */
+.project__clip {
+  height: auto;
+}
+
+.project__clip--artwork {
+  top: calc(1155 * var(--x));
+  left: calc(15 * var(--x));
+  width: calc(695 * var(--x));
+}
+
+.project__clip--index {
+  top: calc(1155 * var(--x));
+  left: calc(729 * var(--x));
+  width: calc(696 * var(--x));
+}
+
+.project__clip--hover {
+  top: calc(1602 * var(--x));
+  left: calc(729 * var(--x));
+  width: calc(697 * var(--x));
+}
+
+.project--museum .project__track--research {
+  top: calc(1602 * var(--x));
+  width: 349px;
+}
+
+.project--museum .project__subtitle {
+  top: calc(2050 * var(--x));
+}
+
+.project--museum .project__track--graphic {
+  top: calc(2179 * var(--x));
+}
+
+/* Six screens, each on a brown board: three rows of two */
+.project__board--museum {
+  width: calc(695 * var(--x));
+  height: calc(479 * var(--x));
+  background: var(--color-board-museum);
+}
+
+.project__board--m1 { top: calc(2328 * var(--x)); left: calc(15 * var(--x)); }
+.project__board--m2 { top: calc(2328 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
+.project__board--m3 { top: calc(2830 * var(--x)); left: calc(15 * var(--x)); }
+.project__board--m4 { top: calc(2830 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
+.project__board--m5 { top: calc(3332 * var(--x)); left: calc(15 * var(--x)); }
+.project__board--m6 { top: calc(3332 * var(--x)); left: calc(731 * var(--x)); width: calc(693 * var(--x)); }
+
+.project__shot {
+  width: calc(606 * var(--x));
+  height: auto;
+}
+
+.project__shot--m1 { top: calc(2392 * var(--x)); left: calc(59 * var(--x)); }
+.project__shot--m2 { top: calc(2392 * var(--x)); left: calc(774 * var(--x)); }
+.project__shot--m3 { top: calc(2894 * var(--x)); left: calc(59 * var(--x)); }
+.project__shot--m4 { top: calc(2894 * var(--x)); left: calc(775 * var(--x)); }
+.project__shot--m5 { top: calc(3389 * var(--x)); left: calc(47 * var(--x)); width: calc(630 * var(--x)); }
+.project__shot--m6 { top: calc(3396 * var(--x)); left: calc(774 * var(--x)); }
+
+.project--museum .project__next {
+  top: calc(3928 * var(--x));
+}
+
 /* ===== Phones: the Reach page as one column =====
    Like the phone reference (ofirgu.cargo.site): small clean text, and the work as big as the screen.
    The title big over three lines, the texts one under another, then each board from edge to edge
@@ -1628,6 +1712,88 @@ nav,
     margin: 64px 0 28px;
     font-size: 13vw;
   }
+}
+
+/* ===== Phones: the Israel Museum Index page as one column, like Reach's =====
+   (no phone frame for it in Figma yet) */
+@media (max-width: 700px) {
+  .project--museum {
+    grid-template-areas:
+      "title    title"
+      "about    about"
+      "tags     tags"
+      "site     site"
+      "artwork  artwork"
+      "index    index"
+      "research research"
+      "hover    hover"
+      "sub      sub"
+      "graphic  graphic"
+      "m1       m1"
+      "m2       m2"
+      "m3       m3"
+      "m4       m4"
+      "m5       m5"
+      "m6       m6"
+      "next     next";
+  }
+
+  /* In the column, not at this page's desktop spots and widths */
+  .project--museum.project > * {
+    inset: auto;
+  }
+
+  .project--museum .project__track {
+    width: auto;
+  }
+
+  /* The recordings from edge to edge */
+  .project--museum .project__site,
+  .project__clip {
+    width: calc(100% + 2 * var(--space-side));
+    max-width: none;
+    margin: 4px calc(-1 * var(--space-side)) 0;
+  }
+
+  .project--museum .project__site { grid-area: site; margin-top: 40px; }
+  .project__clip--artwork { grid-area: artwork; }
+  .project__clip--index { grid-area: index; }
+  .project__clip--hover { grid-area: hover; margin-top: 20px; }
+
+  /* Each board from edge to edge, its screen in its Figma place on it:
+     1 Figma pixel is a 695th of the screen */
+  .project__board--museum,
+  .project__shot {
+    --x: calc(100vw / 695);
+    align-self: start;
+  }
+
+  .project__board--museum {
+    width: auto;
+    height: calc(479 * var(--x));
+    margin-top: 4px;
+  }
+
+  .project__shot {
+    width: calc(606 * var(--x));
+    margin: calc(4px + 64 * var(--x)) 0 0 calc(44 * var(--x) - var(--space-side));
+  }
+
+  .project__shot--m5 {
+    width: calc(630 * var(--x));
+    margin: calc(4px + 57 * var(--x)) 0 0 calc(32 * var(--x) - var(--space-side));
+  }
+
+  .project__board--m1, .project__shot--m1 { grid-area: m1; }
+  .project__board--m2, .project__shot--m2 { grid-area: m2; }
+  .project__board--m3, .project__shot--m3 { grid-area: m3; }
+  .project__board--m4, .project__shot--m4 { grid-area: m4; }
+  .project__board--m5, .project__shot--m5 { grid-area: m5; }
+  .project__board--m6, .project__shot--m6 { grid-area: m6; }
+
+  .project--museum .project__board--museum { margin-top: 4px; }
+  .project--museum .project__board--m1 { margin-top: 40px; }
+  .project--museum .project__shot--m1 { margin-top: calc(40px + 64 * var(--x)); }
 }
 
 /* ===== Footer ===== */

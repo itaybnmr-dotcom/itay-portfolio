@@ -33,7 +33,7 @@
   /* Font sizes. The headline is 108px on a 1440px-wide frame,
      so 7.5vw keeps the same proportion on every screen. */
   --size-display: 7.5vw;
-  --size-small: 14px;
+  --size-small: 16px;
 
   /* Letter spacing (-2% in Figma) */
   --tracking-tight: -0.02em;
@@ -546,47 +546,12 @@ nav,
 .hero {
   --x: calc(100vw / 1440);
   position: relative;
-  height: calc(1744 * var(--x)); /* the footer's bio starts 1744px down in Figma */
-}
-
-/* The visitor's date, time, time zone, coordinates and temperature (home.js) */
-.hero__here {
-  position: absolute;
-  top: calc(108 * var(--x));
-  right: var(--space-side);
-  width: 231px;
-  font-size: var(--size-small);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-}
-
-.hero__here p {
-  display: flex;
-  justify-content: space-between;
-}
-
-.hero__gap {
-  margin-left: 1.15em;
-}
-
-/* The clock's colon blinks once a second, like a digital clock */
-.hero__colon {
-  animation: blink 1s steps(1) infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero__colon {
-    animation: none;
-  }
+  height: calc(1971 * var(--x)); /* the footer's bio starts 2031px down in Figma; everything here sits 60px higher */
 }
 
 .hero__statement {
   position: absolute;
-  top: calc(178 * var(--x));
+  top: calc(117 * var(--x));
   left: calc(30 * var(--x));
   right: calc(30 * var(--x));
   font-family: var(--font-display);
@@ -609,6 +574,11 @@ nav,
   letter-spacing: -0.03em;
 }
 
+/* The first line is taller, like in Figma */
+.hero__line:first-child {
+  line-height: calc(110 * var(--x));
+}
+
 /* "Itay Ben Mayor," is a hair smaller than the rest */
 .hero__line:first-child .hero__bold {
   font-size: calc(88 * var(--x));
@@ -627,7 +597,7 @@ nav,
 /* The spark next to "Hi, I'm" (upside down in Figma) */
 .hero__spark {
   position: absolute;
-  top: calc(192 * var(--x));
+  top: calc(150 * var(--x));
   left: calc(249 * var(--x));
   width: calc(84.5 * var(--x));
   height: auto;
@@ -637,12 +607,12 @@ nav,
 /* Justified; on the last line "Arts & Design" is pushed to the right */
 .hero__note {
   position: absolute;
-  top: calc(579 * var(--x));
-  left: calc(50% - 100px); /* centered */
-  width: 201px; /* fixed, like the 14px text, so the lines break where they do in Figma */
+  top: calc(525 * var(--x));
+  left: calc(50% - 111.5px); /* centered */
+  width: 223px; /* fixed, like the 16px text, so the lines break where they do in Figma */
   font-size: var(--size-small);
   font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: -0.03em; /* a hair tighter, so "Visual" fits on the first line like in Figma */
   text-align: justify;
 }
 
@@ -683,7 +653,7 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__here, .hero__spark, .work__frame, .work__info) {
+.intro :is(.top-bar, .hero__spark, .work__frame, .work__info) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
@@ -697,7 +667,6 @@ nav,
   from { transform: translateY(calc(var(--drop) * 1px)); }
 }
 
-.intro .hero__here { --n: 1; }
 .intro .hero__spark { --n: 2; }
 /* The cards' insides, not the cards: clipping a card would cut its sticker, which sits over its edge */
 .intro :is(.work__frame, .work__info) { --n: 3; }
@@ -724,15 +693,15 @@ nav,
 }
 
 /* ===== Work cards ===== */
-/* Three light cards (457 x 454 in Figma) in a row, each with its project's colors
+/* Light cards (458 x 452 in Figma), three in a row, each with its project's colors
    for the circle that follows the mouse (and the sticker on touch screens) */
 .work {
   --circle: #ff473f; /* Reach's red */
   --circle-ink: #0c0e12;
   position: absolute;
-  top: calc(692 * var(--x)); /* 113px under the note, like in Figma */
-  left: calc(15 * var(--x));
-  width: calc(457 * var(--x));
+  top: calc(711 * var(--x)); /* 134px under the note, like in Figma */
+  left: calc(17 * var(--x));
+  width: calc(455 * var(--x));
   color: inherit;
   text-decoration: none;
   scroll-margin-top: calc(113 * var(--x)); /* "Works" in the footer lands here, clear of the top bar */
@@ -750,21 +719,31 @@ nav,
   --circle: #fff;
   --circle-ink: #212123;
   left: calc(491 * var(--x));
+  width: calc(458 * var(--x));
 }
 
 /* Record Day: the posters' green on their paper (sampled from the bus poster) */
 .work--record {
   --circle: #2c5242;
   --circle-ink: #eeefee;
-  left: calc(968 * var(--x));
+  left: calc(969 * var(--x));
+  width: calc(458 * var(--x));
+}
+
+/* HAVEN: its dithered black on white, under Reach */
+.work--haven {
+  --circle: #000;
+  --circle-ink: #fff;
+  top: calc(1183 * var(--x));
 }
 
 .work__frame {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(12 * var(--x));
-  height: calc(454 * var(--x));
+  gap: calc(18.5 * var(--x));
+  height: calc(452 * var(--x));
+  padding-top: calc(9 * var(--x)); /* the work sits a little under the middle, below the label */
   background: #faf9f6;
 }
 
@@ -773,14 +752,14 @@ nav,
 }
 
 .work__site {
-  width: calc(324 * var(--x));
+  width: calc(317 * var(--x));
   height: auto;
 }
 
 .work__phone {
-  width: calc(99 * var(--x));
+  width: calc(98.25 * var(--x));
   height: auto;
-  border-radius: calc(21 * var(--x));
+  border-radius: calc(17 * var(--x));
 }
 
 /* A black screen in the middle of the card, the work playing on it */
@@ -792,6 +771,11 @@ nav,
   width: calc(414 * var(--x));
   height: calc(245 * var(--x));
   background: #000;
+}
+
+.work__wide {
+  width: calc(431 * var(--x));
+  height: auto;
 }
 
 .work__reel {
@@ -816,12 +800,41 @@ nav,
   mix-blend-mode: difference;
 }
 
-/* Hovering anywhere on the card draws the line under its name and tags, like the menu links */
-/* (only with a mouse: a tap on a card that isn't a link yet would leave the line stuck on) */
-@media (hover: hover) {
-  .work:hover .link-line {
-    background-size: 100% var(--line-thickness);
-    background-position: 0 100%;
+/* Computers: the number and name across the card's top edge, and the name and tags
+   across its bottom edge, in black on the card */
+.work__label {
+  display: none;
+}
+
+@media (min-width: 701px) {
+  .work__frame {
+    position: relative;
+  }
+
+  /* 14px, with Figma's gaps to the card's edges kept in proportion to the text
+     (at Figma's 16px: 3px from the sides, flush with the top, 2px from the bottom) */
+  .work__label,
+  .work__info {
+    position: absolute;
+    left: 0.1875em;
+    right: 0.1875em;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    line-height: normal;
+    mix-blend-mode: normal;
+  }
+
+  .work__label {
+    top: 0;
+  }
+
+  .work__info {
+    bottom: 0.125em;
   }
 }
 
@@ -891,20 +904,7 @@ nav,
   .hero {
     --p: calc(100vw / 402);
     --down: calc(48 * var(--p)); /* the headline and everything under it sit lower than in the frame, with more air */
-    height: calc(1955 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down in Figma, moved down for the extra cards */
-  }
-
-  /* The menu ends where the place and time end (they reach 399 of the frame's 402) */
-  .home .top-bar {
-    right: calc(100vw * 3 / 402);
-  }
-
-  .hero__here {
-    top: calc(62 * var(--p));
-    left: calc(161 * var(--p));
-    right: auto;
-    width: calc(238 * var(--p));
-    font-size: calc(14 * var(--p));
+    height: calc(2430 * var(--p) + var(--down)); /* "Let's Collab" starts 1869px down in Figma, moved down for the extra cards */
   }
 
   /* The live headline stays for screen readers only; the drawn one shows instead */
@@ -958,6 +958,10 @@ nav,
 
   .work--record {
     top: calc(1485 * var(--p) + var(--down));
+  }
+
+  .work--haven {
+    top: calc(1960 * var(--p) + var(--down));
   }
 
   /* Name on the left and tags on the right at Figma's 14px, both at the phone frame's widths,
@@ -1089,15 +1093,6 @@ nav,
   font-size: 16px; /* the small text stays 16px at any width; its blocks keep Figma's widths in px, so lines break where they do in Figma */
   font-weight: 500;
   letter-spacing: var(--tracking-tight);
-}
-
-/* Here the menu and the footer's small text are 16px, like the page's text */
-.project-page {
-  --size-small: 16px;
-}
-
-.project-page .footer__bio {
-  max-width: 379px;
 }
 
 .project > * {
@@ -1633,7 +1628,7 @@ nav,
 }
 
 .footer__bio {
-  max-width: 338px;
+  max-width: 379px;
 }
 
 /* The huge "Let's Collab" (353px on a 1440px frame) */

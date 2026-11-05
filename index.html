@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=29">
+  <link rel="stylesheet" href="styles.css?v=37">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -22,7 +22,7 @@
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
   <script src="script.js?v=26" defer></script>
-  <script src="home.js?v=24" defer></script>
+  <script src="home.js?v=25" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -41,12 +41,6 @@
 
   <!-- Positions follow the 1440px-wide Figma frame ("Home screen") -->
   <main class="hero">
-    <!-- Where the visitor is, right now: filled in by home.js -->
-    <div class="hero__here" aria-label="Your date, time, place and weather">
-      <p><span><span data-here="date"></span><span class="hero__gap" data-here="time"></span></span><span data-here="zone"></span></p>
-      <p><span data-here="place"></span><span data-here="temp"></span></p>
-    </div>
-
     <!-- Each line is spread across the page, like in Figma -->
     <h1 class="hero__statement">
       <span class="hero__line"><span>Hi, I’m</span><span class="hero__bold">Itay Ben Mayor,</span></span>
@@ -68,12 +62,13 @@
       <!-- Touch screens have no cursor to grow, so the card wears the circle as a sticker instead -->
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
       <span class="work__frame">
+        <span class="work__label"><span>No. 1</span><span>Reach</span></span>
         <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
         <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
       </span>
       <span class="work__info">
-        <span class="link-line">Landing Page &amp; App</span>
-        <span class="link-line">ux/ui · Product · Interactive · Branding · 2026</span>
+        <span>Landing Page &amp; App</span>
+        <span>ux-ui / Product / Interactive / Branding</span>
       </span>
     </a>
 
@@ -81,19 +76,21 @@
     <a class="work work--museum" data-cursor="Israel Museum">
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-museum" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-museum" textLength="257" lengthAdjust="spacing">Israel Museum · Israel Museum · </textPath></text></svg></span>
       <span class="work__frame">
+        <span class="work__label"><span>No. 2</span><span>Israel Museum Index</span></span>
         <span class="work__screen">
           <video class="work__reel" src="IMG/Israel-Museum-Index/showreel.mp4" width="1038" height="556" autoplay muted loop playsinline aria-hidden="true"></video>
         </span>
       </span>
       <span class="work__info">
-        <span class="link-line">Website</span>
-        <span class="link-line">Web · Layout · Interactive · Typography · 2026</span>
+        <span>Website</span>
+        <span>Web / Layout / Interactive / Typography</span>
       </span>
     </a>
 
     <a class="work work--record" data-cursor="Record Day">
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-record" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-record" textLength="257" lengthAdjust="spacing">Record Day · Record Day · </textPath></text></svg></span>
       <span class="work__frame">
+        <span class="work__label"><span>No. 3</span><span>Record Day</span></span>
         <span class="work__screen">
           <video class="work__poster" src="IMG/Record-Day/bus-poster.mp4" width="1080" height="1920" autoplay muted loop playsinline aria-hidden="true"></video>
           <video class="work__poster" src="IMG/Record-Day/story-3.mp4" width="1080" height="1920" autoplay muted loop playsinline aria-hidden="true"></video>
@@ -101,8 +98,20 @@
         </span>
       </span>
       <span class="work__info">
-        <span class="link-line">Branding in Motion</span>
-        <span class="link-line">Motion · Branding · Poster · Typography · 2026</span>
+        <span>Branding in Motion</span>
+        <span>Motion / Branding / Poster / IMG-Making</span>
+      </span>
+    </a>
+
+    <a class="work work--haven" data-cursor="HAVEN">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-haven" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-haven" textLength="257" lengthAdjust="spacing">HAVEN · HAVEN · HAVEN · HAVEN · </textPath></text></svg></span>
+      <span class="work__frame">
+        <span class="work__label"><span>No. 4</span><span>HAVEN</span></span>
+        <video class="work__wide" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" autoplay muted loop playsinline aria-hidden="true"></video>
+      </span>
+      <span class="work__info">
+        <span>Brand &amp; Interface</span>
+        <span>Motion / ux-ui / Interaction</span>
       </span>
     </a>
   </main>

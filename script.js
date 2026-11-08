@@ -246,9 +246,24 @@ markFooter();
 addEventListener("scroll", markFooter, { passive: true });
 addEventListener("resize", markFooter);
 
+// ===== Only the videos near the screen play =====
+// Each starts half a screen before it scrolls in and pauses once it's out, so a page full of
+// videos scrolls smoothly on a phone
+const nearScreen = new Set();
+const videoWatcher = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
+  if (isIntersecting) {
+    nearScreen.add(target);
+    target.play().catch(() => {});
+  } else {
+    nearScreen.delete(target);
+    target.pause();
+  }
+}), { rootMargin: "50% 0px" });
+document.querySelectorAll("video[autoplay]").forEach((video) => videoWatcher.observe(video));
+
 // ===== Videos that didn't start =====
 // iPhone in Low Power Mode won't autoplay and shows a play button instead (hidden in styles.css):
-// the first touch anywhere starts them all
-const playAll = () => document.querySelectorAll("video[autoplay]").forEach((video) => video.paused && video.play().catch(() => {}));
+// the first touch anywhere starts the ones on screen
+const playAll = () => nearScreen.forEach((video) => video.paused && video.play().catch(() => {}));
 addEventListener("touchend", playAll, { once: true });
 addEventListener("click", playAll, { once: true });

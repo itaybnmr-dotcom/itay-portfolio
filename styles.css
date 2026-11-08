@@ -20,33 +20,65 @@
   font-style: normal;
 }
 
-/* ===== Design tokens: colors, fonts, spacing ===== */
+/* ===== Design tokens: the variables and text styles of the Figma file, under the same names
+   (Figma's "color/bg" is --color-bg here: a CSS name can't have a slash) ===== */
 :root {
-  /* Colors */
-  --color-background: #000000;
-  --color-text: #ffffff;
-  --color-accent: #ff473f; /* Reach's red: its boards and its cursor circle */
-  --color-card: #faf9f6; /* the work cards on the home page */
-  --color-card-text: #000000; /* the labels on the cards */
+  /* Colors: Primitives */
+  --black: #000000;
+  --white: #ffffff;
+  --red: #ff473f;
+  --paper: #faf9f6;
+
+  /* Colors: Tokens */
+  --color-bg: var(--black);
+  --color-text: var(--white);
+  --color-accent: var(--red); /* Reach's red: its boards and its cursor circle */
+  --color-card: var(--paper); /* the work cards on the home page */
+  --color-card-text: var(--black); /* the labels on the cards */
+
+  /* Colors the site uses that aren't in Figma */
   --color-panel: #0c0e12; /* the dark boards behind the work */
   --color-board-museum: #33241d; /* the brown boards on the Israel Museum Index page */
 
-  /* Fonts */
-  --font-display: "Reckless Condensed", Georgia, serif;
-  --font-body: "ABC Diatype", Helvetica, Arial, sans-serif;
+  /* Spacing */
+  --space-2xs: 2px;
+  --space-xs: 3px;
+  --space-s: 11px; /* from the top of the screen */
+  --space-m: 14px; /* from the sides of the screen */
+  --space-l: 40px;
 
-  /* Font sizes. The headline is 108px on a 1440px-wide frame,
-     so 7.5vw keeps the same proportion on every screen. */
-  --size-display: 7.5vw;
-  --size-small: 16px;
-  --size-caption: 14px; /* the labels on the cards */
+  /* Font sizes. Title and subtitle are px on Figma's 1440px-wide frame, written as plain numbers
+     so the page can scale them with the width: calc(var(--size-title) * var(--x)) */
+  --size-caption: 14px;
+  --size-body: 16px;
+  --size-subtitle: 65;
+  --size-title: 108;
 
-  /* Letter spacing (-2% in Figma) */
-  --tracking-tight: -0.02em;
+  /* Text styles */
+  --title-font-family: "Reckless Condensed", Georgia, serif;
+  --title-font-weight: 300; /* Light */
+  --title-line-height: normal; /* Auto */
+  --title-letter-spacing: -0.03em;
 
-  /* Spacing from the screen edges */
-  --space-top: 11px;
-  --space-side: 14px;
+  --subtitle-font-family: "Reckless Condensed", Georgia, serif;
+  --subtitle-font-weight: 300; /* Light */
+  --subtitle-line-height: normal; /* Auto */
+  --subtitle-letter-spacing: -0.03em;
+
+  --body-font-family: "ABC Diatype", Helvetica, Arial, sans-serif;
+  --body-font-weight: 500; /* Medium */
+  --body-line-height: 1.15; /* 115% */
+  --body-letter-spacing: -0.02em;
+
+  --caption-font-family: "ABC Diatype", Helvetica, Arial, sans-serif;
+  --caption-font-weight: 500; /* Medium */
+  --caption-line-height: normal; /* Auto */
+  --caption-letter-spacing: -0.02em;
+
+  --nav-font-family: "ABC Diatype", Helvetica, Arial, sans-serif;
+  --nav-font-weight: 500; /* Medium */
+  --nav-line-height: normal; /* Auto */
+  --nav-letter-spacing: -0.02em;
 
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
@@ -127,9 +159,9 @@ body {
 }
 
 body {
-  background: var(--color-background);
+  background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-body);
+  font-family: var(--body-font-family);
 }
 
 /* Site rule: wherever text crosses something (an image, a video, other text), it turns negative.
@@ -149,7 +181,7 @@ nav,
 /* Selected text: white highlight with black text (instead of the default blue) */
 ::selection {
   background: var(--color-text);
-  color: var(--color-background);
+  color: var(--color-bg);
 }
 
 /* ===== Custom mouse cursor ===== */
@@ -214,9 +246,9 @@ nav,
     width: 100%;
     height: 100%;
     fill: var(--circle-ink);
-    font-family: var(--font-body);
+    font-family: var(--body-font-family);
     font-size: 17px;
-    font-weight: 500; /* Medium */
+    font-weight: var(--body-font-weight); /* Medium */
     letter-spacing: 0.02em;
     opacity: 0;
     transition: opacity 0.2s linear;
@@ -244,15 +276,15 @@ nav,
 .top-bar {
   position: fixed;
   z-index: 1; /* above the headline */
-  top: var(--space-top);
-  left: var(--space-side);
-  right: var(--space-side);
+  top: var(--space-s);
+  left: var(--space-m);
+  right: var(--space-m);
   display: grid;
   grid-template-columns: 1fr auto 1fr; /* side columns equal, so the middle stays centered */
-  gap: var(--space-side);
-  font-size: var(--size-small);
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  gap: var(--space-m);
+  font-size: var(--size-body);
+  font-weight: var(--nav-font-weight);
+  letter-spacing: var(--nav-letter-spacing);
 }
 
 /* At the footer the top bar fades out, and back in on the way up (script.js adds .is-at-footer) */
@@ -315,7 +347,8 @@ nav,
     display: none;
   }
 
-  .roll:hover .roll__from .roll__letter {
+  /* A tap doesn't roll it either: the word stays put while it's pressed */
+  .roll:is(:hover, :active, :focus-visible):not(.is-active) .roll__from .roll__letter {
     transform: none;
   }
 
@@ -349,11 +382,12 @@ nav,
    one line, the name on the left and the menu on the right; the tagline is said by the page itself */
 @media (max-width: 700px) {
   :root {
-    --size-small: 14px;
-    --space-side: 12px;
+    --space-m: 12px;
   }
 
+  /* The bar is in the caption size on phones (Figma's phone frames); the pages' text stays size/body */
   .top-bar {
+    font-size: var(--size-caption);
     grid-template-columns: 1fr auto;
     line-height: 1.2;
   }
@@ -425,7 +459,7 @@ nav,
 .link-line:is(:active, [data-state="active"]),
 .roll:is(:active, [data-state="active"]) {
   background-color: var(--color-text);
-  color: var(--color-background);
+  color: var(--color-bg);
 }
 
 /* A pressed card: its labels turn negative */
@@ -461,9 +495,9 @@ nav,
   position: relative;
   height: 100vh;
   overflow: clip; /* letters flying off don't make the page wider */
-  font-size: var(--size-small);
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  font-size: var(--size-body);
+  font-weight: var(--body-font-weight);
+  letter-spacing: var(--body-letter-spacing);
 }
 
 .process > * {
@@ -474,7 +508,7 @@ nav,
   left: var(--column);
   top: calc(78 * var(--u));
   width: 345px; /* fixed, like the 14px text in it, so the lines break where they do in Figma on any screen */
-  line-height: 1.15;
+  line-height: var(--body-line-height);
 }
 
 /* The second paragraph starts with an indent (10 spaces in Figma) */
@@ -520,7 +554,7 @@ nav,
    "left" is measured from the log, so this puts it 14px from the page edge. */
 .process__preview {
   position: absolute;
-  left: calc(14px - var(--column));
+  left: calc(var(--space-m) - var(--column));
   width: calc(560 * var(--x));
   height: auto;
   pointer-events: none;
@@ -542,10 +576,10 @@ nav,
 .process__title {
   left: calc(14 * var(--x));
   bottom: calc(21 * var(--u));
-  font-family: var(--font-display);
+  font-family: var(--title-font-family);
   font-size: calc(154 * var(--x));
-  font-weight: 300;
-  letter-spacing: -0.03em;
+  font-weight: var(--title-font-weight);
+  letter-spacing: var(--title-letter-spacing);
   word-spacing: -0.003em; /* the browser's spaces are a hair wider than Figma's */
   line-height: normal;
   white-space: pre; /* keeps the wide gaps between the words */
@@ -587,9 +621,9 @@ nav,
   top: calc(117 * var(--x));
   left: calc(30 * var(--x));
   right: calc(30 * var(--x));
-  font-family: var(--font-display);
+  font-family: var(--title-font-family);
   font-size: calc(90 * var(--x));
-  font-weight: 300;
+  font-weight: var(--title-font-weight);
   letter-spacing: -0.028em;
   line-height: calc(85 * var(--x));
 }
@@ -602,8 +636,8 @@ nav,
 }
 
 .hero__bold {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-family: var(--body-font-family);
+  font-weight: var(--body-font-weight);
   letter-spacing: -0.03em;
 }
 
@@ -643,8 +677,8 @@ nav,
   top: calc(525 * var(--x));
   left: calc(50% - 111.5px); /* centered */
   width: 223px; /* fixed, like the 16px text, so the lines break where they do in Figma */
-  font-size: var(--size-small);
-  font-weight: 500;
+  font-size: var(--size-body);
+  font-weight: var(--body-font-weight);
   letter-spacing: -0.03em; /* a hair tighter, so "Visual" fits on the first line like in Figma */
   text-align: justify;
 }
@@ -749,7 +783,7 @@ nav,
 
 /* The Israel Museum site: its gray-black type on white (sampled from the site) */
 .work--museum {
-  --circle: #fff;
+  --circle: var(--white);
   --circle-ink: #212123;
   left: calc(491 * var(--x));
   width: calc(458 * var(--x));
@@ -765,8 +799,8 @@ nav,
 
 /* HAVEN: its dithered black on white, under Reach */
 .work--haven {
-  --circle: #000;
-  --circle-ink: #fff;
+  --circle: var(--black);
+  --circle-ink: var(--white);
   top: calc(1183 * var(--x));
 }
 
@@ -781,7 +815,7 @@ nav,
 }
 
 .work--record .work__frame {
-  background: #fff;
+  background: var(--white);
 }
 
 .work__site {
@@ -803,7 +837,7 @@ nav,
   gap: calc(16 * var(--x));
   width: calc(414 * var(--x));
   height: calc(245 * var(--x));
-  background: var(--color-background);
+  background: var(--color-bg);
 }
 
 .work__wide {
@@ -827,9 +861,9 @@ nav,
   display: flex;
   justify-content: space-between;
   margin-top: calc(7 * var(--x));
-  font-size: var(--size-small);
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  font-size: var(--size-body);
+  font-weight: var(--caption-font-weight);
+  letter-spacing: var(--caption-letter-spacing);
   mix-blend-mode: difference;
 }
 
@@ -851,8 +885,8 @@ nav,
   margin: 0;
   color: var(--color-card-text);
   font-size: var(--size-caption);
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  font-weight: var(--caption-font-weight);
+  letter-spacing: var(--caption-letter-spacing);
   line-height: normal;
   mix-blend-mode: normal;
 }
@@ -889,9 +923,9 @@ nav,
     width: 100%;
     height: 100%;
     fill: var(--circle-ink);
-    font-family: var(--font-body);
+    font-family: var(--body-font-family);
     font-size: 17px;
-    font-weight: 500;
+    font-weight: var(--body-font-weight);
     letter-spacing: 0.02em;
     animation: spin 8s linear infinite;
   }
@@ -1002,8 +1036,10 @@ nav,
 
 /* ===== Phones: the WIP page as a simple column ===== */
 @media (max-width: 700px) {
+  /* The WIP page and the footer are in the caption size on phones, like the bar */
   .process,
   .footer {
+    font-size: var(--size-caption);
     line-height: 1.2;
   }
 
@@ -1011,7 +1047,7 @@ nav,
   .process {
     height: auto;
     min-height: 100svh;
-    padding: 72px var(--space-side) 22px; /* below the top bar */
+    padding: 72px var(--space-m) 22px; /* below the top bar */
     display: flex;
     flex-direction: column;
   }
@@ -1033,7 +1069,7 @@ nav,
   .process__entry {
     grid-template-columns: 1fr auto auto;
     grid-template-rows: auto 0fr; /* the drawer's row starts closed */
-    column-gap: var(--space-side);
+    column-gap: var(--space-m);
     transition: grid-template-rows 0.7s var(--ease-in-out);
   }
 
@@ -1084,12 +1120,12 @@ nav,
 
   .process__title {
     margin-top: auto; /* pushed to the bottom */
-    padding-top: 40px;
-    font-size: calc((100vw - 2 * var(--space-side)) * 154 / 1412); /* the whole line fits between the margins */
+    padding-top: var(--space-l);
+    font-size: calc((100vw - 2 * var(--space-m)) * 154 / 1412); /* the whole line fits between the margins */
   }
 
   .process__note {
-    margin-top: 2px;
+    margin-top: var(--space-2xs);
   }
 
   /* Pulled up one line, onto the note's line, and to the right */
@@ -1106,9 +1142,9 @@ nav,
   --x: calc(100vw / 1440);
   position: relative;
   height: calc(3441 * var(--x));
-  font-size: 16px; /* the small text stays 16px at any width; its blocks keep Figma's widths in px, so lines break where they do in Figma */
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
+  font-size: var(--size-body); /* the small text stays 16px at any width; its blocks keep Figma's widths in px, so lines break where they do in Figma */
+  font-weight: var(--body-font-weight);
+  letter-spacing: var(--body-letter-spacing);
 }
 
 .project > * {
@@ -1123,10 +1159,10 @@ nav,
 
 /* The big lines: their spaces spread the words across the page, like in Figma */
 .project__big {
-  font-family: var(--font-display);
-  font-size: calc(108 * var(--x));
-  font-weight: 300;
-  letter-spacing: -0.03em;
+  font-family: var(--title-font-family);
+  font-size: calc(var(--size-title) * var(--x));
+  font-weight: var(--title-font-weight);
+  letter-spacing: var(--title-letter-spacing);
   line-height: normal;
   white-space: pre;
 }
@@ -1187,7 +1223,7 @@ nav,
 .project__track {
   left: calc(15 * var(--x));
   bottom: 0;
-  line-height: 1.15;
+  line-height: var(--body-line-height);
 }
 
 .project__track--about {
@@ -1237,7 +1273,7 @@ nav,
 .project__tags {
   top: calc(117 * var(--x) + 3 * 1.15em);
   left: calc(491 * var(--x));
-  line-height: 1.15;
+  line-height: var(--body-line-height);
   white-space: pre;
 }
 
@@ -1398,10 +1434,10 @@ nav,
   right: calc(15 * var(--x));
   color: inherit;
   text-decoration: none;
-  font-family: var(--font-display);
-  font-size: calc(65 * var(--x));
-  font-weight: 300;
-  letter-spacing: -0.03em;
+  font-family: var(--subtitle-font-family);
+  font-size: calc(var(--size-subtitle) * var(--x));
+  font-weight: var(--subtitle-font-weight);
+  letter-spacing: var(--subtitle-letter-spacing);
   mix-blend-mode: difference;
 }
 
@@ -1488,312 +1524,251 @@ nav,
   top: calc(3818 * var(--x));
 }
 
-/* ===== Phones: the Reach page as one column =====
-   Like the phone reference (ofirgu.cargo.site): small clean text, and the work as big as the screen.
-   The title big over three lines, the texts one under another, then each board from edge to edge
-   in its Figma proportions, with what sits on it in its place. The two app phones share the width;
-   the three phones on the dark board become a strip to swipe through.
-   No shrinking title or sticky texts here (reach.js skips them too). */
+/* ===== Project page: Record Day (record-day.html) =====
+   Built on the Reach page above; only what sits elsewhere in its Figma frame
+   ("עמוד פריט יום התקליט") is set here */
+.project--record {
+  height: calc(4250 * var(--x)); /* the footer's bio starts 4250px down */
+}
+
+.project--record .project__title {
+  top: 0;
+}
+
+.project--record .project__track--about {
+  top: calc(105 * var(--x));
+  width: 383px;
+}
+
+/* Starts on the description's third line */
+.project--record .project__tags {
+  top: calc(105 * var(--x) + 2 * var(--body-line-height) * 1em);
+}
+
+.project--record .project__track--research {
+  top: calc(1079 * var(--x));
+  width: 338px;
+}
+
+.project--record .project__subtitle {
+  top: calc(2923 * var(--x));
+  left: calc(-34 * var(--x));
+}
+
+.project--record .project__track--graphic {
+  top: calc(3068 * var(--x));
+  width: 357px;
+}
+
+.project--record .project__next {
+  top: calc(4281 * var(--x));
+}
+
+/* The videos: each fills its Figma box */
+.project__media {
+  object-fit: cover;
+}
+
+.project__media--train { top: calc(238 * var(--x)); left: calc(6 * var(--x)); width: calc(1427 * var(--x)); height: calc(822 * var(--x)); }
+.project__media--stories { top: calc(1261 * var(--x)); left: calc(28 * var(--x)); width: calc(424 * var(--x)); height: calc(754 * var(--x)); }
+.project__media--bus { top: calc(1262 * var(--x)); left: calc(510 * var(--x)); width: calc(424 * var(--x)); height: calc(753 * var(--x)); }
+.project__media--schedule { top: calc(1262 * var(--x)); left: calc(992 * var(--x)); width: calc(424 * var(--x)); height: calc(754 * var(--x)); }
+.project__media--screens { top: calc(2061 * var(--x)); left: calc(7 * var(--x)); width: calc(1427 * var(--x)); height: calc(822 * var(--x)); }
+.project__media--lines { top: calc(3381 * var(--x)); left: calc(35 * var(--x)); width: calc(754 * var(--x)); height: calc(754 * var(--x)); }
+.project__media--name { top: calc(3381 * var(--x)); left: calc(803 * var(--x)); width: calc(603 * var(--x)); height: calc(754 * var(--x)); }
+
+/* Text that's only in the phone frame */
+.project__phone-only {
+  display: none;
+}
+
+/* ===== Phones: the project pages from their Figma phone frames, 402px wide
+   ("phone - Reach", "phone - israel museum index", "phone - Record Day").
+   Like on the computer, everything sits at its Figma spot: here --x is 1px of the 402px frame,
+   and the small text stays 16px with Figma's widths in px, so its lines break where they do in Figma.
+   Nothing moves sideways or sticks: no shrinking title, no sliding subtitle, no sticky texts (reach.js skips them) */
 @media (max-width: 700px) {
   .project {
-    --x: calc(100vw / 1410);
-    height: auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* the wider-than-the-screen pictures mustn't widen the columns */
-    grid-template-areas:
-      "title    title"
-      "about    about"
-      "tags     tags"
-      "site     site"
-      "research research"
-      "before   after"
-      "sub      sub"
-      "graphic  graphic"
-      "logo     logo"
-      "dark     dark"
-      "still    still"
-      "holds    holds"
-      "next     next";
-    column-gap: 4px;
-    padding: 72px var(--space-side) 0;
-    overflow-x: clip; /* the logo drawing may not widen the page */
-    font-size: 16px;
-  }
-
-  /* In the column, not at their desktop spots (which would still nudge them) */
-  .project > *,
-  .project__phone {
-    position: relative;
-    inset: auto;
+    --x: calc(100vw / 402);
+    height: calc(3314 * var(--x)); /* down to "Let's Collab" */
+    overflow-x: clip; /* some videos reach past the screen's edges, like in Figma */
   }
 
   .project-page .top-bar__name {
     visibility: visible;
   }
 
-  /* Reach on the left, App for in the middle, Climbers on the right */
+  .project__phone-only {
+    display: block;
+  }
+
+  /* The title and the subtitle on one line each, 39px on 402 */
+  .project__big {
+    font-size: calc(39 * var(--x));
+  }
+
   .project__title {
-    grid-area: title;
-    display: flex;
-    flex-direction: column;
-    font-size: 24vw;
-    line-height: 0.9;
-    white-space: normal;
+    position: absolute;
+    top: calc(43 * var(--x));
+    left: calc(12 * var(--x));
   }
 
   .project__title span {
     transform: none;
   }
 
-  .project__title span:nth-child(2) {
-    align-self: center;
+  .project__subtitle {
+    left: calc(12 * var(--x));
   }
 
-  .project__title span:nth-child(3) {
-    align-self: flex-end;
-  }
-
+  /* The texts in their spots, not stuck */
   .project__track {
-    width: auto;
-    line-height: 1.25;
+    left: calc(12 * var(--x));
+    bottom: auto;
   }
-
-  .project__track--about { grid-area: about; margin-top: 28px; }
-  .project__track--research { grid-area: research; margin-top: 28px; }
-  .project__track--graphic { grid-area: graphic; margin-top: 14px; }
 
   .project__about,
   .project__text {
     position: static;
   }
 
-  /* The details: small, as rows of a table, each with a line on top */
-  .project__course,
-  .project__collab,
   .project__tags {
-    padding: 7px 0 8px;
-    border-top: 1px solid currentColor;
-    font-size: 13px;
-    line-height: 1.15;
-    text-indent: 0;
-    white-space: normal;
+    top: calc(112 * var(--x));
+    left: calc(12 * var(--x));
   }
 
-  .project__course { margin-top: 28px; }
-  .project__tags { grid-area: tags; border-bottom: 1px solid currentColor; }
-
-  /* Edge to edge: out past the page's side margins */
-  .project__board,
-  .project__site,
-  .project__strip {
-    margin-left: calc(-1 * var(--space-side));
-    margin-right: calc(-1 * var(--space-side));
+  /* "Next Project →" in the middle, 34px on 402 */
+  .project__next {
+    left: 50%;
+    right: auto;
+    translate: -50% 0;
+    font-size: calc(34 * var(--x));
+    white-space: nowrap; /* from the middle there's only half the screen to its right: it mustn't wrap */
   }
 
-  /* Each board fills its row; what's on it sits in its place on it */
-  .project__board {
-    width: auto;
-    height: auto;
-  }
+  /* ----- Reach ----- */
+  .project__tags { width: 296px; white-space: normal; }
+  .project__track--about { top: calc(173 * var(--x)); width: 340px; }
+  .project__board--site { top: calc(337 * var(--x)); left: calc(14 * var(--x)); width: calc(372 * var(--x)); height: calc(226 * var(--x)); }
+  .project__site { top: calc(349 * var(--x)); left: calc(39 * var(--x)); width: calc(323 * var(--x)); }
+  .project__track--research { top: calc(610 * var(--x)); left: calc(13 * var(--x)); width: 368px; }
 
-  .project__board--site,
-  .project__site {
-    grid-area: site;
-    margin-top: 40px;
-  }
-
-  .project__site {
-    width: calc(1222 * var(--x));
-    margin: calc(40px + 44 * var(--x)) 0 calc(44 * var(--x)) calc(96 * var(--x) - var(--space-side));
-  }
-
-  /* The two app phones share the width, out to the screen's edges */
-  .project__app {
-    width: calc(100% + var(--space-side)); /* its half, plus out to the screen's edge */
-    height: auto;
-    margin-top: 20px;
-    border-radius: 0;
-  }
-
-  .project__app--before {
-    grid-area: before;
-    margin-left: calc(-1 * var(--space-side));
-  }
-
+  .project__app,
   .project__app--after {
-    grid-area: after;
-    margin-right: calc(-1 * var(--space-side));
+    left: calc(80 * var(--x));
+    width: calc(227 * var(--x));
+    border-radius: calc(41 * var(--x));
   }
 
-  .project__subtitle {
-    grid-area: sub;
-    margin-top: 48px;
-    font-size: 20vw; /* "Graphic Language" over "& Direction" */
-    line-height: 0.92;
-    white-space: normal;
-    text-align: right;
-  }
+  .project__app--before { top: calc(823 * var(--x)); height: calc(456 * var(--x)); }
+  .project__app--after { top: calc(1304 * var(--x)); height: calc(454 * var(--x)); }
 
-  /* The logo drawing: its board (14px in, 695 wide) from edge to edge */
+  .project__subtitle { top: calc(1813 * var(--x)); }
+  .project__track--graphic { top: calc(1882 * var(--x)); left: calc(15 * var(--x)); width: 357px; }
+
+  /* The logo drawing, scaled so its board is 362 wide (695 on the computer) */
   .project__logo-board {
-    --x: calc(100vw / 695);
-    grid-area: logo;
-    width: calc(715.909 * var(--x));
-    max-width: none;
-    margin: 40px 0 0 calc(-14 * var(--x) - var(--space-side));
+    top: calc(2024 * var(--x));
+    left: calc(14.7 * var(--x));
+    width: calc(372.9 * var(--x));
   }
 
-  /* The dark board's phones: a strip to swipe through, each phone big, stopping on each one */
-  .project__board--dark,
-  .project__route {
-    display: none;
+  /* The three app screens on the dark board, with its two route lines */
+  .project__board--dark { top: calc(2355 * var(--x)); left: calc(25.07 * var(--x)); width: calc(354.915 * var(--x)); height: calc(335.96 * var(--x)); }
+
+  .project__route > span {
+    rotate: -170.04deg;
+    transform: skewX(-0.9deg);
   }
 
-  .project__strip {
-    grid-area: dark;
-    display: flex;
-    gap: 10px;
-    margin-top: 4px;
-    padding: 28px var(--space-side);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    background: var(--color-panel);
+  .project__route--1 { top: calc(2463.05 * var(--x)); left: calc(20.11 * var(--x)); width: calc(361.858 * var(--x)); height: calc(94.022 * var(--x)); }
+  .project__route--2 { top: calc(2454.76 * var(--x)); left: calc(20 * var(--x)); width: calc(362 * var(--x)); height: calc(93.748 * var(--x)); }
+  .project__route--1 > span { width: calc(361.254 * var(--x)); height: calc(32.112 * var(--x)); }
+  .project__route--2 > span { width: calc(361.458 * var(--x)); height: calc(31.797 * var(--x)); }
+  .project__route--1 img { top: -1.25%; height: 102.5%; }
+  .project__route--2 img { top: -2.83%; height: 105.66%; }
+
+  .project__phone,
+  .project__phone--arm {
+    top: calc(2406 * var(--x));
+    width: calc(114.102 * var(--x));
+    height: calc(234.963 * var(--x));
   }
 
-  .project__strip::-webkit-scrollbar {
-    display: none;
-  }
+  .project__phone--congrats { left: calc(32 * var(--x)); border-radius: calc(16 * var(--x)); }
+  .project__phone--timer { left: calc(148.05 * var(--x)); top: calc(2405.83 * var(--x)); border-radius: calc(17 * var(--x)); }
+  .project__phone--arm { left: calc(264 * var(--x)); width: calc(113.967 * var(--x)); height: calc(234.685 * var(--x)); border-radius: calc(15 * var(--x)); }
 
-  .project__phone {
-    flex: none;
-    width: 64vw;
-    height: auto;
-    margin: 0;
-    border-radius: calc(64vw * 36 / 213); /* Figma's 36 on 213 */
-    scroll-snap-align: center;
-  }
-
-  /* The two red boards, one under the other, from edge to edge; 1 Figma pixel is a 695th of the screen */
-  .project__board--still,
-  .project__still,
-  .project__board--holds,
-  .project__holds {
-    --x: calc(100vw / 695);
-    align-self: start;
-  }
-
+  /* Two red boards: the still landing page, and its holds section */
   .project__board--still,
   .project__board--holds {
-    height: calc(479 * var(--x));
-    margin-top: 4px;
+    left: calc(25 * var(--x));
+    width: calc(355 * var(--x));
   }
 
-  .project__board--still,
-  .project__still { grid-area: still; }
+  .project__board--still { top: calc(2708 * var(--x)); height: calc(244 * var(--x)); }
+  .project__still { top: calc(2727 * var(--x)); left: calc(43 * var(--x)); width: calc(320 * var(--x)); }
+  .project__board--holds { top: calc(2963 * var(--x)); height: calc(245 * var(--x)); }
+  .project__holds { top: calc(2984 * var(--x)); left: calc(41 * var(--x)); width: calc(323 * var(--x)); height: calc(203 * var(--x)); }
 
-  .project__board--holds,
-  .project__holds { grid-area: holds; }
+  .project__next { top: calc(3215 * var(--x)); }
 
-  .project__still {
-    width: calc(627 * var(--x));
-    margin: calc(4px + 37 * var(--x)) 0 0 calc(36 * var(--x) - var(--space-side));
+  /* ----- Israel Museum Index ----- */
+  .project--museum { height: calc(3398 * var(--x)); }
+  .project--museum .project__track--about { top: calc(185 * var(--x)); width: 333px; }
+
+  .project--museum .project__site { top: calc(343 * var(--x)); left: calc(16 * var(--x)); width: calc(371 * var(--x)); height: calc(228 * var(--x)); object-fit: cover; }
+  .project__clip--artwork { top: calc(580 * var(--x)); left: calc(16 * var(--x)); width: calc(371 * var(--x)); }
+  .project__clip--index { top: calc(815 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
+  .project--museum .project__track--research { top: calc(1071 * var(--x)); left: calc(12 * var(--x)); width: 346px; }
+  .project__clip--hover { top: calc(1226 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
+
+  .project--museum .project__subtitle { top: calc(1487 * var(--x)); }
+  .project--museum .project__track--graphic { top: calc(1540 * var(--x)); left: calc(15 * var(--x)); width: 351px; }
+
+  .project__board--m1 { top: calc(1691 * var(--x)); left: calc(17 * var(--x)); width: calc(368 * var(--x)); height: calc(255 * var(--x)); }
+  .project__board--m2 { top: calc(1955 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
+  .project__board--m3 { top: calc(2220 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(255 * var(--x)); }
+  .project__board--m4 { top: calc(2484 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
+  .project__board--m5 { top: calc(2749 * var(--x)); left: calc(18 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
+  .project__board--m6 { top: calc(3014 * var(--x)); left: calc(18 * var(--x)); width: calc(369 * var(--x)); height: calc(255 * var(--x)); }
+
+  .project__shot { height: auto; }
+  .project__shot--m1 { top: calc(1725 * var(--x)); left: calc(34 * var(--x)); width: calc(334 * var(--x)); }
+  .project__shot--m2 { top: calc(1989 * var(--x)); left: calc(34 * var(--x)); width: calc(336 * var(--x)); }
+  .project__shot--m3 { top: calc(2255 * var(--x)); left: calc(35 * var(--x)); width: calc(334 * var(--x)); }
+  .project__shot--m4 { top: calc(2518 * var(--x)); left: calc(34 * var(--x)); width: calc(337 * var(--x)); }
+  .project__shot--m5 { top: calc(2780 * var(--x)); left: calc(36 * var(--x)); width: calc(334 * var(--x)); }
+  .project__shot--m6 { top: calc(3044 * var(--x)); left: calc(42 * var(--x)); width: calc(335 * var(--x)); }
+
+  .project--museum .project__next { top: calc(3278 * var(--x)); }
+
+  /* ----- Record Day ----- */
+  .project--record { height: calc(4131 * var(--x)); }
+  .project--record .project__title { top: calc(43 * var(--x)); }
+  .project--record .project__tags { top: calc(112 * var(--x)); width: 322px; }
+  .project--record .project__track--about { top: calc(175 * var(--x)); width: 342px; }
+  .project--record .project__track--research { top: calc(567 * var(--x)); left: calc(15 * var(--x)); width: 338px; }
+  .project--record .project__subtitle { top: calc(2826 * var(--x)); left: calc(12 * var(--x)); }
+  .project--record .project__track--graphic { top: calc(2879 * var(--x)); left: calc(15 * var(--x)); width: 351px; }
+  .project--record .project__next { top: calc(4023 * var(--x)); }
+
+  .project__media--train { top: calc(293 * var(--x)); left: calc(-21 * var(--x)); width: calc(435 * var(--x)); height: calc(250 * var(--x)); }
+  .project__media--stories { top: calc(808 * var(--x)); }
+  .project__media--bus { top: calc(1375 * var(--x)); }
+  .project__media--schedule { top: calc(1942 * var(--x)); }
+
+  .project__media--stories,
+  .project__media--bus,
+  .project__media--schedule {
+    left: calc(48 * var(--x));
+    width: calc(306 * var(--x));
+    height: calc(544 * var(--x));
   }
 
-  .project__holds {
-    width: calc(633 * var(--x));
-    height: auto;
-    margin: calc(4px + 40 * var(--x)) 0 0 calc(31 * var(--x) - var(--space-side));
-  }
-
-  .project__next {
-    grid-area: next;
-    justify-self: end;
-    margin: 64px 0 28px;
-    font-size: 13vw;
-  }
-}
-
-/* ===== Phones: the Israel Museum Index page as one column, like Reach's =====
-   (no phone frame for it in Figma yet) */
-@media (max-width: 700px) {
-  .project--museum {
-    grid-template-areas:
-      "title    title"
-      "about    about"
-      "tags     tags"
-      "site     site"
-      "artwork  artwork"
-      "index    index"
-      "research research"
-      "hover    hover"
-      "sub      sub"
-      "graphic  graphic"
-      "m1       m1"
-      "m2       m2"
-      "m3       m3"
-      "m4       m4"
-      "m5       m5"
-      "m6       m6"
-      "next     next";
-  }
-
-  /* In the column, not at this page's desktop spots and widths */
-  .project--museum.project > * {
-    inset: auto;
-  }
-
-  .project--museum .project__track {
-    width: auto;
-  }
-
-  /* The recordings from edge to edge */
-  .project--museum .project__site,
-  .project__clip {
-    width: calc(100% + 2 * var(--space-side));
-    max-width: none;
-    margin: 4px calc(-1 * var(--space-side)) 0;
-  }
-
-  .project--museum .project__site { grid-area: site; margin-top: 40px; }
-  .project__clip--artwork { grid-area: artwork; }
-  .project__clip--index { grid-area: index; }
-  .project__clip--hover { grid-area: hover; margin-top: 20px; }
-
-  /* Each board from edge to edge, its screen in its Figma place on it:
-     1 Figma pixel is a 695th of the screen */
-  .project__board--museum,
-  .project__shot {
-    --x: calc(100vw / 695);
-    align-self: start;
-  }
-
-  .project__board--museum {
-    width: auto;
-    height: calc(479 * var(--x));
-    margin-top: 4px;
-  }
-
-  .project__shot {
-    width: calc(606 * var(--x));
-    margin: calc(4px + 64 * var(--x)) 0 0 calc(44 * var(--x) - var(--space-side));
-  }
-
-  .project__shot--m5 {
-    width: calc(630 * var(--x));
-    margin: calc(4px + 57 * var(--x)) 0 0 calc(32 * var(--x) - var(--space-side));
-  }
-
-  .project__board--m1, .project__shot--m1 { grid-area: m1; }
-  .project__board--m2, .project__shot--m2 { grid-area: m2; }
-  .project__board--m3, .project__shot--m3 { grid-area: m3; }
-  .project__board--m4, .project__shot--m4 { grid-area: m4; }
-  .project__board--m5, .project__shot--m5 { grid-area: m5; }
-  .project__board--m6, .project__shot--m6 { grid-area: m6; }
-
-  .project--museum .project__board--museum { margin-top: 4px; }
-  .project--museum .project__board--m1 { margin-top: 40px; }
-  .project--museum .project__shot--m1 { margin-top: calc(40px + 64 * var(--x)); }
+  .project__media--screens { top: calc(2519 * var(--x)); left: calc(-11 * var(--x)); width: calc(428 * var(--x)); height: calc(246 * var(--x)); }
+  .project__media--lines { top: calc(3170 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(372 * var(--x)); }
+  .project__media--name { top: calc(3554 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(465 * var(--x)); }
 }
 
 /* ===== Footer ===== */
@@ -1801,11 +1776,11 @@ nav,
   overflow: clip; /* the Let's Collab window reaches below the footer; it mustn't make the page longer */
   /* The bottom row sits close to the bottom of the page, but low enough for the tail of
      Instagram's g to show whole (measured: it reaches 2.78vw - 23px under the row) */
-  padding: 0 15px max(14px, calc(2.78vw - 17px));
-  font-size: var(--size-small);
-  font-weight: 500;
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.15;
+  padding: 0 15px max(var(--space-m), calc(2.78vw - 17px));
+  font-size: var(--size-body);
+  font-weight: var(--body-font-weight);
+  letter-spacing: var(--body-letter-spacing);
+  line-height: var(--body-line-height);
 }
 
 .footer__bio {
@@ -1814,10 +1789,10 @@ nav,
 
 /* The huge "Let's Collab" (353px on a 1440px frame) */
 .footer__collab {
-  font-family: var(--font-display);
+  font-family: var(--title-font-family);
   font-size: 24.5vw;
-  font-weight: 300;
-  letter-spacing: var(--tracking-tight);
+  font-weight: var(--title-font-weight);
+  letter-spacing: var(--body-letter-spacing);
   line-height: 1;
   white-space: nowrap;
   margin: -0.03em 0 -0.06em -0.02em; /* pulled up and left, and the bottom row tucked under the letters, like in Figma */
@@ -1873,6 +1848,10 @@ nav,
 /* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 on the left,
    and "Works" a third of the way across, like on the computer */
 @media (max-width: 700px) {
+  .footer {
+    font-size: var(--size-caption);
+  }
+
   .footer__bio {
     display: none;
   }

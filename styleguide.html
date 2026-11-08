@@ -5,436 +5,280 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Styleguide</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=44">
+  <link rel="stylesheet" href="styles.css?v=50">
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
-  <script src="script.js?v=26" defer></script>
-  <!-- The guide's own layout. Every value is one of styles.css's variables; nothing is set by hand.
-       The specimens are the site's real classes, taken out of their pages, and their states come from
-       styles.css too: [data-state] holds a state still ("States" in styles.css) -->
+  <script src="script.js?v=27" defer></script>
+  <!-- The Figma board "COMP AND STYLES" (node 481:2), as it is there: the same five frames in the same places,
+       with the same content. Colors and type come from styles.css's variables; the components are the site's own.
+       Like the site's pages, the board's places are Figma's px times --x (here 1, so the board is at Figma's size). -->
   <style>
-    .guide {
-      padding: var(--space-top) var(--space-side) var(--size-display);
-      font-size: var(--size-small);
-      letter-spacing: var(--tracking-tight);
-      line-height: normal;
-      overflow-x: clip;
+    .board {
+      --x: 1px;
+      position: relative;
+      margin-inline: auto; /* centered when the screen is wider than the board */
+      width: calc(3666 * var(--x));
+      height: calc(2097 * var(--x));
+      background: var(--color-bg);
+      color: var(--color-text);
     }
 
-    /* The top: the name of the page and an index of its parts */
-    .guide__head {
+    .board > * {
+      position: absolute;
+    }
+
+    /* The names of the frames */
+    .board__heading {
+      font-family: var(--nav-font-family);
+      font-size: calc(50 * var(--x));
+      font-weight: var(--nav-font-weight);
+      line-height: var(--nav-line-height);
+      letter-spacing: var(--nav-letter-spacing);
+      white-space: nowrap;
+    }
+
+    /* The frames: a line around them */
+    .board__frame {
       display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--space-side);
-      padding-block: var(--size-display);
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-l);
+      border: calc(1 * var(--x)) solid var(--color-text);
     }
 
-    .guide__title,
-    .guide__heading {
-      font-family: var(--font-display);
-      font-size: var(--size-display);
-      line-height: normal;
+    /* The small labels, like the layer notes in Figma */
+    .board__note {
+      font-family: var(--caption-font-family);
+      font-size: calc(11 * var(--x));
+      font-weight: var(--caption-font-weight);
+      line-height: var(--caption-line-height);
+      letter-spacing: 0.05em; /* 5%, as in Figma */
+      white-space: nowrap;
     }
 
-    .guide__index {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-side);
-    }
-
-    /* A part of the system, like a frame in Figma: its name over a line */
-    .guide__section {
-      padding-block: var(--size-display);
-      border-top: var(--line-thickness) solid var(--color-text);
-      scroll-margin-top: var(--space-top);
-    }
-
-    .guide__heading {
-      margin-bottom: var(--space-side);
-    }
-
-    .guide__group {
-      margin-top: var(--size-display);
-    }
-
-    /* Small names over and under things, like layer names in Figma */
-    .guide__label,
-    .guide__caption {
-      font-family: var(--font-body);
-      font-size: var(--size-caption);
-      letter-spacing: var(--tracking-tight);
-      line-height: normal;
-      white-space: normal;
-    }
-
-    .guide__label {
-      margin-bottom: var(--space-top);
-    }
-
-    .guide__caption {
-      margin-top: var(--space-top);
-    }
-
-    /* Colors */
-    .guide__swatches {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-side);
-    }
-
-    .guide__swatch {
-      width: var(--size-display);
-      height: var(--size-display);
-      border: var(--line-thickness) solid var(--color-text);
-    }
-
-    /* Spacing: each value drawn as a bar of its own length */
-    .guide__scale {
-      display: grid;
-      gap: var(--space-side);
-    }
-
-    .guide__bar {
-      height: var(--space-side);
-      background: var(--color-text);
-    }
-
-    /* The states of a component, side by side like a variant set */
-    .guide__states {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: var(--size-display) var(--space-side);
-    }
-
-    /* Four cards: two by two, like a variant set */
-    .guide__states--grid {
+    /* ===== Work card: the four states, two by two ===== */
+    .board__cards {
       display: grid;
       grid-template-columns: repeat(2, max-content);
+      gap: var(--space-l);
     }
 
-    .guide__states--wide {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .guide__state {
-      position: relative;
-    }
-
-    .guide__specimen + .guide__specimen {
-      margin-top: var(--size-display);
-    }
-
-    /* The site's classes out of their pages: they keep their look, not their place */
-    .guide .hero,
-    .guide .project {
-      height: auto;
-    }
-
-    .guide :is(.hero > *, .project > *, .project__text, .work, .top-bar),
-    .guide__specimen > .work__info {
+    .board .work {
       position: relative;
       inset: auto;
     }
 
-    .guide .top-bar {
-      z-index: auto;
-    }
-
-    /* In the type samples the caption is just its text style, white on black like the rest */
-    .guide__specimen > .work__info {
-      justify-content: flex-start;
-      gap: var(--space-side);
-      color: var(--color-text);
-    }
-
-    /* The circle the cursor turns into over a card, held still over the hovered one */
-    .guide__cursor.cursor {
+    /* The hovered card's circle, held still over it, its name going around */
+    .board .cursor {
       position: absolute;
       inset: 0;
       margin: auto;
     }
+
+    /* ===== Nav bar and Name: Default and Hover ===== */
+    .board__links {
+      font-family: var(--nav-font-family);
+      font-size: var(--size-body);
+      font-weight: var(--nav-font-weight);
+      line-height: var(--nav-line-height);
+      letter-spacing: var(--nav-letter-spacing);
+    }
+
+    /* ===== Colors ===== */
+    .board__colors {
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: calc(32 * var(--x));
+      padding: calc(47 * var(--x)) 0 0 calc(83 * var(--x));
+    }
+
+    .board__swatch {
+      display: flex;
+      flex-direction: column;
+      gap: calc(12 * var(--x));
+    }
+
+    .board__swatch > span {
+      width: calc(200 * var(--x));
+      height: calc(120 * var(--x));
+      border: calc(1 * var(--x)) solid var(--color-text);
+    }
+
+    /* ===== Fonts: the style's name, font and size on the left, a sample on the right ===== */
+    .board__fonts {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: calc(55 * var(--x)) 0 0 calc(59 * var(--x));
+    }
+
+    .board__row {
+      display: flex;
+      align-items: flex-start;
+      gap: calc(48 * var(--x));
+    }
+
+    .board__row > .board__note {
+      width: calc(260 * var(--x));
+    }
+
+    .board__row > :last-child {
+      width: calc(1180 * var(--x));
+    }
+
+    .board__title,
+    .board__subtitle {
+      font-family: var(--title-font-family);
+      font-weight: var(--title-font-weight);
+      line-height: var(--title-line-height);
+      letter-spacing: var(--title-letter-spacing);
+    }
+
+    .board__title { font-size: calc(var(--size-title) * var(--x)); }
+
+    .board__subtitle {
+      font-family: var(--subtitle-font-family);
+      font-weight: var(--subtitle-font-weight);
+      line-height: var(--subtitle-line-height);
+      letter-spacing: var(--subtitle-letter-spacing);
+      font-size: calc(var(--size-subtitle) * var(--x));
+    }
+
+    .board__body {
+      font-family: var(--body-font-family);
+      font-size: var(--size-body);
+      font-weight: var(--body-font-weight);
+      line-height: var(--body-line-height);
+      letter-spacing: var(--body-letter-spacing);
+    }
+
+    .board__caption {
+      font-family: var(--caption-font-family);
+      font-size: var(--size-caption);
+      font-weight: var(--caption-font-weight);
+      line-height: var(--caption-line-height);
+      letter-spacing: var(--caption-letter-spacing);
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
-  <main class="guide">
-    <header class="guide__head">
-      <h1 class="guide__title">Styleguide</h1>
-      <nav class="guide__index" aria-label="Parts of the styleguide">
-        <a class="link-line" href="#colors">Colors</a>
-        <a class="link-line" href="#spacing">Spacing</a>
-        <a class="link-line" href="#type">Type</a>
-        <a class="link-line" href="#work-card">Work card</a>
-        <a class="link-line" href="#navigation">Navigation</a>
-        <a class="link-line" href="#page-title">Page title</a>
-        <a class="link-line" href="#text-block">Text block</a>
-      </nav>
-    </header>
+  <main class="board">
+    <h1 hidden>Styleguide</h1>
 
-    <!-- ===== Foundations: read from styles.css's variables when the page opens ===== -->
-    <section class="guide__section" id="colors">
-      <h2 class="guide__heading">Colors</h2>
-      <div class="guide__swatches" data-tokens="color"></div>
-    </section>
+    <h2 class="board__heading" style="left: calc(161 * var(--x)); top: calc(142 * var(--x))">WORK CARD COMPONENT</h2>
+    <h2 class="board__heading" style="left: calc(1898 * var(--x)); top: calc(142 * var(--x))">COLORS</h2>
+    <h2 class="board__heading" style="left: calc(1898 * var(--x)); top: calc(712 * var(--x))">FONTS</h2>
+    <h2 class="board__heading" style="left: calc(161 * var(--x)); top: calc(1528 * var(--x))">NAV BAR COMPONENT</h2>
+    <h2 class="board__heading" style="left: calc(905 * var(--x)); top: calc(1528 * var(--x))">NAME COMPONENT</h2>
 
-    <section class="guide__section" id="spacing">
-      <h2 class="guide__heading">Spacing</h2>
-      <div class="guide__scale" data-tokens="space"></div>
-    </section>
-
-    <section class="guide__section" id="type">
-      <h2 class="guide__heading">Type</h2>
-      <div class="guide__group">
-        <p class="guide__label" style="font-family: var(--font-display)">Reckless Condensed</p>
-        <div class="project guide__specimen">
-          <p class="project__big" data-name="Title · .project__big">Graphic Language</p>
-        </div>
-        <div class="project guide__specimen">
-          <p class="project__next" data-name="Subtitle · .project__next">Next Project →</p>
-        </div>
+    <!-- Work card: Default, Hover / Pressed, Focus -->
+    <div class="board__frame" style="left: calc(161 * var(--x)); top: calc(252 * var(--x)); width: calc(1619 * var(--x)); height: calc(1040 * var(--x))">
+      <div class="board__cards">
+        <a class="work work--reach" href="#" data-cursor="Reach" aria-label="State=Default">
+          <span class="work__frame">
+            <span class="work__label"><span>No. 1</span><span>Reach</span></span>
+            <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+            <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          </span>
+          <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
+        </a>
+        <a class="work work--reach" href="#" data-state="hover" tabindex="-1" aria-label="State=Hover">
+          <span class="work__frame">
+            <span class="work__label"><span>No. 1</span><span>Reach</span></span>
+            <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+            <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          </span>
+          <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
+          <span class="cursor is-big is-visible" data-ring="Reach" aria-hidden="true"></span>
+        </a>
+        <a class="work work--reach" href="#" data-state="active" tabindex="-1" aria-label="State=Pressed">
+          <span class="work__frame">
+            <span class="work__label"><span>No. 1</span><span>Reach</span></span>
+            <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+            <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          </span>
+          <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
+        </a>
+        <a class="work work--reach" href="#" data-state="focus" tabindex="-1" aria-label="State=Focus">
+          <span class="work__frame">
+            <span class="work__label"><span>No. 1</span><span>Reach</span></span>
+            <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+            <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          </span>
+          <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
+        </a>
       </div>
+    </div>
 
-      <div class="guide__group">
-        <p class="guide__label" style="font-family: var(--font-body)">ABC Diatype</p>
-        <div class="project guide__specimen">
-          <p data-name="Body · .project">A climbing app that logs training and pain, and guides you mid-climb while your hands are on the wall.</p>
-        </div>
-        <div class="guide__specimen">
-          <p class="work__info" data-name="Caption · .work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></p>
-        </div>
+    <!-- Nav bar: Default, Hover -->
+    <div class="board__frame board__links" style="left: calc(161 * var(--x)); top: calc(1638 * var(--x)); width: calc(497 * var(--x)); height: calc(164 * var(--x))">
+      <a class="link-line" href="#">About</a>
+      <a class="link-line" href="#" data-state="hover" tabindex="-1">About</a>
+    </div>
+
+    <!-- Name: Default, Hover -->
+    <div class="board__frame board__links" style="left: calc(905 * var(--x)); top: calc(1638 * var(--x)); width: calc(628 * var(--x)); height: calc(164 * var(--x))">
+      <a class="top-bar__name roll" href="#" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+      <a class="top-bar__name roll" href="#" data-state="hover" tabindex="-1" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    </div>
+
+    <!-- Colors -->
+    <div class="board__frame board__colors" style="left: calc(1898 * var(--x)); top: calc(252 * var(--x)); width: calc(1294 * var(--x)); height: calc(273 * var(--x))">
+      <div class="board__swatch">
+        <span style="background: var(--color-bg)"></span>
+        <p class="board__note">color/bg</p>
+        <p class="board__note">#000000 · page background</p>
       </div>
-    </section>
-
-    <!-- ===== Components: their four states, then short and long content ===== -->
-    <section class="guide__section" id="work-card">
-      <h2 class="guide__heading">Work card</h2>
-      <p class="guide__label">Hover: the cursor turns into a circle in the project’s colors with its name. Pressed: the labels turn negative. Focus: a line around the card.</p>
-
-      <div class="hero guide__states guide__states--grid guide__group">
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Default</figcaption>
-          <a class="work work--reach" href="#work-card" data-cursor="Reach">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 1</span><span>Reach</span></span>
-              <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
-              <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
-            </span>
-            <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
-          </a>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Hover</figcaption>
-          <a class="work work--reach" href="#work-card" data-state="hover" tabindex="-1">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 1</span><span>Reach</span></span>
-              <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
-              <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
-            </span>
-            <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
-            <span class="cursor is-big is-visible guide__cursor" data-ring="Reach" aria-hidden="true"></span>
-          </a>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Pressed</figcaption>
-          <a class="work work--reach" href="#work-card" data-state="active" tabindex="-1">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 1</span><span>Reach</span></span>
-              <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
-              <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
-            </span>
-            <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
-          </a>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Focus</figcaption>
-          <a class="work work--reach" href="#work-card" data-state="focus" tabindex="-1">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 1</span><span>Reach</span></span>
-              <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
-              <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
-            </span>
-            <span class="work__info"><span>Landing Page &amp; App</span><span>ux-ui / Product / Interactive / Branding</span></span>
-          </a>
-        </figure>
+      <div class="board__swatch">
+        <span style="background: var(--color-text)"></span>
+        <p class="board__note">color/text</p>
+        <p class="board__note">#ffffff · text</p>
       </div>
+    </div>
 
-      <div class="hero guide__states guide__group">
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Short</figcaption>
-          <a class="work work--haven" href="#work-card" data-cursor="HAVEN" data-name="Card labels">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 4</span><span>HAVEN</span></span>
-              <video class="work__wide" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" autoplay muted loop playsinline aria-hidden="true"></video>
-            </span>
-            <span class="work__info"><span>Brand</span><span>Motion</span></span>
-          </a>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Long</figcaption>
-          <a class="work work--reach" href="#work-card" data-cursor="Reach" data-name="Card labels">
-            <span class="work__frame">
-              <span class="work__label"><span>No. 12</span><span>Israel Museum Collection Index, Archive &amp; Catalogue</span></span>
-              <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
-              <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
-            </span>
-            <span class="work__info"><span>Landing Page, App &amp; Brand Identity</span><span>ux-ui / Product / Interactive / Branding / Research / Motion</span></span>
-          </a>
-        </figure>
+    <!-- Fonts -->
+    <div class="board__frame board__fonts" style="left: calc(1898 * var(--x)); top: calc(822 * var(--x)); width: calc(1607 * var(--x)); height: calc(1133 * var(--x))">
+      <div class="board__row">
+        <div class="board__note"><p>Title</p><p>Reckless Condensed · Light</p><p>108 px · LH Auto · LS -3%</p></div>
+        <p class="board__title">Graphic Language</p>
       </div>
-    </section>
-
-    <section class="guide__section" id="navigation">
-      <h2 class="guide__heading">Navigation</h2>
-      <p class="guide__label">Hover: the name rolls into “Works” and a link draws its line. Pressed: they turn negative. Focus: a line around them, and the name rolls as on hover. Shown here on the name and on “About”.</p>
-
-      <div class="guide__states guide__states--wide guide__group">
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Default</figcaption>
-          <header class="top-bar">
-            <a class="top-bar__name roll" href="#navigation" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
-            <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation">About</a> / <a class="link-line" href="#navigation">Contact</a> / <a class="link-line" href="#navigation">IG</a> / <a class="link-line" href="#navigation">WIP</a></nav>
-          </header>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Hover</figcaption>
-          <header class="top-bar">
-            <a class="top-bar__name roll" href="#navigation" data-state="hover" tabindex="-1" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
-            <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation" data-state="hover" tabindex="-1">About</a> / <a class="link-line" href="#navigation" tabindex="-1">Contact</a> / <a class="link-line" href="#navigation" tabindex="-1">IG</a> / <a class="link-line" href="#navigation" tabindex="-1">WIP</a></nav>
-          </header>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Pressed</figcaption>
-          <header class="top-bar">
-            <a class="top-bar__name roll" href="#navigation" data-state="active" tabindex="-1" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
-            <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation" data-state="active" tabindex="-1">About</a> / <a class="link-line" href="#navigation" tabindex="-1">Contact</a> / <a class="link-line" href="#navigation" tabindex="-1">IG</a> / <a class="link-line" href="#navigation" tabindex="-1">WIP</a></nav>
-          </header>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">State=Focus</figcaption>
-          <header class="top-bar">
-            <a class="top-bar__name roll" href="#navigation" data-state="focus" tabindex="-1" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
-            <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation" data-state="focus" tabindex="-1">About</a> / <a class="link-line" href="#navigation" tabindex="-1">Contact</a> / <a class="link-line" href="#navigation" tabindex="-1">IG</a> / <a class="link-line" href="#navigation" tabindex="-1">WIP</a></nav>
-          </header>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Short</figcaption>
-          <header class="top-bar" data-name="Nav">
-            <a class="top-bar__name" href="#navigation" tabindex="-1">Itay</a>
-            <p class="top-bar__tagline">Designer</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation" tabindex="-1">About</a></nav>
-          </header>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Long</figcaption>
-          <header class="top-bar" data-name="Nav">
-            <a class="top-bar__name" href="#navigation" tabindex="-1">Itay Ben Mayor, Visual Communication</a>
-            <p class="top-bar__tagline">Multidisciplinary Designer based in Tel Aviv, working across Interactive, Brand, Motion &amp; Type</p>
-            <nav class="top-bar__links"><a class="link-line" href="#navigation" tabindex="-1">About</a> / <a class="link-line" href="#navigation" tabindex="-1">Contact</a> / <a class="link-line" href="#navigation" tabindex="-1">Instagram</a> / <a class="link-line" href="#navigation" tabindex="-1">LinkedIn</a> / <a class="link-line" href="#navigation" tabindex="-1">WIP</a></nav>
-          </header>
-        </figure>
+      <div class="board__row">
+        <div class="board__note"><p>Subtitle</p><p>Reckless Condensed · Light</p><p>65 px · LH Auto · LS -3%</p></div>
+        <p class="board__subtitle">Next Project →</p>
       </div>
-    </section>
-
-    <section class="guide__section" id="page-title">
-      <h2 class="guide__heading">Page title</h2>
-      <p class="guide__label">Not interactive: it has no hover, pressed or focus state. On the project page it shrinks into the top bar as you scroll.</p>
-
-      <div class="guide__states guide__states--wide guide__group">
-        <figure class="guide__state project">
-          <figcaption class="guide__label">Content=Short</figcaption>
-          <p class="project__title project__big" data-name="Page title"><span>Reach</span></p>
-        </figure>
-        <figure class="guide__state project">
-          <figcaption class="guide__label">Content=Long</figcaption>
-          <p class="project__title project__big" data-name="Page title"><span>Reach</span>         <span>App for</span>               <span>Climbers</span></p>
-        </figure>
+      <div class="board__row">
+        <div class="board__note"><p>Body</p><p>ABC Diatype · Medium</p><p>16 px · LH Auto · LS -2%</p></div>
+        <p class="board__body">A climbing app that logs training and pain, and guides you mid-climb while your hands are on the wall.</p>
       </div>
-    </section>
-
-    <section class="guide__section" id="text-block">
-      <h2 class="guide__heading">Text block</h2>
-      <p class="guide__label">Not interactive: it has no hover, pressed or focus state. On the project page it sticks under the title as you scroll.</p>
-
-      <div class="guide__states guide__group project">
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Short</figcaption>
-          <div class="project__track project__track--research">
-            <div class="project__text" data-name="Text block"><p>We interviewed 15 climbers.</p></div>
-          </div>
-        </figure>
-        <figure class="guide__state">
-          <figcaption class="guide__label">Content=Long</figcaption>
-          <div class="project__track project__track--research">
-            <div class="project__text" data-name="Text block">
-              <p>We interviewed 15 climbers. None kept their training data in one place, and one didn’t know if his injury came from training.</p>
-              <p>       Mid-session, hands are chalky and the phone sits aside, so we split the flow into before, during and after, with one-tap logging and voice guidance.</p>
-              <p>       The landing page reflects the experience of a climb: an upwards scroll and a route line that leads the visitor through the sections in order.</p>
-            </div>
-          </div>
-        </figure>
+      <div class="board__row">
+        <div class="board__note"><p>Nav</p><p>ABC Diatype · Medium</p><p>16 px · LH Auto · LS -2%</p></div>
+        <p class="board__links">About / Contact / IG / WIP</p>
       </div>
-    </section>
+      <div class="board__row">
+        <div class="board__note"><p>Caption</p><p>ABC Diatype · Medium</p><p>14 px · LH Auto · LS -2%</p></div>
+        <p class="board__caption">Landing Page &amp; App      ux-ui / Product / Interactive / Branding</p>
+      </div>
+    </div>
   </main>
 
   <script>
-    // Runs after script.js (deferred), which splits the rolls into letters and draws the cursor
+    // The whole board on the screen: zoomed down by whichever of width and height is tighter,
+    // so everything in it (the cards and the text too) shrinks together, and again when the window changes
+    const board = document.querySelector(".board");
+    const fit = () => {
+      board.style.zoom = "";
+      board.style.zoom = Math.min(innerWidth / board.offsetWidth, innerHeight / board.offsetHeight);
+    };
+    fit();
+    addEventListener("resize", fit);
+
+    // The hovered card's circle, written the way script.js writes the cursor's
     addEventListener("DOMContentLoaded", () => {
-      // Every variable set on :root in styles.css, in the order it's written there
-      const sheet = [...document.styleSheets].find((s) => s.href && s.href.includes("styles.css"));
-      const root = [...sheet.cssRules].find((rule) => rule.selectorText === ":root");
-      const names = [...root.style].filter((name) => name.startsWith("--"));
-      const value = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-
-      const caption = (text) => {
-        const p = document.createElement("p");
-        p.className = "guide__caption";
-        p.textContent = text;
-        return p;
-      };
-
-      // Colors: the site's two, black and white, each a swatch filled by the variable itself
-      const colors = document.querySelector('[data-tokens="color"]');
-      ["--color-background", "--color-text"].forEach((name) => {
-        const item = document.createElement("div");
-        const swatch = document.createElement("div");
-        swatch.className = "guide__swatch";
-        swatch.style.background = `var(${name})`;
-        item.append(swatch, caption(name), caption(value(name)));
-        colors.append(item);
-      });
-
-      // Spacing: a bar as long as the value
-      const scale = document.querySelector('[data-tokens="space"]');
-      names.filter((n) => /^--(space-|line-|cursor-)/.test(n)).forEach((name) => {
-        const item = document.createElement("div");
-        const bar = document.createElement("div");
-        bar.className = "guide__bar";
-        bar.style.width = `var(${name})`;
-        item.append(bar, caption(`${name}: ${value(name)}`));
-        scale.append(item);
-      });
-
-      // Under each specimen: its name, then its font, size and letter spacing as the browser sees them
-      const inner = { ".work": ".work__label span", ".top-bar": "a", ".project__text": "p", ".project__title": "span" };
-      document.querySelectorAll("[data-name]").forEach((el) => {
-        const key = Object.keys(inner).find((selector) => el.matches(selector));
-        const s = getComputedStyle(key ? el.querySelector(inner[key]) : el);
-        const font = s.fontFamily.split(",")[0].replace(/"/g, "");
-        el.after(caption(`${el.dataset.name} · ${font} ${s.fontSize} · tracking ${s.letterSpacing}`));
-      });
-
-      // The hovered card's circle, written the way script.js writes the cursor's
       document.querySelectorAll("[data-ring]").forEach((circle, index) => {
         circle.innerHTML = `<svg class="cursor__ring" viewBox="0 0 120 120">
-          <path id="guide-ring-${index}" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/>
-          <text><textPath href="#guide-ring-${index}"></textPath></text>
+          <path id="board-ring-${index}" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/>
+          <text><textPath href="#board-ring-${index}"></textPath></text>
         </svg>`;
         writeRing(circle.querySelector("textPath"), circle.dataset.ring);
       });

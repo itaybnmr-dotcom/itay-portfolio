@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itay Benma — Record Day</title>
+  <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=50">
+  <!-- The fonts load right away, so a new page shows up already in its own type -->
+  <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
+  <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
+  <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
+  <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
+  <script src="script.js?v=27" defer></script>
+  <script src="reach.js?v=13" defer></script>
+</head>
+<body class="project-page">
+  <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
+  <header class="top-bar">
+    <a class="top-bar__name roll" href="index.html#works" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
+    <!-- Links: About has no page yet, "#" is a placeholder -->
+    <nav class="top-bar__links">
+      <a class="link-line" href="#">About</a> /
+      <!-- Kept together: on phones they share one line in the stacked menu -->
+      <span class="top-bar__pair"><a class="link-line" href="#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
+      <a class="link-line" href="wip.html">WIP</a>
+    </nav>
+  </header>
+
+  <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט יום התקליט"), and on phones the 402px one ("phone - Record Day").
+       It's built on the Reach page: the same title, sticky texts and sliding subtitle (reach.js);
+       what sits elsewhere is set under .project--record. data-phone: the line as the phone frame spaces it -->
+  <main class="project project--record">
+    <h1 class="project__title project__big" data-phone="Record     Day               Branding"><span>Record</span>      <span>Day</span>               <span>Branding</span></h1>
+
+    <div class="project__track project__track--about">
+      <p class="project__about">Motion posters for a fictional vinyl festival at the Teder, built on the material of records: lines, grain and handling.</p>
+      <p class="project__course">       Course: Moving Posters course, Third-year  (2026) Mentor: Amitay Gilad.</p>
+    </div>
+    <p class="project__tags"><b>Motion / Branding / Poster / IMG-Making</b><br>Designed and moved in After Effects, Indesign</p>
+
+    <!-- The bus poster in a train station -->
+    <video class="project__media project__media--train" src="IMG/Record-Day/web/train-station.mp4" width="1920" height="1106" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <div class="project__track project__track--research">
+      <div class="project__text project__text--research">
+        <p>The project centers on the material of records.</p>
+        <p> A lined texture refers to the grooves and striped sleeves, with grain. </p>
+        <p>        Early versions were too abstract, so I visited record bars and a collector’s shop to watch how people handle records: pulling them from the sleeve, browsing, placing the needle. These actions appear as found footage, processed into the same texture.</p>
+      </div>
+    </div>
+
+    <!-- Three posters: the stories, the bus poster, the schedule -->
+    <video class="project__media project__media--stories" src="IMG/Record-Day/web/all-stories.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--bus" src="IMG/Record-Day/web/bus-poster.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--schedule" src="IMG/Record-Day/web/schedule.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <!-- The posters on screens in the subway -->
+    <video class="project__media project__media--screens" src="IMG/Record-Day/web/screens.mp4" width="1920" height="1106" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <!-- Scrolling past it, its letters slide right one by one until the words close up against the right edge (reach.js) -->
+    <h2 class="project__subtitle project__big" data-phone="Style     &amp;               Motion">         Style   &amp;          Motion        </h2>
+    <div class="project__track project__track--graphic">
+      <div class="project__text project__text--graphic">
+        <p>The animation runs at 12 fps for the feel of old film, and the type moves without smooth easing. </p>
+        <p>       A circle, an abstracted record, moves top to bottom inside a square mask. The type is Secolo 22, narrowed, with Narkiss Block; running text works as image, while information stays readable. One color: deep green on worn cream.</p>
+        <p>&#8203;</p>
+        <p>The system stays fixed across five posters; the amount of information changes. </p>
+        <p>       The bus poster balances mood and details, the schedule carries all the information with less motion, and three stories add found footage. Next, I’d test the brand on signage.</p>
+      </div>
+    </div>
+
+    <!-- The name in two lines on green, and the title alone -->
+    <video class="project__media project__media--lines" src="IMG/Record-Day/web/two-lines.mp4" width="1080" height="1080" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--name" src="IMG/Record-Day/web/title.mp4" width="1080" height="1350" autoplay muted loop playsinline aria-hidden="true"></video>
+
+    <!-- On hover it rolls into the next project's name, like the name into "Works". After the last project, back to the first -->
+    <a class="project__next roll" href="reach.html" aria-label="Next project: Reach"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Reach</span></a>
+  </main>
+
+  <footer class="footer" id="contact">
+    <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Brand, Typography &amp; Editorial Design.</p>
+
+    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
+    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
+
+    <!-- Bottom row: copyright, works, contact links -->
+    <div class="footer__bottom">
+      <p><a class="link-line" href="index.html" data-collab="Home"><span class="footer__copyright">©</span>itay benma</a></p>
+      <p><a class="link-line" href="index.html#works" data-collab="Works">Works</a></p>
+      <nav class="footer__links">
+        <a class="link-line" href="mailto:itaybnmr@gmail.com" data-collab="Email">Email</a> /
+        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
+        <a class="link-line" href="https://www.linkedin.com/in/itay-ben-mayor-765231284/" target="_blank" rel="noopener" data-collab="LinkedIn">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

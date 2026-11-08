@@ -3,6 +3,7 @@
 // down to a small title, and the description rises with it to sit right under the title.
 // Scrolling back up grows them back. The movement trails the scroll a little and eases in and out.
 // (styles.css, "Project page")
+const TITLE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--size-title")); // size/title, from styles.css
 const SMALL_TITLE = 24; // px: the small title's size, half again the menu's 16px, like in the reference
 const STICK_END = 48; // px from the top where the description ends up, under the small title
 const root = document.documentElement;
@@ -26,10 +27,10 @@ function measureStacks() {
 }
 
 // "Graphic Language & Direction": each letter, spaces included, gets its own span.
-// On a phone it just wraps, with plain spaces.
+// On a phone the title and the subtitle take the spacing of the phone frame (data-phone) and stay put.
 // ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
 const subtitle = document.querySelector(".project__subtitle");
-if (phone.matches) subtitle.textContent = subtitle.textContent.trim().replace(/\s+/g, " ");
+if (phone.matches) document.querySelectorAll("[data-phone]").forEach((line) => { line.textContent = line.dataset.phone; });
 const subtitleLetters = phone.matches ? [] : [...subtitle.textContent].map((char) => {
   const letter = document.createElement("span");
   letter.textContent = char;
@@ -73,8 +74,9 @@ function update() {
   else frame = requestAnimationFrame(update);
 
   const progress = easeInOut(shown);
-  const stickTop = 117 * x + (STICK_END - 117 * x) * progress;
-  root.style.setProperty("--title-scale", 1 + (SMALL_TITLE / (108 * x) - 1) * progress);
+  const start = about.parentElement.offsetTop; // where the description sits in Figma (117px on Reach, 105 on Record Day)
+  const stickTop = start + (STICK_END - start) * progress;
+  root.style.setProperty("--title-scale", 1 + (SMALL_TITLE / (TITLE * x) - 1) * progress);
   root.style.setProperty("--stick-top", `${stickTop}px`);
 
   // Going down they're cut off at the line; coming back up they fade in instead, once they're

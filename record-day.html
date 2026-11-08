@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Record Day</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="styles.css?v=54">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=27" defer></script>
+  <script src="script.js?v=32" defer></script>
   <script src="reach.js?v=13" defer></script>
 </head>
 <body class="project-page">
@@ -42,7 +42,7 @@
     <p class="project__tags"><b>Motion / Branding / Poster / IMG-Making</b><br>Designed and moved in After Effects, Indesign</p>
 
     <!-- The bus poster in a train station -->
-    <video class="project__media project__media--train" src="IMG/Record-Day/web/train-station.mp4" width="1920" height="1106" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--train" src="IMG/Record-Day/web/train-station.mp4" width="1920" height="1106" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <div class="project__track project__track--research">
       <div class="project__text project__text--research">
@@ -53,12 +53,12 @@
     </div>
 
     <!-- Three posters: the stories, the bus poster, the schedule -->
-    <video class="project__media project__media--stories" src="IMG/Record-Day/web/all-stories.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
-    <video class="project__media project__media--bus" src="IMG/Record-Day/web/bus-poster.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
-    <video class="project__media project__media--schedule" src="IMG/Record-Day/web/schedule.mp4" width="848" height="1508" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--stories" src="IMG/Record-Day/web/all-stories.mp4" width="720" height="1280" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__media project__media--bus" src="IMG/Record-Day/web/bus-poster.mp4" width="848" height="1508" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__media project__media--schedule" src="IMG/Record-Day/web/schedule.mp4" width="848" height="1508" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <!-- The posters on screens in the subway -->
-    <video class="project__media project__media--screens" src="IMG/Record-Day/web/screens.mp4" width="1920" height="1106" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--screens" src="IMG/Record-Day/web/screens.mp4" width="1920" height="1106" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <!-- Scrolling past it, its letters slide right one by one until the words close up against the right edge (reach.js) -->
     <h2 class="project__subtitle project__big" data-phone="Style     &amp;               Motion">         Style   &amp;          Motion        </h2>
@@ -73,8 +73,8 @@
     </div>
 
     <!-- The name in two lines on green, and the title alone -->
-    <video class="project__media project__media--lines" src="IMG/Record-Day/web/two-lines.mp4" width="1080" height="1080" autoplay muted loop playsinline aria-hidden="true"></video>
-    <video class="project__media project__media--name" src="IMG/Record-Day/web/title.mp4" width="1080" height="1350" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__media project__media--lines" src="IMG/Record-Day/web/two-lines.mp4" width="1080" height="1080" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__media project__media--name" src="IMG/Record-Day/web/title.mp4" width="1080" height="1350" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <!-- On hover it rolls into the next project's name, like the name into "Works". After the last project, back to the first -->
     <a class="project__next roll" href="reach.html" aria-label="Next project: Reach"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Reach</span></a>

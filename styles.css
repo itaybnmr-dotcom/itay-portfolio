@@ -462,8 +462,9 @@ nav,
   color: var(--color-bg);
 }
 
-/* A pressed card: its labels turn negative */
-.work:is(:active, [data-state="active"]) :is(.work__label, .work__info) {
+/* A pressed card's labels turn negative: only as the "Pressed" state on the styleguide board,
+   not on the site, where it flashed a black bar on the card as it was clicked */
+.work[data-state="active"] :is(.work__label, .work__info) {
   background: var(--color-card-text);
   color: var(--color-card);
 }
@@ -771,7 +772,8 @@ nav,
   width: calc(455 * var(--x));
   color: inherit;
   text-decoration: none;
-  scroll-margin-top: calc(113 * var(--x)); /* "Works" in the footer lands here, clear of the top bar */
+  scroll-margin-top: calc(113 * var(--x));
+  -webkit-tap-highlight-color: transparent; /* iPhone flashed a dark box over the card on a tap */ /* "Works" in the footer lands here, clear of the top bar */
 }
 
 /* The footer's "Works" glides up to the cards instead of jumping */

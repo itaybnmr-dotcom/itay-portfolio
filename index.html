@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="styles.css?v=54">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -18,10 +18,22 @@
     const isReload = performance.getEntriesByType("navigation")[0]?.type === "reload";
     if ((isReload || !fromSite) && !document.prerendering && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.documentElement.classList.add("intro");
+      history.scrollRestoration = "manual"; // a reload starts at the top, where the intro plays
+      // No scrolling until the intro is done (home.js takes .intro off then). The gestures themselves are
+      // stopped, not the scrollbar hidden: hiding it would widen the page mid-intro, and iPhone ignores it
+      const keys = [" ", "ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End"];
+      const stop = (event) => { if (event.type !== "keydown" || keys.includes(event.key)) event.preventDefault(); };
+      const gestures = ["wheel", "touchmove", "keydown"];
+      gestures.forEach((type) => addEventListener(type, stop, { passive: false }));
+      new MutationObserver((changes, watcher) => {
+        if (document.documentElement.classList.contains("intro")) return;
+        gestures.forEach((type) => removeEventListener(type, stop));
+        watcher.disconnect();
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     }
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=27" defer></script>
+  <script src="script.js?v=32" defer></script>
   <script src="home.js?v=25" defer></script>
 </head>
 <body class="home">
@@ -63,7 +75,7 @@
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
       <span class="work__frame">
         <span class="work__label"><span>No. 1</span><span>Reach</span></span>
-        <video class="work__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+        <video class="work__site" src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
         <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
       </span>
       <span class="work__info">
@@ -77,7 +89,7 @@
       <span class="work__frame">
         <span class="work__label"><span>No. 2</span><span>Israel Museum Index</span></span>
         <span class="work__screen">
-          <video class="work__reel" src="IMG/Israel-Museum-Index/showreel.mp4" width="1038" height="556" autoplay muted loop playsinline aria-hidden="true"></video>
+          <video class="work__reel" src="IMG/Israel-Museum-Index/web/showreel.mp4" width="1920" height="1178" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
         </span>
       </span>
       <span class="work__info">
@@ -92,9 +104,9 @@
       <span class="work__frame">
         <span class="work__label"><span>No. 3</span><span>Record Day</span></span>
         <span class="work__screen">
-          <video class="work__poster" src="IMG/Record-Day/web/card-bus-poster.mp4" width="240" height="426" autoplay muted loop playsinline aria-hidden="true"></video>
-          <video class="work__poster" src="IMG/Record-Day/web/card-story-3.mp4" width="240" height="426" autoplay muted loop playsinline aria-hidden="true"></video>
-          <video class="work__poster" src="IMG/Record-Day/web/card-story-2.mp4" width="240" height="426" autoplay muted loop playsinline aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Record-Day/web/card-bus-poster.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Record-Day/web/card-story-3.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Record-Day/web/card-story-2.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
         </span>
       </span>
       <span class="work__info">
@@ -107,7 +119,7 @@
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-haven" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-haven" textLength="257" lengthAdjust="spacing">HAVEN · HAVEN · HAVEN · HAVEN · </textPath></text></svg></span>
       <span class="work__frame">
         <span class="work__label"><span>No. 4</span><span>HAVEN</span></span>
-        <video class="work__wide" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" autoplay muted loop playsinline aria-hidden="true"></video>
+        <video class="work__wide" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
       </span>
       <span class="work__info">
         <span>Brand &amp; Interface</span>

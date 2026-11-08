@@ -100,7 +100,9 @@ function showWord(card) {
 // Text is an element with letters of its own (not only spaces), so the gaps between the title's words don't count
 const hasText = (element) => [...element.childNodes].some((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
 
-document.addEventListener("mousemove", (event) => {
+// Only with a real mouse. A tap on a phone also sends a mousemove; over a card it wrote the name around
+// the circle, which is hidden on phones, and measuring text in a hidden circle crashed iPhone Safari
+if (matchMedia("(hover: hover)").matches) document.addEventListener("mousemove", (event) => {
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
   showWord(card);
@@ -246,20 +248,26 @@ markFooter();
 addEventListener("scroll", markFooter, { passive: true });
 addEventListener("resize", markFooter);
 
-// ===== Only the videos near the screen play =====
-// Each starts half a screen before it scrolls in and pauses once it's out, so a page full of
-// videos scrolls smoothly on a phone
+// ===== Only the videos near the screen load and play =====
+// The videos aren't autoplay (data-play, preload="none"): each loads and starts half a screen before
+// it scrolls in and pauses once it's out, instead of all of them loading at once (the Record Day page has seven)
+// A card's videos are watched through the card: the home intro masks the card's inside (clip-path),
+// and a masked video counts as off screen, even once the mask is gone
 const nearScreen = new Set();
 const videoWatcher = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
-  if (isIntersecting) {
-    nearScreen.add(target);
-    target.play().catch(() => {});
-  } else {
-    nearScreen.delete(target);
-    target.pause();
-  }
+  const videos = target.matches("video") ? [target] : target.querySelectorAll("video[data-play]");
+  videos.forEach((video) => {
+    if (isIntersecting) {
+      nearScreen.add(video);
+      video.play().catch(() => {});
+    } else {
+      nearScreen.delete(video);
+      video.pause();
+    }
+  });
 }), { rootMargin: "50% 0px" });
-document.querySelectorAll("video[autoplay]").forEach((video) => videoWatcher.observe(video));
+new Set([...document.querySelectorAll("video[data-play]")].map((video) => video.closest(".work") ?? video))
+  .forEach((target) => videoWatcher.observe(target));
 
 // ===== Videos that didn't start =====
 // iPhone in Low Power Mode won't autoplay and shows a play button instead (hidden in styles.css):

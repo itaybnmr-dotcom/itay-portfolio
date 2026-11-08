@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Reach</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=50">
+  <link rel="stylesheet" href="styles.css?v=54">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=27" defer></script>
+  <script src="script.js?v=32" defer></script>
   <script src="reach.js?v=13" defer></script>
 </head>
 <body class="project-page">
@@ -47,7 +47,7 @@
 
     <!-- The landing page on a red board -->
     <div class="project__board project__board--site"></div>
-    <video class="project__site" src="IMG/Reach/site-sequence-web.mp4" width="3456" height="2168" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__site" src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <!-- The research, next to two phones running the app. Each text sticks under the one before it. -->
     <div class="project__track project__track--research">
@@ -58,8 +58,8 @@
         <p class="project__phone-only">       Our goal was to make Reach feel like a personal trainer who understands and feels the users.</p>
       </div>
     </div>
-    <video class="project__app project__app--before" src="IMG/Reach/reach-before-1.5x.mp4" width="844" height="1738" autoplay muted loop playsinline aria-hidden="true"></video>
-    <video class="project__app project__app--after" src="IMG/Reach/reach-after-1.5x.mp4" width="844" height="1738" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__app project__app--before" src="IMG/Reach/web/reach-before.mp4" width="844" height="1738" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__app project__app--after" src="IMG/Reach/web/reach-after.mp4" width="844" height="1738" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
     <!-- Scrolling past it, its letters slide right one by one until the words close up against the right edge (reach.js) -->
     <h2 class="project__subtitle project__big" data-phone="Graphic Language &amp; Direction">          Graphic    Language       &amp;  Direction        </h2>
@@ -85,7 +85,7 @@
 
     <!-- Two red boards: the landing page's still screen, and its holds section -->
     <div class="project__board project__board--still"></div>
-    <video class="project__still" src="IMG/Reach/still-page.mp4" width="3456" height="2234" autoplay muted loop playsinline aria-hidden="true"></video>
+    <video class="project__still" src="IMG/Reach/web/still-page.mp4" width="1920" height="1242" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
     <div class="project__board project__board--holds"></div>
     <img class="project__holds" src="IMG/Reach/page/holds-page.png" width="3456" height="2176" alt="The landing page's section: Less Planning. More Climbing.">
 

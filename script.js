@@ -316,7 +316,7 @@ function glideTo(top) {
 // Links the eye can't see (like the hidden name in the top bar on project pages) are skipped.
 // The footer sits under the page and only shows at the bottom, so its links glide all the way down.
 addEventListener("keydown", (event) => {
-  if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.key !== "Tab" || event.ctrlKey || event.metaKey) return; // Option+Tab too: Safari's own key for moving between links
   const links = [...document.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")]
     .filter((el) => !el.disabled && el.checkVisibility({ visibilityProperty: true }));
   if (!links.length) return;

@@ -1253,6 +1253,13 @@ nav,
   top: var(--stick-top, calc(117 * var(--x)));
 }
 
+/* The second line of the description holds "workouts." on it, as in Figma. */
+@media (min-width: 701px) {
+  .project__line {
+    white-space: nowrap;
+  }
+}
+
 .project__text--research {
   top: var(--stick-research, 0px);
 }

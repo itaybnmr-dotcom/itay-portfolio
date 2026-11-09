@@ -254,12 +254,13 @@ addEventListener("resize", markFooter);
 // A card's videos are watched through the card: the home intro masks the card's inside (clip-path),
 // and a masked video counts as off screen, even once the mask is gone
 const nearScreen = new Set();
+let glide; // the Tab glide running now, if any (glideTo, below)
 const videoWatcher = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
   const videos = target.matches("video") ? [target] : target.querySelectorAll("video[data-play]");
   videos.forEach((video) => {
     if (isIntersecting) {
       nearScreen.add(video);
-      video.play().catch(() => {});
+      if (!glide) video.play().catch(() => {}); // mid-glide: it starts once the page stops (glideTo)
     } else {
       nearScreen.delete(video);
       video.pause();
@@ -275,3 +276,63 @@ new Set([...document.querySelectorAll("video[data-play]")].map((video) => video.
 const playAll = () => nearScreen.forEach((video) => video.paused && video.play().catch(() => {}));
 addEventListener("touchend", playAll, { once: true });
 addEventListener("click", playAll, { once: true });
+
+// The trips Tab makes (top to bottom and back, and to a link off screen) glide on the site's ease-in-out, over --glide-duration:
+// the browser's own smooth scroll crosses a whole page in under a second, jumping hundreds of px a frame.
+// The easing comes from an empty animation on the page, so it's the exact curve in styles.css.
+function glideTo(top) {
+  glide?.cancel();
+  const rootStyle = getComputedStyle(document.documentElement);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const from = scrollY;
+  const to = Math.min(top, document.documentElement.scrollHeight - innerHeight);
+  if (reduce || from === to) return scrollTo({ top: to, behavior: "instant" });
+  const anim = document.documentElement.animate([], {
+    duration: parseFloat(rootStyle.getPropertyValue("--glide-duration")) * 1000,
+    easing: rootStyle.getPropertyValue("--ease-in-out"),
+  });
+  glide = anim;
+  nearScreen.forEach((video) => video.pause()); // playing video while the page flies by drops frames; they start again when it stops
+  const frame = () => {
+    if (glide !== anim) return;
+    const progress = anim.effect.getComputedTiming().progress ?? 1;
+    scrollTo({ top: from + (to - from) * progress, behavior: "instant" });
+    if (anim.playState === "running") return requestAnimationFrame(frame);
+    glide = null;
+    playAll(); // the videos it passed stayed still, so loading them didn't stutter the glide; the ones where it stopped play now
+  };
+  requestAnimationFrame(frame);
+}
+// A wheel or a touch takes the page back from the glide
+["wheel", "touchstart"].forEach((type) => addEventListener(type, () => {
+  if (!glide) return;
+  glide.cancel();
+  glide = null;
+  playAll();
+}, { passive: true }));
+
+// Moving with Tab: the page glides to the focused link instead of jumping to it,
+// and past the last link it goes back up to the first one (Shift+Tab: the other way round).
+// Links the eye can't see (like the hidden name in the top bar on project pages) are skipped.
+// The footer sits under the page and only shows at the bottom, so its links glide all the way down.
+addEventListener("keydown", (event) => {
+  if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
+  const links = [...document.querySelectorAll("a[href], button, [tabindex]:not([tabindex='-1'])")]
+    .filter((el) => !el.disabled && el.checkVisibility({ visibilityProperty: true }));
+  if (!links.length) return;
+  event.preventDefault();
+  const back = event.shiftKey;
+  const index = links.indexOf(document.activeElement);
+  const last = links.length - 1;
+  let next;
+  if (index === -1) next = back ? links[last] : links[0];
+  else next = links[back ? (index === 0 ? last : index - 1) : (index === last ? 0 : index + 1)];
+  next.focus({ preventScroll: true });
+
+  if (!back && index === last) glideTo(0);
+  else if (next.closest("footer")) glideTo(document.documentElement.scrollHeight);
+  else {
+    const box = next.getBoundingClientRect();
+    if (box.top < 0 || box.bottom > innerHeight) glideTo(scrollY + box.top + box.height / 2 - innerHeight / 2);
+  }
+});

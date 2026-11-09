@@ -83,6 +83,9 @@
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
 
+  /* One pixel of the keyboard-focus frame: its thickness, and the step at its corners */
+  --pixel: 2px;
+
   /* Custom mouse cursor */
   --cursor-size: 16px;
 
@@ -91,6 +94,8 @@
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
   /* Starts and ends softly: for things that open, like the WIP drawer */
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* How long Tab takes to glide the page from top to bottom and back (script.js) */
+  --glide-duration: 1.4s;
 }
 
 /* ===== Moving between pages =====
@@ -469,16 +474,40 @@ nav,
   color: var(--color-card);
 }
 
-/* Keyboard focus: a line around whatever is focused, as thick as the line under a link.
-   Only from the keyboard (a click doesn't draw it) */
+/* Keyboard focus: a frame around whatever is focused, a pixel away from it, each corner cut by
+   one pixel, that glides in from further out. Only from the keyboard (a click doesn't draw it).
+   It's copies of the box: one in the page's color (on top) clears the gap, and four in the
+   text's color, each pushed a pixel to one side, make the frame and leave its corners cut. */
 :focus-visible,
 [data-state="focus"] {
-  outline: var(--line-thickness) solid var(--color-text);
-  outline-offset: var(--line-thickness);
+  --step: var(--pixel);
+  outline: none;
+  box-shadow:
+    0 0 0 var(--step) var(--color-bg),
+    var(--step) 0 0 var(--step) var(--color-text),
+    calc(-1 * var(--step)) 0 0 var(--step) var(--color-text),
+    0 var(--step) 0 var(--step) var(--color-text),
+    0 calc(-1 * var(--step)) 0 var(--step) var(--color-text);
+  animation: pixel-in 0.3s var(--ease) both;
+}
+
+@property --step {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes pixel-in {
+  from { --step: calc(3 * var(--pixel)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .link-line.is-current {
+    animation: none;
+  }
+
+  :focus-visible,
+  [data-state="focus"] {
     animation: none;
   }
 }
@@ -1230,7 +1259,7 @@ nav,
 
 .project__track--about {
   top: calc(117 * var(--x));
-  width: 372px;
+  width: 404px;
 }
 
 .project__track--research {
@@ -1251,13 +1280,6 @@ nav,
 
 .project__about {
   top: var(--stick-top, calc(117 * var(--x)));
-}
-
-/* The second line of the description holds "workouts." on it, as in Figma. */
-@media (min-width: 701px) {
-  .project__line {
-    white-space: nowrap;
-  }
 }
 
 .project__text--research {

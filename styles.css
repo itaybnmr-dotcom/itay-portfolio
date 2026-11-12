@@ -1677,6 +1677,29 @@ nav,
   white-space: pre;
 }
 
+/* "Visit the site →" on the description's second line, over the tags (Israel Museum Index, Figma) */
+.project__visit {
+  position: absolute;
+  top: calc(117 * var(--x) + 1.15em);
+  left: calc(491 * var(--x));
+  line-height: var(--body-line-height);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* The home page's arrow, pointing on: it comes in from the left of its window and passes out the right */
+.project__visit .hero__arrow > span {
+  rotate: none;
+  animation-name: arrow-on;
+}
+
+@keyframes arrow-on {
+  0% { translate: -100% 0; }
+  45%, 60% { translate: 0 0; }
+  100% { translate: 100% 0; }
+}
+
 .project__next > span {
   justify-self: end;
 }
@@ -2034,6 +2057,12 @@ nav,
 
   .project__tags {
     top: calc(112 * var(--x));
+    left: calc(12 * var(--x));
+  }
+
+  /* The phone frame has no spot for it yet: the line under the tags */
+  .project__visit {
+    top: calc(112 * var(--x) + 2 * 1.15em);
     left: calc(12 * var(--x));
   }
 

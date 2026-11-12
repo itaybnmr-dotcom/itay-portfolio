@@ -8,6 +8,8 @@
 IMG/Record-Day/כל הסטורים ביחד.mp4
 IMG/Israel-Museum-Index/index-post.mp4
 
-# The posters' originals (print PDFs, photos, the full-size clip): the site uses only their mp4s in web/
+# The posters' originals (print PDFs, photos, the full-size clip) stay local: the site uses their mp4s
+# in web/, and png/ keeps the print PDFs as 3000px PNGs (losslessly compressed)
 IMG/Posters/*
 !IMG/Posters/web/
+!IMG/Posters/png/

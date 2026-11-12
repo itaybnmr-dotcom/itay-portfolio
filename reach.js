@@ -31,7 +31,8 @@ function measureStacks() {
 // ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
 const subtitle = document.querySelector(".project__subtitle");
 if (phone.matches) document.querySelectorAll("[data-phone]").forEach((line) => { line.textContent = line.dataset.phone; });
-const subtitleLetters = phone.matches ? [] : [...subtitle.textContent].map((char) => {
+// HAVEN has no subtitle: then there are no letters to move
+const subtitleLetters = phone.matches || !subtitle ? [] : [...subtitle.textContent].map((char) => {
   const letter = document.createElement("span");
   letter.textContent = char;
   return letter;
@@ -96,6 +97,7 @@ function update() {
   });
 
   // The subtitle's letters go one after another as it rises through the screen, the rightmost first
+  if (!visibleLetters.length) return;
   const rise = clamp((innerHeight * 0.9 - subtitle.getBoundingClientRect().top) / (innerHeight * 0.6));
   visibleLetters.forEach((letter, index) => {
     const wait = (visibleLetters.length - 1 - index) / (visibleLetters.length - 1) * 0.5;

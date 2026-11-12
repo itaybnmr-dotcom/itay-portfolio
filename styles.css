@@ -2000,6 +2000,49 @@ nav,
 .project__media--lines { top: calc(3381 * var(--x)); left: calc(35 * var(--x)); width: calc(754 * var(--x)); height: calc(754 * var(--x)); }
 .project__media--name { top: calc(3381 * var(--x)); left: calc(803 * var(--x)); width: calc(603 * var(--x)); height: calc(754 * var(--x)); }
 
+/* ===== Project page: HAVEN (haven.html) =====
+   Built on the Reach page above; only what sits elsewhere in its Figma frame
+   ("עמוד פריט הייבן") is set here. It has no subtitle */
+.project--haven {
+  height: calc(3504 * var(--x)); /* the footer's bio starts 3504px down */
+}
+
+.project--haven .project__title {
+  top: 0;
+}
+
+.project--haven .project__track--about {
+  top: calc(105 * var(--x));
+  width: 330px;
+}
+
+/* Starts on the description's third line */
+.project--haven .project__tags {
+  top: calc(105 * var(--x) + 2 * var(--body-line-height) * 1em);
+}
+
+.project--haven .project__track--research {
+  top: calc(1222 * var(--x));
+  width: 332px;
+}
+
+.project--haven .project__track--graphic {
+  top: calc(1978 * var(--x));
+  width: 357px;
+}
+
+.project--haven .project__next {
+  top: calc(3535 * var(--x));
+}
+
+.project__media--flow { top: calc(233 * var(--x)); left: calc(42 * var(--x)); width: calc(1356 * var(--x)); height: calc(964 * var(--x)); }
+.project__media--onboarding { top: calc(1393 * var(--x)); left: calc(27 * var(--x)); width: calc(788 * var(--x)); height: calc(560 * var(--x)); }
+.project__media--popup { top: calc(1393 * var(--x)); left: calc(837 * var(--x)); width: calc(576 * var(--x)); height: calc(560 * var(--x)); }
+.project__media--pattern { top: calc(2149 * var(--x)); left: calc(27 * var(--x)); width: calc(683 * var(--x)); height: calc(486 * var(--x)); }
+.project__media--mars { top: calc(2149 * var(--x)); left: calc(729 * var(--x)); width: calc(686 * var(--x)); height: calc(488 * var(--x)); }
+.project__media--mobile { top: calc(2669 * var(--x)); left: calc(27 * var(--x)); width: calc(326 * var(--x)); height: calc(709 * var(--x)); }
+.project__media--logo { top: calc(2730 * var(--x)); left: calc(370 * var(--x)); width: calc(1045 * var(--x)); height: calc(588 * var(--x)); }
+
 /* Text that's only in the phone frame */
 .project__phone-only {
   display: none;

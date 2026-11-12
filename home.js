@@ -1,6 +1,6 @@
 // ===== The top bar follows the scroll =====
-// Once the works reach the middle of the screen the name rolls into "Works" and keeps its line;
-// at the footer (the bio) "Contact" gets the line instead (styles.css, .is-active)
+// Once the works reach the middle of the screen the name rolls into "Works" and keeps its line
+// until the very end of the page, where "Contact" gets the line instead (styles.css, .is-active)
 const topName = document.querySelector(".top-bar__name");
 const contactLink = document.querySelector('.top-bar__links a[href="#contact"]');
 const reached = (selector) => document.querySelector(selector).getBoundingClientRect().top < innerHeight / 2;
@@ -15,9 +15,8 @@ function markSection() {
     return;
   }
   const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 1;
-  const inFooter = reached(".footer") || atBottom;
-  topName.classList.toggle("is-active", reached(".work") && !inFooter);
-  contactLink.classList.toggle("is-active", inFooter);
+  topName.classList.toggle("is-active", reached(".work") && !atBottom);
+  contactLink.classList.toggle("is-active", atBottom);
 }
 markSection();
 addEventListener("scroll", markSection, { passive: true });
@@ -88,8 +87,10 @@ if (document.documentElement.classList.contains("intro")) {
   document.fonts.ready.then(() => {
     document.documentElement.classList.add("intro-go");
     // After the last thing has written itself in, the page goes back to normal
+    // Then "Works ↓" writes itself in (styles.css, .hero__works), 1200ms
     const last = Math.max(3 * 150 + 1200, typed * TYPE_GAP + 150);
-    setTimeout(() => document.documentElement.classList.remove("intro", "intro-go"), restStart + 900 + last);
+    document.documentElement.style.setProperty("--last", `${last}ms`);
+    setTimeout(() => document.documentElement.classList.remove("intro", "intro-go"), restStart + 900 + last + 1200);
   });
 }
 
@@ -104,3 +105,51 @@ if (matchMedia("(hover: none)").matches) document.querySelectorAll(".work__stick
     observer.disconnect();
   }, { rootMargin: "0px 0px -40% 0px" }).observe(sticker.parentElement);
 });
+
+// ===== The open card's works run left (computers) =====
+// While a row is open its works slide left without end (styles.css, .work__card): what's in the card is
+// copied once after itself and the card moves by one copy, at the same speed on any screen.
+// Reach's card is one drawn set; the others are their frame's pieces
+// ponytail: decided once on load; a window resized across 700px keeps what it started with
+const STRIP_SPEED = 45; // px per second on Figma's 1440px-wide frame
+if (!phoneLayout.matches) document.querySelectorAll(".work__card, .work__frame").forEach((strip) => {
+  [...strip.children].forEach((piece) => {
+    const copy = piece.cloneNode(true);
+    copy.setAttribute("aria-hidden", "true");
+    strip.append(copy);
+  });
+  strip.style.setProperty("--strip-time", `${strip.offsetWidth / 2 / (STRIP_SPEED * innerWidth / 1440)}s`);
+});
+
+// ===== Opening a work (computers with a mouse) =====
+// A first click opens the row into its big card (styles.css, .is-open). Then the work itself turns the
+// cursor into "More info" and a click on it goes to the case study, while a click on its row closes it.
+// Esc or a click outside closes it too.
+if (!phoneLayout.matches && matchMedia("(hover: hover)").matches) {
+  const works = document.querySelectorAll(".work");
+  works.forEach((work) => work.removeAttribute("data-cursor"));
+  document.querySelector(".works").style.setProperty("--count", works.length); // styles.css: the open row's height
+  const open = (work, event) => {
+    works.forEach((other) => {
+      other.classList.toggle("is-open", other === work);
+      // Only the open work's card takes the "More info" circle (script.js, data-cursor), not its row
+      // (Reach's card is drawn from Figma; the others still show their frame)
+      const card = other.querySelector(".work__card") ?? other.querySelector(".work__frame");
+      if (other === work) card.dataset.cursor = "More info";
+      else card.removeAttribute("data-cursor");
+    });
+    // script.js: the cursor changes right away for whatever is under it, without waiting for the mouse to move
+    if (event) showWord(document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-cursor]") ?? null);
+    // Opening brings the list up to fill the screen under the top bar
+    if (work) document.querySelector(".works").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  };
+  works.forEach((work) => work.addEventListener("click", (event) => {
+    const isOpen = work.classList.contains("is-open");
+    if (isOpen && !event.target.closest(".work__row")) return; // the open work: the link goes to the case study
+    event.preventDefault();
+    open(isOpen ? null : work, event);
+  }));
+  addEventListener("keydown", (event) => { if (event.key === "Escape") open(null); });
+  // A click anywhere outside the works closes the open one
+  document.addEventListener("click", (event) => { if (!event.target.closest(".work")) open(null, event); });
+}

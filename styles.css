@@ -717,6 +717,46 @@ nav,
   float: right;
 }
 
+/* "Works ↓" under the note (Figma's "Works" at 696, the page sitting 60px higher), centered.
+   Its arrow (Figma's → turned down) drops in from above its window and out under it, again and again */
+.hero__works {
+  position: absolute;
+  top: calc(676 * var(--x)); /* 40px under where Figma puts it, as asked */
+  left: 50%;
+  translate: -50%;
+  font-family: var(--subtitle-font-family);
+  font-size: calc(30 * var(--x));
+  font-weight: var(--subtitle-font-weight);
+  letter-spacing: -0.02em;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hero__arrow {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+}
+
+.hero__arrow > span {
+  display: inline-block;
+  rotate: 90deg;
+  animation: arrow-drop 2s var(--ease-in-out) infinite;
+}
+
+@keyframes arrow-drop {
+  0% { translate: 0 -100%; }
+  45%, 60% { translate: 0 0; }
+  100% { translate: 0 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__arrow > span {
+    animation: none;
+  }
+}
+
 /* ===== Intro (home.js) =====
    Every word of the headline is a window; the word rises in from just below its own spot.
    The window reaches a little above and below the line, so tall letters and tails aren't cut. */
@@ -750,7 +790,7 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__spark, .work__frame, .work__info) {
+.intro :is(.top-bar, .hero__spark, .work__row, .work__frame, .work__info) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
@@ -765,8 +805,12 @@ nav,
 }
 
 .intro .hero__spark { --n: 2; }
+/* "Works ↓" writes itself in last, once everything else is in (home.js sets --last) */
+.intro .hero__works {
+  animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--last)) both;
+}
 /* The cards' insides, not the cards: clipping a card would cut its sticker, which sits over its edge */
-.intro :is(.work__frame, .work__info) { --n: 3; }
+.intro :is(.work__row, .work__frame, .work__info) { --n: 3; }
 
 /* ...while the note types itself in (home.js): each character appears at its turn,
    first as a solid block for a moment, like a cursor, then as itself */
@@ -826,6 +870,12 @@ nav,
   --circle-ink: #eeefee;
   left: calc(969 * var(--x));
   width: calc(458 * var(--x));
+}
+
+/* Poster Archive: the Casiopea poster's yellow on its purple (sampled from the poster) */
+.work--posters {
+  --circle: #3a3293;
+  --circle-ink: #f1c025;
 }
 
 /* HAVEN: its dithered black on white, under Reach */
@@ -987,12 +1037,331 @@ nav,
   }
 }
 
+/* ===== Works as an index of rows (computers) =====
+   A tight list of rows on Figma's columns ("Home screen": no. at 18, name at 253, year at 859,
+   tags against the right edge), ruled apart.
+   - Hover: the row opens a crack and nudges the rows under it down.
+   - Click (home.js adds .is-open): the row opens to the rest of the screen with its card as drawn in Figma,
+     scaled up to fill it; home.js scrolls the list up to the top, the others squash into slivers with their text cut, and the
+     card's works run to the left without end (home.js doubles them). The header stays still.
+     A second click on the card goes to the case study; a click on its header, outside or Esc closes it.
+   The card markup stays: phones still show the cards */
+.work__row,
+.work__card {
+  display: none;
+}
+
+@media (min-width: 701px) {
+  .hero {
+    display: flow-root; /* the list's margin stays inside, instead of pushing the headline down with it */
+    height: auto;
+  }
+
+  .works {
+    --closed: calc(48 * var(--x)); /* a row */
+    --crack: calc(76 * var(--x)); /* a hovered row */
+    --sliver: calc(16 * var(--x)); /* a squashed row */
+    /* The open row takes the rest of the screen under the top bar, and its card grows to fill it:
+       --u is one of Figma's px in the card, scaled so the card's 383 fills the row less the 70 over it
+       and the 23 under it (Figma) */
+    --open: calc(100svh - var(--space-l) - (var(--count, 5) - 1) * var(--sliver));
+    --u: calc((var(--open) - 93 * var(--x)) / 383);
+    display: flex;
+    flex-direction: column;
+    /* Out of sight at first: it starts where the first screen ends, never higher than Figma's row at 769
+       (the page sitting 60px higher). Closed, it's only as tall as its rows, with 270 (Figma has 330, raised a little as asked) under the
+       last one before the footer; an open row makes it taller and pushes the footer down */
+    margin: max(calc(709 * var(--x)), 100svh) 0 calc(270 * var(--x));
+    scroll-margin-top: var(--space-l); /* opening scrolls it up to just under the top bar */
+  }
+
+  .work {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 var(--closed);
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 calc(17 * var(--x));
+    border-top: var(--line-thickness) solid;
+    scroll-margin-top: var(--space-l);
+    transition: flex-basis 0.45s var(--ease);
+  }
+
+  .work:last-child {
+    border-bottom: var(--line-thickness) solid;
+  }
+
+  .work:is(:hover, :focus-visible) {
+    flex-basis: var(--crack);
+  }
+
+  .works:has(.is-open) .work {
+    flex-basis: var(--sliver);
+  }
+
+  .works:has(.is-open) .work:not(.is-open):is(:hover, :focus-visible) {
+    flex-basis: calc(2 * var(--sliver));
+  }
+
+  .works .work.is-open {
+    flex-basis: var(--open);
+  }
+
+  /* The header */
+  .work__row {
+    flex: none;
+    display: block;
+    font-family: var(--subtitle-font-family);
+    font-size: calc(30 * var(--x));
+    font-weight: var(--subtitle-font-weight);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .work__track {
+    display: grid;
+    grid-template-columns: calc(235 * var(--x)) calc(606 * var(--x)) calc(161 * var(--x)) 1fr;
+    align-items: baseline;
+    padding-block: calc(5 * var(--x));
+  }
+
+  /* "no." is small, like in Figma */
+  .work__track > :first-child {
+    font-size: calc(18 * var(--x));
+  }
+
+  .work__track b {
+    font-family: var(--body-font-family);
+    font-size: calc(28 * var(--x));
+    font-weight: var(--body-font-weight);
+  }
+
+  /* The tags: small, against the right edge */
+  .work__track > :last-child {
+    justify-self: end;
+    font-family: var(--body-font-family);
+    font-size: var(--size-body);
+    font-weight: var(--body-font-weight);
+  }
+
+  /* The card's place: 70 under the row's line, 383 tall, 15 in from the left (Figma). It shows in a
+     hovered or open row and fades out as one closes. It's two copies long (home.js) and moves by one
+     copy, so it loops without a seam; it runs only while open */
+  .work__card,
+  .work__frame {
+    position: absolute;
+    top: calc(70 * var(--x));
+    left: calc(15 * var(--x));
+    height: calc(383 * var(--u));
+    opacity: 0;
+    transition: opacity 0.3s var(--ease);
+    animation: strip var(--strip-time, 30s) linear infinite paused;
+  }
+
+  .work.is-open :is(.work__card, .work__frame) {
+    animation-play-state: running;
+  }
+
+  .work:is(:hover, :focus-visible, .is-open) :is(.work__card, .work__frame) {
+    opacity: 1;
+  }
+
+  .works:has(.is-open) .work:not(.is-open) :is(.work__card, .work__frame) {
+    opacity: 0;
+  }
+
+  /* Works whose card isn't drawn yet: their pieces side by side, 11 apart (like Figma's boards),
+     the card's height; the right padding is the gap at the seam */
+  .work__frame {
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: max-content;
+    padding: 0 calc(11 * var(--u)) 0 0;
+    gap: calc(11 * var(--u));
+    background: none;
+  }
+
+  .work--record .work__frame {
+    background: none;
+  }
+
+  .work__screen {
+    display: contents;
+  }
+
+  .work__frame :is(video, img) {
+    flex: none;
+    width: auto;
+    height: 100%;
+    border-radius: 0;
+    object-fit: cover;
+  }
+
+  .work__label,
+  .work__info {
+    display: none;
+  }
+
+  /* Reach's card, from Figma, in --u (Figma's px, scaled to fill the open row). A set holds the works,
+     every spot from its corner (Figma's 15, 896);
+     it's as wide as they are plus the 11 that keeps the copy after it apart */
+  .work__card {
+    display: flex;
+    width: max-content;
+  }
+
+  .work:has(.work__card) .work__frame {
+    display: none;
+  }
+
+  /* The other works' cards: their pieces side by side at the card's height, 11 apart like Figma's
+     boards; the right padding is the gap at the seam */
+  .work__card--row {
+    gap: calc(11 * var(--u));
+    padding-right: calc(11 * var(--u));
+  }
+
+  .work__card--row > * {
+    flex: none;
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* HAVEN's first clip has black bars on its sides (131 of its 1280px each): cut, so it sits on the
+     same 11 as the rest */
+  .work__card--row > .work__card-cropped {
+    aspect-ratio: 1012 / 720;
+  }
+
+  .work__set {
+    position: relative;
+    flex: none;
+    width: calc(1484 * var(--u));
+    height: 100%;
+  }
+
+  .work__set > * {
+    position: absolute;
+  }
+
+  .work__board--dark {
+    top: 0;
+    left: calc(6.31 * var(--u));
+    width: calc(441.63 * var(--u));
+    height: 100%;
+    background: var(--color-panel);
+  }
+
+  /* The route lines on the dark board, turned and slanted like on the Reach page (.project__route) */
+  .work__route {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .work__route > span {
+    flex: none;
+    position: relative;
+    rotate: -170.86deg;
+    scale: 1 -1;
+    transform: skewX(-2.68deg);
+  }
+
+  .work__route img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+
+  .work__route--1 { top: calc(123.18 * var(--u)); left: calc(0.13 * var(--u)); width: calc(450.27 * var(--u)); height: calc(107.19 * var(--u)); }
+  .work__route--2 { top: calc(113.73 * var(--u)); left: 0; width: calc(450.44 * var(--u)); height: calc(106.88 * var(--u)); }
+  .work__route--1 > span { width: calc(448.44 * var(--u)); height: calc(36.73 * var(--u)); }
+  .work__route--2 > span { width: calc(448.69 * var(--u)); height: calc(36.37 * var(--u)); }
+  .work__route--1 img { top: -1.09%; height: 102.18%; }
+  .work__route--2 img { top: -2.47%; height: 104.95%; }
+
+  .work__card-phone {
+    top: calc(51.96 * var(--u));
+    width: calc(135.9 * var(--u));
+    height: calc(279.85 * var(--u));
+    object-fit: cover;
+  }
+
+  .work__card-phone--congrats { left: calc(21.13 * var(--u)); border-radius: calc(19 * var(--u)); }
+  .work__card-phone--timer { left: calc(162.37 * var(--u)); border-radius: calc(20 * var(--u)); }
+  .work__card-phone--arm { top: calc(51.23 * var(--u)); left: calc(303.62 * var(--u)); width: calc(135.74 * var(--u)); height: calc(279.52 * var(--u)); border-radius: calc(22 * var(--u)); }
+
+  .work__board--red {
+    top: 0;
+    left: calc(461 * var(--u));
+    width: calc(632 * var(--u));
+    height: 100%;
+    background: var(--color-accent);
+  }
+
+  .work__card-site {
+    top: calc(20 * var(--u));
+    left: calc(504 * var(--u));
+    width: calc(548 * var(--u));
+    height: calc(343 * var(--u));
+    object-fit: cover;
+  }
+
+  .work__card-line {
+    top: calc(157.65 * var(--u));
+    left: calc(1107 * var(--u));
+    width: calc(303.24 * var(--u));
+    height: calc(111.82 * var(--u));
+  }
+
+  .work__card-app {
+    top: calc(10 * var(--u));
+    width: calc(181 * var(--u));
+    height: calc(363 * var(--u));
+    object-fit: cover;
+  }
+
+  .work__card-app--home { left: calc(1107 * var(--u)); border-radius: calc(29 * var(--u)); }
+  .work__card-app--check-in { left: calc(1292 * var(--u)); border-radius: calc(23 * var(--u)); }
+}
+
+@keyframes strip {
+  to { translate: -50%; }
+}
+
+/* Touch screens with a computer-wide screen have no hover or cursor: their rows show their card open */
+@media (min-width: 701px) and (hover: none) {
+  .works .work {
+    flex-basis: var(--open);
+  }
+
+  .works :is(.work__card, .work__frame) {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 701px) and (prefers-reduced-motion: reduce) {
+  :is(.work__card, .work__frame) {
+    animation: none;
+  }
+}
+
 /* ===== Phones: the home page from the Figma phone frame ("iPhone 16 & 17 Pro - 1", 402px wide) =====
    Like the computer, everything scales with the width: --p = 1px of the 402px frame.
    The headline is justified edge to edge, broken where Figma breaks it, with the spark
    in the third line (home.js puts the breaks and the spark in); the card is the computer's card,
    scaled down to 378px */
 @media (max-width: 700px) {
+  .work--posters,
+  .hero__works {
+    display: none;
+  }
+
   .hero {
     --p: calc(100vw / 402);
     --down: calc(-40 * var(--p)); /* with no place and time corner, the headline and everything under it sit higher than in the frame */
@@ -1805,9 +2174,9 @@ nav,
 /* ===== Footer ===== */
 .footer {
   overflow: clip; /* the Let's Collab window reaches below the footer; it mustn't make the page longer */
-  /* The bottom row sits close to the bottom of the page, but low enough for the tail of
-     Instagram's g to show whole (measured: it reaches 2.78vw - 23px under the row) */
-  padding: 0 15px max(var(--space-m), calc(2.78vw - 17px));
+  /* The footer sits on the bottom edge of the page: as low as it goes while the tail of
+     Instagram's g still shows whole, 1px above the edge (measured: it reaches 2.78vw - 23px under the row) */
+  padding: 0 15px max(var(--space-m), calc(2.78vw - 21px));
   font-size: var(--size-body);
   font-weight: var(--body-font-weight);
   letter-spacing: var(--body-letter-spacing);

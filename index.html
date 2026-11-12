@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=55">
+  <link rel="stylesheet" href="styles.css?v=77">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -34,7 +34,7 @@
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
   <script src="script.js?v=37" defer></script>
-  <script src="home.js?v=25" defer></script>
+  <script src="home.js?v=36" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -68,11 +68,36 @@
 
     <p class="hero__note">Currently in my final year of Visual Communication at Bezalel Academy of <span class="hero__note-end">Arts &amp; Design</span></p>
 
-    <!-- The works. Hovering a card turns the cursor into a circle in the project's colors with its name
+    <!-- Computers: points down to the works; it comes in after the intro, its arrow dropping again and again behind a window -->
+    <a class="hero__works" href="#works"><span class="link-line">Works</span> <span class="hero__arrow" aria-hidden="true"><span>→</span></span></a>
+
+    <!-- Computers: the works as an index of rows (no. / name / year / tags); hovering one opens a crack, a click opens it
+         to fill the screen while the others squash (styles.css "Works as an index of rows"). Phones: the cards, from the Figma phone frame -->
+    <div class="works">
+    <!-- The works. Hovering a card turns the cursor into a circle in the project's colors with "More info"
          (data-cursor, script.js; the colors are --circle and --circle-ink in styles.css) -->
-    <a class="work work--reach" id="works" href="reach.html" data-cursor="Reach">
+    <a class="work work--reach" id="works" href="reach.html" data-cursor="More info">
       <!-- Touch screens have no cursor to grow, so the card wears the circle as a sticker instead -->
-      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">Reach · Reach · Reach · Reach · </textPath></text></svg></span>
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
+      <span class="work__row"><span class="work__track"><span>no. 1</span><span><b>Reach —</b> App for Climbers</span><b>(2026)</b><span>ux-ui / Product / Interactive / Branding</span></span></span>
+      <!-- Computers: the open card, as drawn in Figma ("Home screen"): three screens on a dark board with two route
+           lines, the site on a red board, and two app clips over a route line. It runs left without end
+           (home.js copies the set once after itself). Phones keep the frame under it -->
+      <span class="work__card work__card--reach">
+        <span class="work__set">
+          <span class="work__board work__board--dark"></span>
+          <span class="work__route work__route--1"><span><img src="IMG/Reach/page/vector-141.svg" width="708.89" height="52.4959" alt=""></span></span>
+          <span class="work__route work__route--2"><span><img src="IMG/Reach/page/vector-142.svg" width="708.742" height="52.9892" alt=""></span></span>
+          <img class="work__card-phone work__card-phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="">
+          <img class="work__card-phone work__card-phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="">
+          <img class="work__card-phone work__card-phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          <span class="work__board work__board--red"></span>
+          <video class="work__card-site" src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <img class="work__card-line" src="IMG/Reach/page/card-route.svg" width="303.238" height="111.823" alt="">
+          <video class="work__card-app work__card-app--home" src="IMG/Reach/web/app-home.mp4" width="1380" height="1992" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <video class="work__card-app work__card-app--check-in" src="IMG/Reach/web/app-check-in.mp4" width="1380" height="1992" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        </span>
+      </span>
       <span class="work__frame">
         <span class="work__label"><span>No. 1</span><span>Reach</span></span>
         <video class="work__site" src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
@@ -84,8 +109,16 @@
       </span>
     </a>
 
-    <a class="work work--museum" href="israel-museum.html" data-cursor="Israel Museum">
-      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-museum" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-museum" textLength="257" lengthAdjust="spacing">Israel Museum · Israel Museum · </textPath></text></svg></span>
+    <a class="work work--museum" href="israel-museum.html" data-cursor="More info">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-museum" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-museum" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
+      <span class="work__row"><span class="work__track"><span>no. 2</span><span><b>Israel Museum Index</b></span><b>(2026)</b><span>Web / Layout / Interactive / Typography</span></span></span>
+      <!-- Computers: the open card. Israel Museum Index: four of its page's clips, side by side and running left (home.js). Phones keep the frame under it -->
+      <span class="work__card work__card--row">
+        <video src="IMG/Israel-Museum-Index/web/showreel.mp4" width="1920" height="1178" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Israel-Museum-Index/web/03-artwork-page.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Israel-Museum-Index/web/04-index-list-grid.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Israel-Museum-Index/web/collections-hover.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+      </span>
       <span class="work__frame">
         <span class="work__label"><span>No. 2</span><span>Israel Museum Index</span></span>
         <span class="work__screen">
@@ -99,8 +132,16 @@
     </a>
 
     <!-- No pages for these two yet, so they aren't links -->
-    <a class="work work--record" href="record-day.html" data-cursor="Record Day">
-      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-record" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-record" textLength="257" lengthAdjust="spacing">Record Day · Record Day · </textPath></text></svg></span>
+    <a class="work work--record" href="record-day.html" data-cursor="More info">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-record" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-record" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
+      <span class="work__row"><span class="work__track"><span>no. 3</span><span><b>Record-Day</b> Branding</span><b>(2026)</b><span>Motion / Branding / Posters / IMG-Making</span></span></span>
+      <!-- Computers: the open card. Record Day: four of its page's pieces, side by side and running left (home.js). Phones keep the frame under it -->
+      <span class="work__card work__card--row">
+        <video src="IMG/Record-Day/web/bus-poster.mp4" width="848" height="1508" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Record-Day/web/train-station.mp4" width="1920" height="1106" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Record-Day/web/schedule.mp4" width="848" height="1508" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Record-Day/web/title.mp4" width="1080" height="1350" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+      </span>
       <span class="work__frame">
         <span class="work__label"><span>No. 3</span><span>Record Day</span></span>
         <span class="work__screen">
@@ -115,8 +156,15 @@
       </span>
     </a>
 
-    <a class="work work--haven" data-cursor="HAVEN">
-      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-haven" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-haven" textLength="257" lengthAdjust="spacing">HAVEN · HAVEN · HAVEN · HAVEN · </textPath></text></svg></span>
+    <a class="work work--haven" data-cursor="More info">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-haven" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-haven" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
+      <span class="work__row"><span class="work__track"><span>no. 4</span><span><b>HAVEN</b></span><b>(2026)</b><span>Motion / ux-ui / Interface / Branding</span></span></span>
+      <!-- Computers: the open card. HAVEN: its three clips (it has no page yet), side by side and running left (home.js). Phones keep the frame under it -->
+      <span class="work__card work__card--row">
+        <video class="work__card-cropped" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/HAVEN/web/onboarding-desktop.mp4" width="1440" height="1024" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/HAVEN/web/popup-feature.mp4" width="720" height="700" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+      </span>
       <span class="work__frame">
         <span class="work__label"><span>No. 4</span><span>HAVEN</span></span>
         <video class="work__wide" src="IMG/HAVEN/desktop.mp4" width="1280" height="720" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
@@ -126,6 +174,22 @@
         <span>Motion / ux-ui / Interaction</span>
       </span>
     </a>
+
+    <!-- No. 5, computers only for now (the phone frame has no card for it): the posters in IMG/Posters, as mp4s (IMG/Posters/web), ordered so no two neighbours share a palette, even where the loop meets.
+         The stills never play (no data-play): they just show their one frame, so nothing restarts while the strip runs -->
+    <a class="work work--posters" data-cursor="More info">
+      <span class="work__row"><span class="work__track"><span>no. 5</span><span><b>Poster Archive</b></span><b>(2026)</b><span>Posters / Layout / Typography / Print</span></span></span>
+      <span class="work__card work__card--row">
+        <video src="IMG/Posters/web/radiohead.mp4" width="930" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/letter-to-infinity.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/bat.mp4" width="698" height="1240" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        <video src="IMG/Posters/web/casiopea.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/swedish-wrench.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/night-in-the-course.mp4?v=2" width="496" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+      </span>
+    </a>
+    </div>
+
   </main>
 
   <footer class="footer" id="contact">

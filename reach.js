@@ -23,7 +23,7 @@ function measureStacks() {
   const line = 16 * 1.15;
   const researchTop = STICK_END + about.offsetHeight + line;
   root.style.setProperty("--stick-research", `${researchTop}px`);
-  root.style.setProperty("--stick-graphic", `${researchTop + research.offsetHeight + line}px`);
+  root.style.setProperty("--stick-graphic", `${researchTop + (research?.offsetHeight ?? 0) + line}px`); // the Posters page has no texts below
 }
 
 // "Graphic Language & Direction": each letter, spaces included, gets its own span.

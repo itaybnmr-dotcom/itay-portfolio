@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itay Benma — Poster Archive</title>
+  <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=82">
+  <!-- The fonts load right away, so a new page shows up already in its own type -->
+  <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
+  <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
+  <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
+  <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
+  <script src="script.js?v=37" defer></script>
+  <script src="reach.js?v=20" defer></script>
+</head>
+<body class="project-page">
+  <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
+  <header class="top-bar">
+    <a class="top-bar__name roll" href="index.html#works" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
+    <!-- Links: About has no page yet, "#" is a placeholder -->
+    <nav class="top-bar__links">
+      <a class="link-line" href="#">About</a> /
+      <!-- Kept together: on phones they share one line in the stacked menu -->
+      <span class="top-bar__pair"><a class="link-line" href="#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
+      <a class="link-line" href="wip.html">WIP</a>
+    </nav>
+  </header>
+
+  <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט פוסטרים"). It has no phone frame yet.
+       It's built on the Reach page: the same title, sticky texts and sliding subtitle (reach.js);
+       what sits elsewhere is set under .project--posters (no texts below the top, no subtitle). data-phone: the line as the phone frame spaces it -->
+  <main class="project project--posters">
+    <h1 class="project__title project__big" data-phone="Poster     Archive"><span>Poster</span>          <span>Archive</span></h1>
+
+    <div class="project__track project__track--about">
+      <p class="project__about">Posters made in courses at Bezalel Academy of Arts and Design, 2023–2026. Static and motion work, mostly typographic.</p>
+    </div>
+    <p class="project__tags">Posters / Layout / Typography / IMG-Making / Print / Motion</p>
+
+    <!-- The posters, as laid out in Figma: still ones as images, moving ones as videos -->
+    <img class="project__media project__media--casiopea" src="IMG/Posters/web/page/casiopea.jpg" width="989" height="1412" alt="Casiopea poster" loading="lazy">
+    <img class="project__media project__media--all-nighter" src="IMG/Posters/web/page/amsterdam-all-nighter.jpg" width="780" height="1114" alt="Gathering: All Nighter poster" loading="lazy">
+    <img class="project__media project__media--book-launch" src="IMG/Posters/web/page/amsterdam-book-launch.jpg" width="781" height="1116" alt="Book Launch: Worschip poster" loading="lazy">
+    <img class="project__media project__media--exhibition" src="IMG/Posters/web/page/amsterdam-exhibition.jpg" width="781" height="1116" alt="Het Schip exhibition poster" loading="lazy">
+    <video class="project__media project__media--medusa" src="IMG/Posters/web/page/medusa.mp4" width="1080" height="1920" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__media project__media--malaria" src="IMG/Posters/web/page/malaria.mp4" width="1080" height="1920" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <img class="project__media project__media--photo-1" src="IMG/Posters/web/page/photo-9834.jpg" width="692" height="922" alt="A poster, photographed" loading="lazy">
+    <img class="project__media project__media--photo-2" src="IMG/Posters/web/page/photo-9833.jpg" width="692" height="922" alt="A poster, photographed" loading="lazy">
+    <video class="project__media project__media--bat" src="IMG/Posters/web/page/bat.mp4" width="1080" height="1920" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <img class="project__media project__media--wrench" src="IMG/Posters/web/page/swedish-wrench.jpg" width="988" height="1412" alt="Swedish Wrench poster" loading="lazy">
+    <img class="project__media project__media--infinity" src="IMG/Posters/web/page/letter-to-infinity.jpg" width="988" height="1412" alt="Letter to Infinity poster" loading="lazy">
+    <video class="project__media project__media--strangest" src="IMG/Posters/web/page/strangest-day.mp4" width="1080" height="1920" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <img class="project__media project__media--night" src="IMG/Posters/web/page/night-in-the-course.jpg" width="626" height="1564" alt="A Night in the Course poster" loading="lazy">
+    <img class="project__media project__media--transformation" src="IMG/Posters/web/page/transformation.jpg" width="626" height="1566" alt="Transformation poster" loading="lazy">
+    <img class="project__media project__media--event" src="IMG/Posters/web/page/event-2.jpg" width="626" height="1566" alt="A Night in the Course poster, second version" loading="lazy">
+
+    <!-- On hover it rolls into the next project's name, like the name into "Works". After the last project, back to the first -->
+    <a class="project__next roll" href="reach.html" aria-label="Next project: Reach"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Reach</span></a>
+  </main>
+
+  <footer class="footer" id="contact">
+    <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Brand, Typography &amp; Editorial Design.</p>
+
+    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
+    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
+
+    <!-- Bottom row: copyright, works, contact links -->
+    <div class="footer__bottom">
+      <p><a class="link-line" href="index.html" data-collab="Home"><span class="footer__copyright">©</span>itay benma</a></p>
+      <p><a class="link-line" href="index.html#works" data-collab="Works">Works</a></p>
+      <nav class="footer__links">
+        <a class="link-line" href="mailto:itaybnmr@gmail.com" data-collab="Email">Email</a> /
+        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
+        <a class="link-line" href="https://www.linkedin.com/in/itay-ben-mayor-765231284/" target="_blank" rel="noopener" data-collab="LinkedIn">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

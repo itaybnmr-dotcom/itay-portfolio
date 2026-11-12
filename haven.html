@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — HAVEN</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=79">
+  <link rel="stylesheet" href="styles.css?v=82">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -13,7 +13,7 @@
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
   <script src="script.js?v=37" defer></script>
-  <script src="reach.js?v=19" defer></script>
+  <script src="reach.js?v=20" defer></script>
 </head>
 <body class="project-page">
   <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
@@ -33,7 +33,7 @@
        It's built on the Reach page: the same title, sticky texts and sliding subtitle (reach.js);
        what sits elsewhere is set under .project--haven (no subtitle here). data-phone: the line as the phone frame spaces it -->
   <main class="project project--haven">
-    <h1 class="project__title project__big" data-phone="Haven     App          Interface"><span>Haven</span>          <span>App</span>          <span>Interface</span></h1>
+    <h1 class="project__title project__big" data-phone="Haven     App        Interface"><span>Haven</span>          <span>App</span>          <span>Interface</span></h1>
 
     <div class="project__track project__track--about">
       <p class="project__about">An interface in motion for Mars settlers who can’t hear, turning sound into a visual language of signals. The project consists of a loader, an onboarding process and a pop-up feature</p>
@@ -70,8 +70,8 @@
     <video class="project__media project__media--mobile" src="IMG/HAVEN/web/flow-mobile.mp4" width="392" height="852" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
     <video class="project__media project__media--logo" src="IMG/HAVEN/web/logo-animation.mp4" width="1920" height="1080" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
 
-    <!-- On hover it rolls into the next project's name, like the name into "Works". After the last project, back to the first -->
-    <a class="project__next roll" href="reach.html" aria-label="Next project: Reach"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Reach</span></a>
+    <!-- On hover it rolls into the next project's name, like the name into "Works" -->
+    <a class="project__next roll" href="posters.html" aria-label="Next project: Poster Archive"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Poster Archive</span></a>
   </main>
 
   <footer class="footer" id="contact">

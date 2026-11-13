@@ -1037,7 +1037,7 @@ nav,
   }
 }
 
-/* ===== Works as an index of rows (computers) =====
+/* ===== Works as an index of rows (computers and phones; phones tune it below) =====
    A tight list of rows on Figma's columns ("Home screen": no. at 18, name at 253, year at 859,
    tags against the right edge), ruled apart.
    - Hover: the row opens a crack and nudges the rows under it down.
@@ -1045,13 +1045,13 @@ nav,
      scaled up to fill it; home.js scrolls the list up to the top, the others squash into slivers with their text cut, and the
      card's works run to the left without end (home.js doubles them). The header stays still.
      A second click on the card goes to the case study; a click on its header, outside or Esc closes it.
-   The card markup stays: phones still show the cards */
+   The phone cards' frames stay in the markup, unused */
 .work__row,
 .work__card {
   display: none;
 }
 
-@media (min-width: 701px) {
+@media all {
   .hero {
     display: flow-root; /* the list's margin stays inside, instead of pushing the headline down with it */
     height: auto;
@@ -1345,7 +1345,7 @@ nav,
   }
 }
 
-@media (min-width: 701px) and (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   :is(.work__card, .work__frame) {
     animation: none;
   }
@@ -1357,14 +1357,15 @@ nav,
    in the third line (home.js puts the breaks and the spark in); the card is the computer's card,
    scaled down to 378px */
 @media (max-width: 700px) {
+  /* "Works ↓" under the note, like on the computer */
   .hero__works {
-    display: none;
+    top: calc(535 * var(--p) + var(--down));
+    font-size: calc(28 * var(--p));
   }
 
   .hero {
     --p: calc(100vw / 402);
     --down: calc(-40 * var(--p)); /* with no place and time corner, the headline and everything under it sit higher than in the frame */
-    height: calc(2653 * var(--p) + var(--down)); /* down to 64px under the last card */
   }
 
   /* The live headline stays for screen readers only; the drawn one shows instead */
@@ -1403,36 +1404,53 @@ nav,
     letter-spacing: -0.03em;
   }
 
-  /* The computer's cards at 378px, one under the other: 1 of their Figma pixels is 378/457 of the frame's.
-     Figma's phone frame only has the first; the others follow 46px apart, room for a sticker (34px above its card) */
+  /* The computer's index of rows, starting where the first screen ends, like on the computer: no. / name / year,
+     no tags. A tap opens a row (home.js), its card --card tall under the header, running left; a tap on the
+     open card goes to the case study */
+  .works {
+    --closed: calc(46 * var(--p));
+    --crack: var(--closed); /* no hover on a phone: a tapped row mustn't stay cracked open */
+    --sliver: var(--closed); /* the others stay readable while one is open */
+    --card: calc(300 * var(--p));
+    --open: calc(var(--closed) + var(--card) + 12 * var(--p));
+    --u: calc(var(--card) / 383);
+    margin: max(calc(600 * var(--p) + var(--down)), 100svh) 0 calc(64 * var(--p));
+  }
+
   .work {
-    --x: calc(var(--p) * 378 / 457);
-    top: calc(535 * var(--p) + var(--down));
+    padding: 0 calc(12 * var(--p));
+  }
+
+  .work__track {
+    grid-template-columns: calc(44 * var(--p)) 1fr auto;
+    padding-block: calc(6 * var(--p));
+  }
+
+  .work__row {
+    font-size: calc(28 * var(--p));
+  }
+
+  .work__track > :first-child {
+    font-size: calc(14 * var(--p));
+  }
+
+  .work__track b {
+    font-size: calc(22 * var(--p));
+  }
+
+  .work__track > :last-child {
+    display: none;
+  }
+
+  .work__card {
+    top: var(--closed);
     left: calc(12 * var(--p));
   }
 
-  .work--museum {
-    top: calc(955 * var(--p) + var(--down));
+  /* No stickers on the rows */
+  .work__sticker {
+    display: none;
   }
-
-  .work--record {
-    top: calc(1375 * var(--p) + var(--down));
-  }
-
-  .work--haven {
-    top: calc(1795 * var(--p) + var(--down));
-  }
-
-  .work--posters {
-    top: calc(2215 * var(--p) + var(--down));
-  }
-
-  /* The labels shrink with the card, so they keep the computer's proportions */
-  .work__label,
-  .work__info {
-    font-size: calc(14 * var(--x));
-  }
-
 }
 
 

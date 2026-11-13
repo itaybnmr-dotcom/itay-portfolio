@@ -111,21 +111,21 @@ if (matchMedia("(hover: none)").matches) document.querySelectorAll(".work__stick
 // copied once after itself and the card moves by one copy, at the same speed on any screen.
 // Reach's card is one drawn set; the others are their frame's pieces
 // ponytail: decided once on load; a window resized across 700px keeps what it started with
-const STRIP_SPEED = 45; // px per second on Figma's 1440px-wide frame
-if (!phoneLayout.matches) document.querySelectorAll(".work__card, .work__frame").forEach((strip) => {
+const STRIP_SPEED = 45; // px per second on Figma's 1440px-wide frame (on a phone, its 402px frame)
+document.querySelectorAll(".work__card").forEach((strip) => {
   [...strip.children].forEach((piece) => {
     const copy = piece.cloneNode(true);
     copy.setAttribute("aria-hidden", "true");
     strip.append(copy);
   });
-  strip.style.setProperty("--strip-time", `${strip.offsetWidth / 2 / (STRIP_SPEED * innerWidth / 1440)}s`);
+  strip.style.setProperty("--strip-time", `${strip.offsetWidth / 2 / (STRIP_SPEED * innerWidth / (phoneLayout.matches ? 402 : 1440))}s`);
 });
 
-// ===== Opening a work (computers with a mouse) =====
+// ===== Opening a work (computers with a mouse, and phones by tapping) =====
 // A first click opens the row into its big card (styles.css, .is-open). Then the work itself turns the
 // cursor into "More info" and a click on it goes to the case study, while a click on its row closes it.
 // Esc or a click outside closes it too.
-if (!phoneLayout.matches && matchMedia("(hover: hover)").matches) {
+if (phoneLayout.matches || matchMedia("(hover: hover)").matches) {
   const works = document.querySelectorAll(".work");
   works.forEach((work) => work.removeAttribute("data-cursor"));
   document.querySelector(".works").style.setProperty("--count", works.length); // styles.css: the open row's height

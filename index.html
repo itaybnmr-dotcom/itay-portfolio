@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=82">
+  <link rel="stylesheet" href="styles.css?v=83">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -175,9 +175,10 @@
       </span>
     </a>
 
-    <!-- No. 5, computers only for now (the phone frame has no card for it): the posters in IMG/Posters, as mp4s (IMG/Posters/web), ordered so no two neighbours share a palette, even where the loop meets.
+    <!-- No. 5: on computers the posters in IMG/Posters, as mp4s (IMG/Posters/web), ordered so no two neighbours share a palette, even where the loop meets.
          The stills never play (no data-play): they just show their one frame, so nothing restarts while the strip runs -->
     <a class="work work--posters" href="posters.html" data-cursor="More info">
+      <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-posters" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-posters" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
       <span class="work__row"><span class="work__track"><span>no. 5</span><span><b>Poster Archive</b></span><b>(2026)</b><span>Posters / Layout / Typography / Print</span></span></span>
       <span class="work__card work__card--row">
         <video src="IMG/Posters/web/radiohead.mp4" width="930" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
@@ -187,6 +188,19 @@
         <video src="IMG/Posters/web/swedish-wrench.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
         <video src="IMG/Posters/web/amsterdam-book-launch.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
         <video src="IMG/Posters/web/night-in-the-course.mp4?v=2" width="496" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+      </span>
+      <!-- Phones: three of its motion posters on the black screen, like Record Day's card -->
+      <span class="work__frame">
+        <span class="work__label"><span>No. 5</span><span>Poster Archive</span></span>
+        <span class="work__screen">
+          <video class="work__poster" src="IMG/Posters/web/card-medusa.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Posters/web/card-bat.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+          <video class="work__poster" src="IMG/Posters/web/card-malaria.mp4" width="240" height="426" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+        </span>
+      </span>
+      <span class="work__info">
+        <span>Posters</span>
+        <span>Posters / Layout / Typography / Print</span>
       </span>
     </a>
     </div>

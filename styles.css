@@ -790,7 +790,7 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__spark, .work__row, .work__frame, .work__info) {
+.intro :is(.top-bar, .hero__spark, .work__row, .work__frame, .work__info, .about-story__globe, .footer) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
@@ -805,6 +805,14 @@ nav,
 }
 
 .intro .hero__spark { --n: 2; }
+/* About page: its text hides until about.js splits it, and the globe writes in like the home page's spark */
+.intro .about-story__text:not(.is-split) {
+  visibility: hidden;
+}
+.intro .about-story__globe { --n: 2; }
+/* On the About page the top of the footer shows from the start, so it writes in last too
+   (on the home page it's far below, where it doesn't matter) */
+.intro .footer { --n: 3; }
 /* "Works ↓" writes itself in last, once everything else is in (home.js sets --last) */
 .intro .hero__works {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--last)) both;
@@ -2476,3 +2484,145 @@ video::-webkit-media-controls {
   display: none !important;
   -webkit-appearance: none;
 }
+
+/* ===== About page =====
+   Placed like the Figma frame "about": its numbers are px of the 1440px-wide frame, times --x.
+   Everything is 90% of the Figma size, kept centered, and starts higher: the text at 80px.
+   "Open to work" takes the place of "And most importantly I am..." instead of a row of its own,
+   so the footer comes up by that row too. Measured from the text's top, in Figma:
+   the globe 386px down, the line 564px, the footer 867px; at 90% that's 347, 508 and 780. */
+.about-story {
+  --x: calc(100vw / 1440);
+  position: relative;
+  height: calc(860 * var(--x)); /* 80 + 780 */
+}
+
+.about-story > * {
+  position: absolute;
+}
+
+/* "So yeah that's me..." and "And most importantly I am...": Reckless, with the bold words in Diatype */
+.about-story__text,
+.about-story__rise,
+.about-story__strip {
+  font-family: var(--title-font-family);
+  font-size: calc(81 * var(--x)); /* 90 in Figma */
+  font-weight: var(--title-font-weight);
+  line-height: calc(76.5 * var(--x)); /* 85 in Figma */
+  letter-spacing: var(--title-letter-spacing); /* -3%, like in Figma */
+}
+
+.about-story__text,
+.about-story__rise {
+  text-align: center;
+}
+
+.about-story__text {
+  left: calc(99 * var(--x)); /* centered */
+  width: calc(1242 * var(--x)); /* 1380 in Figma, so the lines break in the same places */
+}
+
+.about-story__rise {
+  left: calc(122.4 * var(--x)); /* centered */
+  width: calc(1195.2 * var(--x)); /* 1328 in Figma */
+  font-size: calc(27 * var(--x)); /* 30 in Figma; its line stays as tall as the strip that takes its place */
+}
+
+.about-story__text {
+  top: calc(80 * var(--x));
+}
+
+.about-story b {
+  font-family: var(--body-font-family);
+  font-weight: var(--body-font-weight);
+}
+
+/* In the text the bold words, and the periods after them, are 88 against the text's 90 in Figma */
+.about-story__text :is(b, .about-story__dot) {
+  font-size: calc(88em / 90);
+}
+
+.about-story__globe {
+  top: calc(427 * var(--x)); /* 80 + 347 */
+  left: calc((720 - 49.275) * var(--x)); /* centered */
+  width: calc(98.55 * var(--x)); /* 109.5 in Figma */
+  overflow: visible; /* the stroke sits half outside the globe's box */
+}
+
+.about-story__rise,
+.about-story__strip {
+  top: calc(588 * var(--x)); /* 80 + 508 */
+}
+
+/* Each word rises into its own window, one after another (about.js adds .is-in),
+   then they all rise on out of it (.is-out) and "Open to work" rises into the same place */
+.about-story__word {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  padding-bottom: 0.15em; /* room for the tails of p and y */
+  margin-bottom: -0.15em;
+}
+
+.about-story__word > span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.9s var(--ease) calc(var(--i) * 90ms);
+}
+
+.about-story__rise.is-in .about-story__word > span {
+  transform: none;
+}
+
+.about-story__rise.is-out .about-story__word > span {
+  transform: translateY(-110%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-story__word > span {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* "Open to work": a strip across the whole screen, moving left. It waits below its window
+   and rises in once "And most importantly I am..." has left (about.js adds .is-in) */
+.about-story__strip {
+  left: 0;
+  right: 0;
+  overflow: clip;
+  mix-blend-mode: difference;
+}
+
+.about-story__track {
+  display: flex;
+  width: max-content; /* as wide as the text, so -50% is exactly one half */
+  white-space: pre;
+  animation: about-strip 24s linear infinite;
+  translate: 0 110%;
+  transition: translate 0.9s var(--ease);
+}
+
+.about-story__strip.is-in .about-story__track {
+  translate: 0 0;
+}
+
+.about-story__strip i {
+  font-style: italic; /* Reckless Light Italic */
+}
+
+.about-story__strip b {
+  font-style: italic; /* Diatype Medium Italic in Figma; the site has no italic Diatype, so the browser slants it */
+}
+
+@keyframes about-strip {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-story__track {
+    animation: none;
+    transition: none;
+  }
+}
+

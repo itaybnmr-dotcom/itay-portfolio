@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itay Benma — About</title>
+  <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=94">
+  <!-- The fonts load right away, so a new page shows up already in its own type -->
+  <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
+  <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
+  <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
+  <!-- The opening, like the home page's (about.js, styles.css "Intro"): the text rises in word by word,
+       then the rest writes itself in. Like the home page, only on arriving or reloading: not when coming
+       from another page of the site (the visitor already saw it there), going Back, or prepared in the background -->
+  <script>
+    const fromSite = document.referrer.startsWith(location.origin) || performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+    const isReload = performance.getEntriesByType("navigation")[0]?.type === "reload";
+    if ((isReload || !fromSite) && !document.prerendering && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("intro");
+    }
+  </script>
+  <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
+  <script src="script.js?v=37" defer></script>
+  <script src="about.js?v=27" defer></script>
+</head>
+<body>
+  <header class="top-bar">
+    <a class="top-bar__name roll" href="index.html#works" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
+    <nav class="top-bar__links">
+      <a class="link-line is-current" href="about.html" aria-current="page">About</a> /
+      <!-- Kept together: on phones they share one line in the stacked menu -->
+      <span class="top-bar__pair"><a class="link-line" href="#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener">IG</a></span> /
+      <a class="link-line" href="wip.html">WIP</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Placed like the Figma frame "about" (1440px wide) -->
+    <section class="about-story">
+      <p class="about-story__text">So yeah that’s me... Born in 2001, Loves <b>bouldering, speciality coffee</b> and <b>cats</b><span class="about-story__dot">.</span> Don’t like <b>tomatoes</b><span class="about-story__dot">.</span> Driven by creating and consuming good design.</p>
+
+      <!-- The globe turns like the reference: its meridians slide sideways at one speed (about.js) -->
+      <svg class="about-story__globe" viewBox="-3 -3 115.5 79" aria-hidden="true" fill="none" stroke="white" stroke-width="5">
+        <ellipse cx="54.75" cy="36.5" rx="54.75" ry="36.5"/>
+        <line x1="0" y1="36.5" x2="109.5" y2="36.5"/>
+        <g class="about-story__meridians">
+          <path/><path/><path/><path/><path/><path/>
+        </g>
+      </svg>
+
+      <!-- Rises word by word once it scrolls into view (about.js) -->
+      <h2 class="about-story__rise">And most importantly I am...</h2>
+
+      <!-- A strip running across the screen; two identical halves, so moving by half loops with no jump -->
+      <div class="about-story__strip" aria-label="Open to work">
+        <p class="about-story__track" aria-hidden="true"><span><i>Open to work</i>  — <b>Open to work</b> — </span><span><i>Open to work</i>  — <b>Open to work</b> — </span><span><i>Open to work</i>  — <b>Open to work</b> — </span><span><i>Open to work</i>  — <b>Open to work</b> — </span></p>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Brand, Typography &amp; Editorial Design.</p>
+
+    <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
+    <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
+
+    <!-- Bottom row: copyright, works, contact links -->
+    <div class="footer__bottom">
+      <p><a class="link-line" href="index.html" data-collab="Home"><span class="footer__copyright">©</span>itay benma</a></p>
+      <p><a class="link-line" href="index.html#works" data-collab="Works">Works</a></p>
+      <nav class="footer__links">
+        <a class="link-line" href="mailto:itaybnmr@gmail.com" data-collab="Email">Email</a> /
+        <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /
+        <a class="link-line" href="https://www.linkedin.com/in/itay-ben-mayor-765231284/" target="_blank" rel="noopener" data-collab="LinkedIn">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

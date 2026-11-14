@@ -110,29 +110,19 @@
   view-transition-name: top-bar;
 }
 
+/* Quick, so the new page follows the click at once (it was 0.3s + 0.5s after a 0.1s wait on computers,
+   which felt slow; now everywhere what touch screens had) */
 ::view-transition-old(root) {
-  animation: 0.3s var(--ease-in-out) both page-out;
+  animation: 0.15s var(--ease-in-out) both page-out;
 }
 
 ::view-transition-new(root) {
-  animation: 0.5s var(--ease) 0.1s both page-in; /* starts just after the old page begins to fade */
+  animation: 0.3s var(--ease) both page-in;
 }
 
 ::view-transition-group(top-bar) {
-  animation-duration: 0.4s;
+  animation-duration: 0.3s;
   animation-timing-function: var(--ease-in-out);
-}
-
-/* Touch screens: quicker, so the new page follows the tap at once */
-@media (hover: none) {
-  ::view-transition-old(root) {
-    animation-duration: 0.15s;
-  }
-
-  ::view-transition-new(root) {
-    animation-duration: 0.3s;
-    animation-delay: 0s;
-  }
 }
 
 @keyframes page-out {

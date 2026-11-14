@@ -34,7 +34,12 @@ splitWords(text);
 text.classList.add("is-split");
 
 const page = document.documentElement;
-const introOver = new Promise((done) => {
+// about.html decides whether it plays (adding .intro); a page prepared in the background decides once
+// it's shown, so this waits for that too (about.html's listener runs first, it was added first)
+const shown = new Promise((ready) =>
+  document.prerendering ? document.addEventListener("prerenderingchange", ready, { once: true }) : ready()
+);
+const introOver = shown.then(() => new Promise((done) => {
   if (!page.classList.contains("intro")) return done();
   const restStart = INTRO_START + INTRO_BEATS[INTRO_BEATS.length - 1] + 900;
   page.style.setProperty("--rest", `${restStart}ms`);
@@ -46,10 +51,8 @@ const introOver = new Promise((done) => {
       done();
     }, restStart + 900 + 3 * 150 + 1200);
   };
-  // A page prepared in the background (the speculation rules) plays it once it's actually shown
-  const whenShown = () => (document.prerendering ? document.addEventListener("prerenderingchange", go, { once: true }) : go());
-  document.fonts.ready.then(whenShown);
-});
+  document.fonts.ready.then(go);
+}));
 
 // ===== The globe under "So yeah that's me..." =====
 // Like the reference: six meridians, each one arc from pole to pole, crossing the equator at even gaps
@@ -127,7 +130,11 @@ riseText.split(" ").forEach((word, index) => {
   box.append(inner);
   rise.append(box, " ");
 });
-introOver.then(() => new IntersectionObserver(([entry], observer) => {
+// Coming back to the page (about.html adds .is-returning): the strip is already there, nothing plays
+shown.then(() => {
+  if (page.classList.contains("is-returning")) document.querySelector(".about-story").classList.add("is-settled");
+});
+introOver.then(() => !page.classList.contains("is-returning") && new IntersectionObserver(([entry], observer) => {
   if (!entry.isIntersecting) return;
   rise.classList.add("is-in");
   observer.disconnect();

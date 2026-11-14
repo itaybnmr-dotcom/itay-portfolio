@@ -1,3 +1,13 @@
+// ===== A reload starts a new visit =====
+// The About page plays its opening only the first time it's reached in a visit (about.html remembers it);
+// reloading any other page starts over, like the home page's opening on a reload
+// (the About page handles its own reload, since it remembers the visit before this runs)
+if (performance.getEntriesByType("navigation")[0]?.type === "reload" && !document.querySelector(".about-story")) {
+  try {
+    sessionStorage.removeItem("about-seen");
+  } catch (error) {} // storage blocked: nothing was remembered anyway
+}
+
 // ===== A refresh starts at the top =====
 // Not where the page was left, nor at a #works or #contact it had jumped to: the # is dropped
 // from the address, and the page is put back at the top once it has loaded (and again right after,
@@ -242,7 +252,9 @@ if (window.matchMedia("(hover: none)").matches) {
 const footer = document.querySelector(".footer");
 function markFooter() {
   if (!footer) return;
-  document.documentElement.classList.toggle("is-at-footer", footer.getBoundingClientRect().top < innerHeight * 0.9);
+  // Only once the page has been scrolled: on a short page (About) the footer already shows at the top,
+  // and the top bar must stay there
+  document.documentElement.classList.toggle("is-at-footer", scrollY > 0 && footer.getBoundingClientRect().top < innerHeight * 0.9);
 }
 markFooter();
 addEventListener("scroll", markFooter, { passive: true });

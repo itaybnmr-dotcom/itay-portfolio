@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Work in Progress</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=94">
+  <link rel="stylesheet" href="styles.css?v=95">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -14,14 +14,14 @@
   <!-- Physics engine for the letters that fall when the headline is clicked -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=37" defer></script>
+  <script src="script.js?v=39" defer></script>
   <script src="wip.js?v=2" defer></script>
 </head>
 <body>
   <!-- Top bar: name (left), tagline (center), links (right) -->
   <header class="top-bar">
-    <!-- On hover "Itay Benma" rolls into "Works" -->
-    <a class="top-bar__name roll" href="index.html#works" aria-label="Itay Benma"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Works</span></a>
+    <!-- On hover "Itay Benma" rolls into "Home", where it leads -->
+    <a class="top-bar__name roll" href="index.html" aria-label="Itay Benma, home"><span class="roll__from">Itay Benma</span><span class="roll__to link-line" aria-hidden="true">Home</span></a>
     <p class="top-bar__tagline">Multidisciplinary Designer based in TLV</p>
     <nav class="top-bar__links">
       <a class="link-line" href="about.html">About</a> /

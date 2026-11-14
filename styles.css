@@ -2615,6 +2615,16 @@ video::-webkit-media-controls {
   font-style: italic; /* Diatype Medium Italic in Figma; the site has no italic Diatype, so the browser slants it */
 }
 
+/* Coming back to the page: as it ends, the line gone and the strip running, with nothing moving in (about.js) */
+.about-story.is-settled .about-story__rise {
+  visibility: hidden;
+}
+
+.about-story.is-settled .about-story__track {
+  translate: 0 0;
+  transition: none;
+}
+
 @keyframes about-strip {
   to { transform: translateX(-50%); }
 }

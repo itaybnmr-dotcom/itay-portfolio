@@ -164,13 +164,16 @@ document.querySelectorAll(".roll > span").forEach((word) => splitLetters(word));
 
 // ===== Poster Archive: what each poster is, on hover =====
 // Over a poster the cursor's circle grows into a black rectangle with one of the poster's lines
-// (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll
+// (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll.
+// Posters of one series share their lines, so moving between them the turns carry on
 const INFO_TURN = 2600; // milliseconds each line stays before the next rolls in
 const posterInfo = document.querySelector(".poster-info");
 if (posterInfo && matchMedia("(hover: hover)").matches) {
   cursor.append(posterInfo);
   const line = posterInfo.firstElementChild;
   let shownInfo = null;
+  let lastInfo = null; // the series last hovered, and the line it was on
+  let turn = 0;
   let turns = null;
   let shownLength = 0;
   function rollLine(text) {
@@ -197,8 +200,10 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
       shownInfo = poster.dataset.info;
       const lines = shownInfo.split("|");
       cursor.classList.add("is-info");
-      let turn = 0;
-      rollLine(lines[0]);
+      // Another poster of the same series carries on from the line it was on, instead of starting over
+      if (shownInfo !== lastInfo) turn = 0;
+      lastInfo = shownInfo;
+      rollLine(lines[turn % lines.length]);
       // One line high, measured once the line is in (an empty line has no height)
       cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
       clearInterval(turns);

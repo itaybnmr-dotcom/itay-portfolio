@@ -2157,6 +2157,25 @@ nav,
 .project__media--bat { top: calc(1706 * var(--x)); left: calc(40 * var(--x)); width: calc(334 * var(--x)); height: calc(594 * var(--x)); }
 .project__media--wrench { top: calc(1957 * var(--x)); left: calc(386 * var(--x)); width: calc(494 * var(--x)); height: calc(706 * var(--x)); }
 .project__media--infinity { top: calc(1957 * var(--x)); left: calc(905 * var(--x)); width: calc(494 * var(--x)); height: calc(706 * var(--x)); }
+/* Swedish Wrench's stamps: a row in the space under Mosquito, as wide as it, 12px above Swedish Wrench
+   and 12px apart like the posters. Each one sits on white stamp paper with a perforated edge:
+   round holes along every side (a mask), --space-xs across */
+.project__media--stamp { top: calc(1806 * var(--x)); width: calc(103.33 * var(--x)); height: calc(139 * var(--x)); }
+.project__media--stamp {
+  --hole: var(--space-xs);
+  box-sizing: border-box;
+  padding: calc(2 * var(--hole));
+  background: var(--color-text);
+  -webkit-mask:
+    radial-gradient(var(--hole), #0000 98%, #000) round calc(-1.5 * var(--hole)) calc(-1.5 * var(--hole)) / calc(3 * var(--hole)) calc(3 * var(--hole)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--hole)) calc(100% - 3 * var(--hole));
+  mask:
+    radial-gradient(var(--hole), #0000 98%, #000) round calc(-1.5 * var(--hole)) calc(-1.5 * var(--hole)) / calc(3 * var(--hole)) calc(3 * var(--hole)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--hole)) calc(100% - 3 * var(--hole));
+}
+.project__media--stamp-eye { left: calc(386 * var(--x)); }
+.project__media--stamp-tooth { left: calc(501.33 * var(--x)); }
+.project__media--stamp-tongue { left: calc(616.67 * var(--x)); }
 .project__media--strangest { top: calc(2700 * var(--x)); left: calc(1047 * var(--x)); width: calc(334 * var(--x)); height: calc(594 * var(--x)); }
 .project__media--night { top: calc(2744 * var(--x)); left: calc(40 * var(--x)); width: calc(313 * var(--x)); height: calc(782 * var(--x)); }
 .project__media--transformation { top: calc(2743 * var(--x)); left: calc(372 * var(--x)); width: calc(313 * var(--x)); height: calc(783 * var(--x)); }
@@ -2396,6 +2415,10 @@ nav,
   .project__media--photo-2 { top: calc(3849 * var(--x)); left: calc(80 * var(--x)); width: calc(264 * var(--x)); height: calc(352 * var(--x)); }
   .project__media--wrench { top: calc(4222 * var(--x)); }
   .project__media--infinity { top: calc(4629 * var(--x)); }
+  .project__media--stamp { top: calc(4504 * var(--x)); width: calc(66 * var(--x)); height: calc(89 * var(--x)); }
+  .project__media--stamp-eye { left: calc(83 * var(--x)); }
+  .project__media--stamp-tooth { left: calc(168 * var(--x)); }
+  .project__media--stamp-tongue { left: calc(253 * var(--x)); }
   .project__media--strangest { top: calc(5032 * var(--x)); }
   .project__media--transformation { top: calc(5536 * var(--x)); }
   .project__media--night { top: calc(6234 * var(--x)); }

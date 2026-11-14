@@ -167,6 +167,7 @@ document.querySelectorAll(".roll > span").forEach((word) => splitLetters(word));
 // (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll.
 // Posters of one series share their lines, so moving between them the turns carry on
 const INFO_TURN = 2600; // milliseconds each line stays before the next rolls in
+const INFO_GAP = 40; // the gaps between posters (Figma px): within one of a poster of the same series it stays open
 const posterInfo = document.querySelector(".poster-info");
 if (posterInfo && matchMedia("(hover: hover)").matches) {
   cursor.append(posterInfo);
@@ -209,16 +210,25 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
       clearInterval(turns);
       turns = setInterval(() => rollLine(lines[++turn % lines.length]), INFO_TURN);
     });
-    poster.addEventListener("pointerleave", (event) => {
-      if (event.relatedTarget?.closest?.("[data-info]")) return;
-      clearInterval(turns);
-      shownInfo = null;
-      rollLine("");
-      shownLength = 0;
-      cursor.classList.remove("is-info");
-      cursor.style.width = cursor.style.height = "";
-    });
   });
+  // Off the posters it closes, unless it's in a gap next to a poster of the series it's showing
+  addEventListener("pointermove", (event) => {
+    if (shownInfo === null || event.target.closest?.("[data-info]")) return;
+    const gap = (INFO_GAP * innerWidth) / 1440;
+    const near = [...document.querySelectorAll("[data-info]")].some((poster) => {
+      if (poster.dataset.info !== shownInfo) return false;
+      const box = poster.getBoundingClientRect();
+      return event.clientX > box.left - gap && event.clientX < box.right + gap &&
+        event.clientY > box.top - gap && event.clientY < box.bottom + gap;
+    });
+    if (near) return;
+    clearInterval(turns);
+    shownInfo = null;
+    rollLine("");
+    shownLength = 0;
+    cursor.classList.remove("is-info");
+    cursor.style.width = cursor.style.height = "";
+  }, { passive: true });
 }
 
 // The footer's "Let's Collab" rolls into the word of the link under it that's hovered (or focused).

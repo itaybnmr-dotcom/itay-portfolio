@@ -162,6 +162,60 @@ function splitLetters(word, text = word.textContent, keepKerning = false) {
 }
 document.querySelectorAll(".roll > span").forEach((word) => splitLetters(word));
 
+// ===== Poster Archive: what each poster is, on hover =====
+// Over a poster the cursor's circle grows into a black rectangle with one of the poster's lines
+// (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll
+const INFO_TURN = 2600; // milliseconds each line stays before the next rolls in
+const posterInfo = document.querySelector(".poster-info");
+if (posterInfo && matchMedia("(hover: hover)").matches) {
+  cursor.append(posterInfo);
+  const line = posterInfo.firstElementChild;
+  let shownInfo = null;
+  let turns = null;
+  let shownLength = 0;
+  function rollLine(text) {
+    line.querySelectorAll(".poster-info__word:not(.is-leaving)").forEach((old) => {
+      old.classList.add("is-leaving");
+      setTimeout(() => old.remove(), 1500);
+    });
+    if (!text) return;
+    const word = document.createElement("span");
+    word.className = "poster-info__word";
+    splitLetters(word, text);
+    line.append(word);
+    // The rectangle stretches or shrinks to the new line (measured in its letters, which sit a hair wider
+    // than plain text), as long as the roll takes: 0.5s plus 25ms a letter (styles.css, .roll__letter)
+    const letters = Math.max(text.length, shownLength);
+    shownLength = text.length;
+    cursor.style.setProperty("--info-roll", `${0.5 + letters * 0.025}s`);
+    cursor.style.width = `${word.offsetWidth + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
+    requestAnimationFrame(() => requestAnimationFrame(() => word.classList.add("is-in")));
+  }
+  document.querySelectorAll("[data-info]").forEach((poster) => {
+    poster.addEventListener("pointerenter", () => {
+      if (poster.dataset.info === shownInfo) return;
+      shownInfo = poster.dataset.info;
+      const lines = shownInfo.split("|");
+      cursor.classList.add("is-info");
+      let turn = 0;
+      rollLine(lines[0]);
+      // One line high, measured once the line is in (an empty line has no height)
+      cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
+      clearInterval(turns);
+      turns = setInterval(() => rollLine(lines[++turn % lines.length]), INFO_TURN);
+    });
+    poster.addEventListener("pointerleave", (event) => {
+      if (event.relatedTarget?.closest?.("[data-info]")) return;
+      clearInterval(turns);
+      shownInfo = null;
+      rollLine("");
+      shownLength = 0;
+      cursor.classList.remove("is-info");
+      cursor.style.width = cursor.style.height = "";
+    });
+  });
+}
+
 // The footer's "Let's Collab" rolls into the word of the link under it that's hovered (or focused).
 // Each word is its own layer (styles.css, .footer__word): the new one rises in from below while the
 // one showing rolls out the top from wherever it is, even mid-roll, then is thrown away.
@@ -261,9 +315,9 @@ addEventListener("scroll", markFooter, { passive: true });
 addEventListener("resize", markFooter);
 
 // ===== Project pages: the text fades into the pictures =====
-// The title and the texts stay put while the work scrolls under them; over a picture they'd be lost,
-// so each one fades out while a picture, a video or a board is under it (styles.css, .is-over-media)
-const words = document.querySelectorAll(".project-page :is(.project__title, .project__about, .project__course, .project__text)");
+// The texts stay put while the work scrolls under them; over a picture they'd be lost,
+// so each one fades out (the project's title stays, above everything) while a picture, a video or a board is under it (styles.css, .is-over-media)
+const words = document.querySelectorAll(".project-page :is(.project__about, .project__course, .project__text)");
 const media = document.querySelectorAll(".project-page main :is(img, video, .project__board)");
 function markMedia() {
   const boxes = [...media].map((item) => item.getBoundingClientRect()).filter((box) => box.width);

@@ -2090,6 +2090,58 @@ nav,
   top: calc(105 * var(--x) + 2 * var(--body-line-height) * 1em);
 }
 
+/* Over a poster the cursor's circle becomes a black rectangle with white words (script.js sets its size to fit):
+   the poster's name stays on top, and under it its lines take turns, each rolling into the next
+   the way "Itay Benma" rolls into "Home" */
+.has-custom-cursor .cursor.is-info {
+  border-radius: 0;
+  overflow: hidden;
+  transition: width var(--info-roll) var(--ease), height 0.4s var(--ease), border-radius 0.4s var(--ease);
+  background: var(--color-bg); /* a black rectangle behind the white words */
+}
+
+.has-custom-cursor .cursor {
+  transition: width 0.4s var(--ease), height 0.4s var(--ease), border-radius 0.4s var(--ease), background-color 0.4s var(--ease);
+}
+
+.poster-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: var(--space-s);
+  color: var(--color-text);
+  font-family: var(--caption-font-family);
+  font-size: var(--size-caption);
+  font-weight: var(--caption-font-weight);
+  letter-spacing: var(--caption-letter-spacing);
+  line-height: var(--body-line-height);
+  white-space: nowrap;
+}
+
+.poster-info p {
+  display: grid;
+  margin: 0;
+  overflow: hidden;
+  mix-blend-mode: normal;
+}
+
+.poster-info__word {
+  grid-area: 1 / 1;
+  justify-self: start;
+}
+
+.poster-info .roll__letter {
+  transform: translateY(100%);
+}
+
+.poster-info__word.is-in .roll__letter {
+  transform: none;
+}
+
+.poster-info__word.is-leaving .roll__letter {
+  transform: translateY(-100%);
+}
+
 .project--posters .project__next {
   top: calc(3696 * var(--x));
 }

@@ -96,6 +96,7 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   /* How long Tab takes to glide the page from top to bottom and back (script.js) */
   --glide-duration: 1.4s;
+  --fade-duration: 0.35s; /* text fading out over a picture, and the top bar at the footer */
 }
 
 /* ===== Moving between pages =====
@@ -284,7 +285,7 @@ nav,
 
 /* At the footer the top bar fades out, and back in on the way up (script.js adds .is-at-footer) */
 .top-bar {
-  transition: opacity 0.35s var(--ease-in-out);
+  transition: opacity var(--fade-duration) var(--ease-in-out);
 }
 
 .is-at-footer .top-bar {
@@ -1603,13 +1604,19 @@ nav,
 
 /* At the footer the title and the texts fade out with the top bar,
    and fade back in on the way up (script.js adds .is-at-footer) */
-.project-page :is(.project__title, .project__about, .project__text) {
-  transition: opacity 0.35s var(--ease-in-out);
+.project-page :is(.project__title, .project__about, .project__course, .project__text) {
+  transition: opacity var(--fade-duration) var(--ease-in-out);
 }
 
 .is-at-footer .project-page :is(.project__title, .project__about, .project__text) {
   opacity: 0;
   pointer-events: none;
+}
+
+/* While a picture, a video or a board passes under it, the text fades into it, and back out after
+   (script.js adds .is-over-media) */
+.project-page .is-over-media {
+  opacity: 0;
 }
 
 .project__subtitle {

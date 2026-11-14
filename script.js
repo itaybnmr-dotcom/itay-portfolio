@@ -260,6 +260,25 @@ markFooter();
 addEventListener("scroll", markFooter, { passive: true });
 addEventListener("resize", markFooter);
 
+// ===== Project pages: the text fades into the pictures =====
+// The title and the texts stay put while the work scrolls under them; over a picture they'd be lost,
+// so each one fades out while a picture, a video or a board is under it (styles.css, .is-over-media)
+const words = document.querySelectorAll(".project-page :is(.project__title, .project__about, .project__course, .project__text)");
+const media = document.querySelectorAll(".project-page main :is(img, video, .project__board)");
+function markMedia() {
+  const boxes = [...media].map((item) => item.getBoundingClientRect()).filter((box) => box.width);
+  words.forEach((word) => {
+    const text = word.getBoundingClientRect();
+    word.classList.toggle("is-over-media", boxes.some((box) =>
+      box.top < text.bottom && box.bottom > text.top && box.left < text.right && box.right > text.left));
+  });
+}
+if (words.length && media.length) {
+  markMedia();
+  addEventListener("scroll", markMedia, { passive: true });
+  addEventListener("resize", markMedia);
+}
+
 // ===== Only the videos near the screen load and play =====
 // The videos aren't autoplay (data-play, preload="none"): each loads and starts half a screen before
 // it scrolls in and pauses once it's out, instead of all of them loading at once (the Record Day page has seven)

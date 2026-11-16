@@ -162,6 +162,17 @@ function splitLetters(word, text = word.textContent, keepKerning = false) {
 }
 document.querySelectorAll(".roll > span").forEach((word) => splitLetters(word));
 
+// A roll anchored on the right (its two words end at the same spot): the longer word's last letters sit over
+// the shorter word, so each one rolls with the letter under it and the two never cross; its letters
+// past the shorter word follow one after another, outwards. (Anchored on the left they already line up)
+function alignRollEnds(roll) {
+  const [from, to] = [...roll.children].map((word) => [...word.querySelectorAll(".roll__letter")]);
+  const [longer, shorter] = from.length >= to.length ? [from, to] : [to, from];
+  const over = longer.length - shorter.length;
+  longer.forEach((letter, index) => letter.style.setProperty("--i", Math.abs(index - over)));
+}
+document.querySelectorAll(".project__next").forEach(alignRollEnds);
+
 // ===== Poster Archive: what each poster is, on hover =====
 // Over a poster the cursor's circle grows into a black rectangle with one of the poster's lines
 // (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll.
@@ -177,11 +188,7 @@ if (email && matchMedia("(hover: hover)").matches) {
   email.classList.add("footer__email");
   email.innerHTML = `<span class="roll__from">${email.textContent}</span><span class="roll__to link-line" aria-hidden="true">${address}</span>`;
   email.querySelectorAll("span").forEach((word) => splitLetters(word));
-  // The address's last letters sit over "Email": each one rolls with the letter of "Email" under it,
-  // so the two never cross; the letters to its left follow one after another, outwards
-  const addressLetters = email.querySelectorAll(".roll__to .roll__letter");
-  const over = addressLetters.length - email.querySelectorAll(".roll__from .roll__letter").length;
-  addressLetters.forEach((letter, index) => letter.style.setProperty("--i", Math.abs(index - over)));
+  alignRollEnds(email);
 }
 let posterInfo = document.querySelector(".poster-info");
 if (!posterInfo && email) {

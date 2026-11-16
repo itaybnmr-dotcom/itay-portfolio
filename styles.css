@@ -1706,10 +1706,10 @@ nav,
   white-space: pre;
 }
 
-/* "Visit the site →" on the description's second line, over the tags (Israel Museum Index, Figma) */
+/* "Visit the site →" on the description's first line, over the tags (Israel Museum Index) */
 .project__visit {
   position: absolute;
-  top: calc(117 * var(--x) + 1.15em);
+  top: calc(145 * var(--x));
   left: calc(491 * var(--x));
   line-height: var(--body-line-height);
   color: inherit;
@@ -2037,9 +2037,9 @@ nav,
   width: 343px;
 }
 
-/* Starts on the description's fifth line */
+/* Starts on the description's first line */
 .project--haven .project__tags {
-  top: calc(145 * var(--x) + 4 * var(--body-line-height) * 1em);
+  top: calc(145 * var(--x));
 }
 
 .project--haven .project__track--research {

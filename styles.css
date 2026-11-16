@@ -1575,8 +1575,7 @@ nav,
   position: absolute;
 }
 
-/* Here the title holds the top left, so the bar keeps only its links */
-.project-page .top-bar__name,
+/* Here the bar keeps "©itay benma" (rolling into "Home") and its links, with the title under them */
 .project-page .top-bar__tagline {
   visibility: hidden;
 }
@@ -1596,7 +1595,7 @@ nav,
 .project__title {
   position: fixed;
   z-index: 1;
-  top: calc(6 * var(--x));
+  top: calc(40 * var(--x)); /* under "©itay benma", like in Figma */
   left: calc(13 * var(--x));
 }
 
@@ -1657,7 +1656,7 @@ nav,
 }
 
 .project__track--about {
-  top: calc(117 * var(--x));
+  top: calc(145 * var(--x));
   width: 404px;
 }
 
@@ -1701,7 +1700,7 @@ nav,
 
 /* Starts on the description's fourth line */
 .project__tags {
-  top: calc(117 * var(--x) + 3 * 1.15em);
+  top: calc(145 * var(--x) + 3 * 1.15em);
   left: calc(491 * var(--x));
   line-height: var(--body-line-height);
   white-space: pre;
@@ -1984,18 +1983,14 @@ nav,
   height: calc(4250 * var(--x)); /* the footer's bio starts 4250px down */
 }
 
-.project--record .project__title {
-  top: 0;
-}
-
 .project--record .project__track--about {
-  top: calc(105 * var(--x));
+  top: calc(145 * var(--x));
   width: 383px;
 }
 
 /* Starts on the description's third line */
 .project--record .project__tags {
-  top: calc(105 * var(--x) + 2 * var(--body-line-height) * 1em);
+  top: calc(145 * var(--x) + 2 * var(--body-line-height) * 1em);
 }
 
 .project--record .project__track--research {
@@ -2037,18 +2032,14 @@ nav,
   height: calc(2993 * var(--x)); /* the footer's bio starts 2993px down */
 }
 
-.project--haven .project__title {
-  top: 0;
-}
-
 .project--haven .project__track--about {
-  top: calc(105 * var(--x));
+  top: calc(145 * var(--x));
   width: 343px;
 }
 
 /* Starts on the description's fifth line */
 .project--haven .project__tags {
-  top: calc(105 * var(--x) + 4 * var(--body-line-height) * 1em);
+  top: calc(145 * var(--x) + 4 * var(--body-line-height) * 1em);
 }
 
 .project--haven .project__track--research {
@@ -2080,18 +2071,14 @@ nav,
   height: calc(3665 * var(--x)); /* the footer's bio starts 3665px down */
 }
 
-.project--posters .project__title {
-  top: 0;
-}
-
 .project--posters .project__track--about {
-  top: calc(105 * var(--x));
+  top: calc(145 * var(--x));
   width: 330px;
 }
 
 /* Starts on the description's third line */
 .project--posters .project__tags {
-  top: calc(105 * var(--x) + 2 * var(--body-line-height) * 1em);
+  top: calc(145 * var(--x) + 2 * var(--body-line-height) * 1em);
 }
 
 /* Over a poster the cursor's circle becomes a black rectangle with white words (script.js sets its size to fit):
@@ -2102,6 +2089,7 @@ nav,
   overflow: hidden;
   transition: width var(--info-roll) var(--ease), height 0.4s var(--ease), border-radius 0.4s var(--ease);
   background: var(--color-bg); /* a black rectangle behind the white words */
+  mix-blend-mode: normal; /* over a link (the email) it stays black, not a negative */
 }
 
 .has-custom-cursor .cursor {
@@ -2200,10 +2188,6 @@ nav,
     --x: calc(100vw / 402);
     height: calc(3314 * var(--x)); /* down to "Let's Collab" */
     overflow-x: clip; /* some videos reach past the screen's edges, like in Figma */
-  }
-
-  .project-page .top-bar__name {
-    visibility: visible;
   }
 
   .project__phone-only {
@@ -2532,6 +2516,23 @@ nav,
 
 .footer__copyright {
   font-size: 12px;
+}
+
+/* "Email" rolls into the address (script.js), which grows to the left from where "Email" ends,
+   so the links next to it stay put; only the top and bottom are cut, for the roll */
+.footer__email {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  overflow: visible;
+  clip-path: inset(0 0 0 -100vw);
+}
+
+.footer__email .roll__to {
+  position: absolute;
+  top: 0;
+  right: 0;
+  white-space: nowrap;
 }
 
 /* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 on the left,

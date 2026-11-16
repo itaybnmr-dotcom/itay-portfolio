@@ -168,7 +168,28 @@ document.querySelectorAll(".roll > span").forEach((word) => splitLetters(word));
 // Posters of one series share their lines, so moving between them the turns carry on
 const INFO_TURN = 2600; // milliseconds each line stays before the next rolls in
 const INFO_GAP = 40; // the gaps between posters (Figma px): within one of a poster of the same series it stays open
-const posterInfo = document.querySelector(".poster-info");
+// The footer's "Email" rolls into the address, like the name into "Home"; a click copies it instead of opening
+// the mail app, and the cursor becomes the posters' rectangle with "Copied!" until the mouse leaves the link
+const email = document.querySelector('.footer a[href^="mailto:"]');
+const address = email?.href.slice("mailto:".length);
+if (email && matchMedia("(hover: hover)").matches) {
+  email.classList.replace("link-line", "roll");
+  email.classList.add("footer__email");
+  email.innerHTML = `<span class="roll__from">${email.textContent}</span><span class="roll__to link-line" aria-hidden="true">${address}</span>`;
+  email.querySelectorAll("span").forEach((word) => splitLetters(word));
+  // The address's last letters sit over "Email": each one rolls with the letter of "Email" under it,
+  // so the two never cross; the letters to its left follow one after another, outwards
+  const addressLetters = email.querySelectorAll(".roll__to .roll__letter");
+  const over = addressLetters.length - email.querySelectorAll(".roll__from .roll__letter").length;
+  addressLetters.forEach((letter, index) => letter.style.setProperty("--i", Math.abs(index - over)));
+}
+let posterInfo = document.querySelector(".poster-info");
+if (!posterInfo && email) {
+  posterInfo = document.createElement("div");
+  posterInfo.className = "poster-info";
+  posterInfo.setAttribute("aria-hidden", "true");
+  posterInfo.append(document.createElement("p"));
+}
 if (posterInfo && matchMedia("(hover: hover)").matches) {
   cursor.append(posterInfo);
   const line = posterInfo.firstElementChild;
@@ -208,7 +229,17 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
       // One line high, measured once the line is in (an empty line has no height)
       cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
       clearInterval(turns);
-      turns = setInterval(() => rollLine(lines[++turn % lines.length]), INFO_TURN);
+      if (lines.length > 1) turns = setInterval(() => rollLine(lines[++turn % lines.length]), INFO_TURN);
+    });
+  });
+  email?.addEventListener("click", (event) => {
+    event.preventDefault();
+    navigator.clipboard.writeText(address).then(() => {
+      // It counts as a poster with one line until the mouse leaves it (the closing below)
+      email.dataset.info = shownInfo = "Copied!";
+      cursor.classList.add("is-info");
+      rollLine(shownInfo);
+      cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
     });
   });
   // Off the posters it closes, unless it's in a gap next to a poster of the series it's showing
@@ -216,7 +247,7 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
     if (shownInfo === null || event.target.closest?.("[data-info]")) return;
     const gap = (INFO_GAP * innerWidth) / 1440;
     const near = [...document.querySelectorAll("[data-info]")].some((poster) => {
-      if (poster.dataset.info !== shownInfo) return false;
+      if (poster === email || poster.dataset.info !== shownInfo) return false; // "Copied!" closes as soon as it's off the link
       const box = poster.getBoundingClientRect();
       return event.clientX > box.left - gap && event.clientX < box.right + gap &&
         event.clientY > box.top - gap && event.clientY < box.bottom + gap;
@@ -224,6 +255,7 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
     if (near) return;
     clearInterval(turns);
     shownInfo = null;
+    if (email) delete email.dataset.info;
     rollLine("");
     shownLength = 0;
     cursor.classList.remove("is-info");

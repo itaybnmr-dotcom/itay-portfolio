@@ -1,0 +1,200 @@
+{
+  "posters": {
+    "page": "posters.html",
+    "images": [
+      {
+        "src": "IMG/Posters/web/page/casiopea.webp",
+        "width": 989,
+        "height": 1412,
+        "alt": "Casiopea poster",
+        "lazy": false
+      },
+      {
+        "src": "IMG/Posters/web/page/amsterdam-all-nighter.webp",
+        "width": 780,
+        "height": 1114,
+        "alt": "Gathering: All Nighter poster",
+        "lazy": false
+      },
+      {
+        "src": "IMG/Posters/web/page/amsterdam-book-launch.webp",
+        "width": 781,
+        "height": 1116,
+        "alt": "Book Launch: Worschip poster",
+        "lazy": false
+      },
+      {
+        "src": "IMG/Posters/web/page/amsterdam-exhibition.webp",
+        "width": 781,
+        "height": 1116,
+        "alt": "Het Schip exhibition poster"
+      },
+      {
+        "src": "IMG/Posters/web/page/photo-9834.webp",
+        "width": 692,
+        "height": 922,
+        "alt": "A poster, photographed"
+      },
+      {
+        "src": "IMG/Posters/web/page/photo-9833.webp",
+        "width": 692,
+        "height": 922,
+        "alt": "A poster, photographed"
+      },
+      {
+        "src": "IMG/Posters/web/page/swedish-wrench.webp",
+        "width": 988,
+        "height": 1412,
+        "alt": "Swedish Wrench poster"
+      },
+      {
+        "src": "IMG/Posters/web/page/stamps/eye.webp",
+        "width": 340,
+        "height": 457,
+        "alt": "Swedish Wrench stamp: the eye"
+      },
+      {
+        "src": "IMG/Posters/web/page/stamps/tooth.webp",
+        "width": 340,
+        "height": 457,
+        "alt": "Swedish Wrench stamp: the tooth"
+      },
+      {
+        "src": "IMG/Posters/web/page/stamps/tongue.webp",
+        "width": 340,
+        "height": 457,
+        "alt": "Swedish Wrench stamp: the tongue"
+      },
+      {
+        "src": "IMG/Posters/web/page/letter-to-infinity.webp",
+        "width": 988,
+        "height": 1412,
+        "alt": "Letter to Infinity poster"
+      },
+      {
+        "src": "IMG/Posters/web/page/night-in-the-course.webp",
+        "width": 626,
+        "height": 1564,
+        "alt": "A Night in the Course poster"
+      },
+      {
+        "src": "IMG/Posters/web/page/transformation.webp",
+        "width": 626,
+        "height": 1566,
+        "alt": "Transformation poster"
+      },
+      {
+        "src": "IMG/Posters/web/page/event-2.webp",
+        "width": 626,
+        "height": 1566,
+        "alt": "A Night in the Course poster, second version"
+      }
+    ]
+  },
+  "reach": {
+    "page": "reach.html",
+    "images": [
+      {
+        "src": "IMG/Reach/mood/reach-phone-congrats.webp",
+        "width": 844,
+        "height": 1738,
+        "alt": ""
+      },
+      {
+        "src": "IMG/Reach/mood/reach-phone-timer.webp",
+        "width": 844,
+        "height": 1738,
+        "alt": ""
+      },
+      {
+        "src": "IMG/Reach/mood/reach-phone-arm-pain.webp",
+        "width": 844,
+        "height": 1738,
+        "alt": ""
+      },
+      {
+        "src": "IMG/Reach/page/holds-page.webp",
+        "width": 2400,
+        "height": 1511,
+        "alt": "The landing page's section: Less Planning. More Climbing."
+      }
+    ]
+  },
+  "haven": {
+    "page": "haven.html",
+    "images": [
+      {
+        "src": "IMG/HAVEN/web/visual-pattern.webp",
+        "width": 1440,
+        "height": 1025,
+        "alt": "The visual pattern the onboarding builds"
+      },
+      {
+        "src": "IMG/HAVEN/web/haven-mars.webp",
+        "width": 1440,
+        "height": 1025,
+        "alt": "HAVEN over Mars"
+      }
+    ]
+  },
+  "israel-museum": {
+    "page": "israel-museum.html",
+    "images": [
+      {
+        "src": "IMG/Israel-Museum-Index/screens/01-home.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "The site's home page"
+      },
+      {
+        "src": "IMG/Israel-Museum-Index/screens/07-index-list.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "The index as a list"
+      },
+      {
+        "src": "IMG/Israel-Museum-Index/screens/03-collection-circle.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "The circle collection"
+      },
+      {
+        "src": "IMG/Israel-Museum-Index/screens/04-collection-verticality.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "The verticality collection"
+      },
+      {
+        "src": "IMG/Israel-Museum-Index/screens/05-carnelian-bead.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "A work's page: a carnelian bead"
+      },
+      {
+        "src": "IMG/Israel-Museum-Index/screens/06-index-grid.webp",
+        "width": 2400,
+        "height": 1394,
+        "alt": "The index as a grid"
+      }
+    ]
+  },
+  "wip": {
+    "page": "wip.html",
+    "images": [
+      {
+        "src": "IMG/Process/opt-1.webp",
+        "width": 1998,
+        "height": 1466,
+        "alt": "",
+        "lazy": false
+      },
+      {
+        "src": "IMG/Process/Screenshot 2026-11-08 at 20.59.06.webp",
+        "width": 2400,
+        "height": 1282,
+        "alt": "",
+        "lazy": false
+      }
+    ]
+  }
+}

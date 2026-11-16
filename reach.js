@@ -5,7 +5,7 @@
 // (styles.css, "Project page")
 const TITLE = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--size-title")); // size/title, from styles.css
 const SMALL_TITLE = 24; // px: the small title's size, half again the menu's 16px, like in the reference
-const STICK_END = 48; // px from the top where the description ends up, under the small title
+const STICK_END = 82; // px from the top where the description ends up, under the small title
 const root = document.documentElement;
 // Phones get a plain column (styles.css): no shrinking, sticking, cutting, sliding or fading there
 const phone = matchMedia("(max-width: 700px)");

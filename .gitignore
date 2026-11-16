@@ -13,3 +13,6 @@ IMG/Israel-Museum-Index/index-post.mp4
 IMG/Posters/*
 !IMG/Posters/web/
 !IMG/Posters/png/
+
+# The pictures before optimize-images.py shrank them to WebP; the site uses the copies next to the old ones
+originals/

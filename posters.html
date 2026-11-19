@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Poster Archive</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=129">
+  <link rel="stylesheet" href="styles.css?v=141">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=57" defer></script>
+  <script src="script.js?v=70" defer></script>
   <script src="reach.js?v=23" defer></script>
 </head>
 <body class="project-page">
@@ -28,14 +28,15 @@
     </nav>
   </header>
 
-  <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט פוסטרים"). It has no phone frame yet.
+  <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט פוסטרים", 525:236).
        It's built on the Reach page: the same title, sticky texts and sliding subtitle (reach.js);
        what sits elsewhere is set under .project--posters (no texts below the top, no subtitle). data-phone: the line as the phone frame spaces it -->
   <main class="project project--posters">
     <h1 class="project__title project__big" data-phone="Poster     Archive"><span>Poster</span>          <span>Archive</span></h1>
 
     <div class="project__track project__track--about">
-      <p class="project__about">Posters made in courses at Bezalel Academy of Arts and Design, 2023–2026. Static and motion work, mostly typographic.</p>
+      <p class="project__about">Posters made in courses at Bezalel Academy of Arts and Design, 2023–2026.
+       Static and motion work, mostly typographic.</p>
     </div>
     <p class="project__tags">Posters / Layout / Typography / IMG-Making / Print / Motion</p>
 
@@ -67,6 +68,7 @@
     <!-- On hover it rolls into the next project's name, like the name into "Works". After the last project, back to the first -->
     <a class="project__next roll" href="reach.html" aria-label="Next project: Reach"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Reach</span></a>
   </main>
+
 
   <footer class="footer" id="contact">
     <p class="footer__bio">My name’s Itay Ben Mayor, I’m a fourth-year student at the Visual Communication Department at Bezalel Academy of Arts and Design. I’m a multidisciplinary designer based in Tel Aviv specializing in Interactive and Web, Motion, Brand, Typography &amp; Editorial Design.</p>

@@ -3,27 +3,23 @@
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // ===== Opening, like the home page's =====
-// Black, then "So", a pause, and "yeah that's me..." word by word; then the rest of the text
-// all at once; then the top bar, the globe and the top of the footer write themselves in. Each word rises in from just below
+// Black, then the whole text at once; then the globe and the top of the footer write themselves in (the top bar is already there). Each word rises in from just below
 // its own spot, with the home page's styles (styles.css, "Intro"). about.html adds .intro.
 // "And most importantly I am..." waits until the opening is over.
 const INTRO_START = 600;                 // ms of black first, like the home page
-const INTRO_BEATS = [0, 800, 950, 1100]; // when "So" "yeah" "that's" "me..." come in: the home page's beats
 const text = document.querySelector(".about-story__text");
 text.setAttribute("aria-label", text.textContent);
-let introWords = 0;
 function splitWords(element) {
   [...element.childNodes].forEach((node) => {
     if (node.nodeType !== Node.TEXT_NODE) return splitWords(node); // the bold words keep their <b>
     const parts = node.textContent.split(/( +)/).map((word) => {
       if (!word.trim()) return document.createTextNode(word); // the spaces stay plain text
-      const beat = INTRO_BEATS[introWords++];
       const mask = document.createElement("span");
       mask.className = "intro__word";
       mask.setAttribute("aria-hidden", "true");
       const inner = document.createElement("span");
       inner.textContent = word;
-      inner.style.setProperty("--d", beat === undefined ? "var(--rest)" : `${INTRO_START + beat}ms`);
+      inner.style.setProperty("--d", "var(--rest)"); // every word together
       mask.append(inner);
       return mask;
     });
@@ -41,7 +37,7 @@ const shown = new Promise((ready) =>
 );
 const introOver = shown.then(() => new Promise((done) => {
   if (!page.classList.contains("intro")) return done();
-  const restStart = INTRO_START + INTRO_BEATS[INTRO_BEATS.length - 1] + 900;
+  const restStart = INTRO_START;
   page.style.setProperty("--rest", `${restStart}ms`);
   const go = () => {
     page.classList.add("intro-go");

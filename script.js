@@ -257,8 +257,11 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
   // Off the posters it closes, unless it's in a gap next to a poster of the series it's showing
   addEventListener("pointermove", (event) => {
     if (shownInfo === null || event.target.closest?.("[data-info]")) return;
+    // A link comes first: over one (like the top bar's, which lies over the posters) it closes
+    // even inside a poster's box, so the cursor is the link's circle
+    const onLink = event.target.closest?.("a") !== null;
     const gap = (INFO_GAP * innerWidth) / 1440;
-    const near = [...document.querySelectorAll("[data-info]")].some((poster) => {
+    const near = !onLink && [...document.querySelectorAll("[data-info]")].some((poster) => {
       if (poster === email || poster.dataset.info !== shownInfo) return false; // "Copied!" closes as soon as it's off the link
       const box = poster.getBoundingClientRect();
       return event.clientX > box.left - gap && event.clientX < box.right + gap &&
@@ -421,37 +424,78 @@ const playAll = () => nearScreen.forEach((video) => video.paused && video.play()
 addEventListener("touchend", playAll, { once: true });
 addEventListener("click", playAll, { once: true });
 
-// The trips Tab makes (top to bottom and back, and to a link off screen) glide on the site's ease-in-out, over --glide-duration:
-// the browser's own smooth scroll crosses a whole page in under a second, jumping hundreds of px a frame.
-// The easing comes from an empty animation on the page, so it's the exact curve in styles.css.
+// The trips Tab makes (top to bottom and back, and to a link off screen) and the links to a spot on the page glide
+// as a CSS transition (styles.css, .glide-layer): the page jumps to where it's going at once, the parts that
+// scroll are put back where they were, and they slide into place on the site's ease, over --glide-duration.
+// The browser moves them on its own, frame by frame, so nothing on the page can make the glide stutter.
+// The parts that stay put on the screen (the top bar, the cursor, a project's title) aren't moved.
+function glideLayers(parent, fixed) {
+  return [...parent.children].flatMap((el) => {
+    if (fixed.includes(el) || el.matches("script, style")) return [];
+    const style = getComputedStyle(el);
+    // Something fixed inside, or a transform of its own (that the glide's would replace): its children move instead
+    if (fixed.some((f) => el.contains(f)) || style.transform !== "none") return glideLayers(el, fixed);
+    return style.display === "none" ? [] : [el];
+  });
+}
+
 function glideTo(top) {
   glide?.cancel();
-  const rootStyle = getComputedStyle(document.documentElement);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const from = scrollY;
-  const to = Math.min(top, document.documentElement.scrollHeight - innerHeight);
-  if (reduce || from === to) return scrollTo({ top: to, behavior: "instant" });
-  const anim = document.documentElement.animate([], {
-    duration: parseFloat(rootStyle.getPropertyValue("--glide-duration")) * 1000,
-    easing: rootStyle.getPropertyValue("--ease-in-out"),
-  });
-  glide = anim;
+  const to = Math.max(0, Math.min(top, document.documentElement.scrollHeight - innerHeight));
+  if (reduce || Math.abs(to - from) < 1) return scrollTo({ top: to, behavior: "instant" });
+  const fixed = [...document.querySelectorAll("body *")].filter((el) => getComputedStyle(el).position === "fixed");
+  const layers = glideLayers(document.body, fixed);
   nearScreen.forEach((video) => video.pause()); // playing video while the page flies by drops frames; they start again when it stops
-  const frame = () => {
-    if (glide !== anim) return;
-    const progress = anim.effect.getComputedTiming().progress ?? 1;
-    scrollTo({ top: from + (to - from) * progress, behavior: "instant" });
-    if (anim.playState === "running") return requestAnimationFrame(frame);
+  scrollTo({ top: to, behavior: "instant" });
+  layers.forEach((el) => (el.style.transform = `translateY(${to - from}px)`));
+  document.body.offsetHeight; // the browser takes in where they start before they're let go
+  layers.forEach((el) => {
+    el.classList.add("glide-layer");
+    el.style.transform = "";
+  });
+  const finish = () => {
+    if (glide !== current) return;
+    layers.forEach((el) => el.classList.remove("glide-layer"));
     glide = null;
     playAll(); // the videos it passed stayed still, so loading them didn't stutter the glide; the ones where it stopped play now
   };
-  requestAnimationFrame(frame);
+  // Stopped midway (a wheel, a touch, another glide): the page stays where the glide had got to
+  const current = {
+    cancel() {
+      const shift = new DOMMatrix(getComputedStyle(layers[0]).transform).m42;
+      layers.forEach((el) => el.classList.remove("glide-layer"));
+      scrollTo({ top: to - shift, behavior: "instant" });
+      glide = null;
+    },
+  };
+  glide = current;
+  // Only the glide's own end counts, not a line finishing under a link somewhere inside
+  const onEnd = (event) => {
+    if (event.target !== layers[0] || event.propertyName !== "transform") return;
+    layers[0].removeEventListener("transitionend", onEnd);
+    finish();
+  };
+  layers[0].addEventListener("transitionend", onEnd);
 }
+
+// Links to a spot on the same page ("Contact", "Works") glide there too, instead of the browser's
+// smooth scroll, which jumps and stutters over the videos. It lands where the browser would,
+// clear of the top bar (scroll-margin-top in styles.css); the footer only shows at the very bottom
+document.addEventListener("click", (event) => {
+  const link = event.target.closest('a[href^="#"]');
+  const target = link && link.getAttribute("href").length > 1 && document.querySelector(link.getAttribute("href"));
+  if (!target || event.metaKey || event.ctrlKey || event.shiftKey) return;
+  event.preventDefault();
+  if (target.closest("footer")) return glideTo(document.documentElement.scrollHeight);
+  glideTo(scrollY + target.getBoundingClientRect().top - parseFloat(getComputedStyle(target).scrollMarginTop));
+});
+
 // A wheel or a touch takes the page back from the glide
 ["wheel", "touchstart"].forEach((type) => addEventListener(type, () => {
   if (!glide) return;
   glide.cancel();
-  glide = null;
   playAll();
 }, { passive: true }));
 

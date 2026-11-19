@@ -90,16 +90,21 @@ if (matchMedia("(hover: none)").matches) {
 
 // Over anything with data-cursor (the work cards) the circle grows, takes the card's colors
 // (--circle and --circle-ink in styles.css) and its word goes around inside it
+// It follows the card, not the word: every work says "More info", so going straight from one work
+// to the next still changes the colors, right away. The ring is only rewritten when the word changes
+let cursorCard = null;
 let cursorWord = null;
 function showWord(card) {
-  const word = card ? card.dataset.cursor : null;
-  if (word === cursorWord) return;
-  cursorWord = word;
-  cursor.classList.toggle("is-big", word !== null);
-  if (word === null) return;
+  if (card === cursorCard) return;
+  cursorCard = card;
+  cursor.classList.toggle("is-big", card !== null);
+  if (card === null) return;
   const colors = getComputedStyle(card);
   cursor.style.setProperty("--circle", colors.getPropertyValue("--circle"));
   cursor.style.setProperty("--circle-ink", colors.getPropertyValue("--circle-ink"));
+  const word = card.dataset.cursor;
+  if (word === cursorWord && cursor.querySelector(".cursor__ring")) return;
+  cursorWord = word;
   cursor.innerHTML = `<svg class="cursor__ring" viewBox="0 0 120 120">
     <path id="cursor-ring" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/>
     <text><textPath href="#cursor-ring"></textPath></text>

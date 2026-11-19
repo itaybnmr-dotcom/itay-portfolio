@@ -219,7 +219,7 @@ nav,
   }
 
   .has-custom-cursor .cursor {
-    transition: width 0.4s var(--ease), height 0.4s var(--ease), background-color 0.4s var(--ease);
+    transition: width 0.4s var(--ease), height 0.4s var(--ease);
   }
 
   /* Over the site's text the dot is a negative of the letters under it (not over pictures or videos) */
@@ -839,9 +839,13 @@ nav,
 /* ===== Work cards ===== */
 /* Light cards (458 x 452 in Figma), three in a row, each with its project's colors
    for the circle that follows the mouse (and the sticker on touch screens) */
-.work {
+.work,
+.tile--reach {
   --circle: var(--color-accent); /* Reach's red */
   --circle-ink: var(--color-panel);
+}
+
+.work {
   position: absolute;
   top: calc(711 * var(--x)); /* 134px under the note, like in Figma */
   left: calc(17 * var(--x));
@@ -860,31 +864,44 @@ nav,
 }
 
 /* The Israel Museum site: its gray-black type on white (sampled from the site) */
-.work--museum {
+.work--museum,
+.tile--museum {
   --circle: var(--white);
   --circle-ink: #212123;
+}
+
+.work--museum {
   left: calc(491 * var(--x));
   width: calc(458 * var(--x));
 }
 
 /* Record Day: the posters' green on their paper (sampled from the bus poster) */
-.work--record {
+.work--record,
+.tile--record {
   --circle: #2c5242;
   --circle-ink: #eeefee;
+}
+
+.work--record {
   left: calc(969 * var(--x));
   width: calc(458 * var(--x));
 }
 
 /* Poster Archive: the Casiopea poster's yellow on its purple (sampled from the poster) */
-.work--posters {
+.work--posters,
+.tile--posters {
   --circle: #3a3293;
   --circle-ink: #f1c025;
 }
 
 /* HAVEN: its dithered black on white, under Reach */
-.work--haven {
+.work--haven,
+.tile--haven {
   --circle: var(--black);
   --circle-ink: var(--white);
+}
+
+.work--haven {
   top: calc(1183 * var(--x));
 }
 
@@ -1354,6 +1371,151 @@ nav,
   }
 }
 
+/* ===== Works as a grid of five (computers), from Figma ("Home screen" 302:132) =====
+   Each tile sits where Figma puts it: the numbers are Figma px, counted from the top of the grid (Figma's 872)
+   and from the frame's left. --board is the color behind the video (none for the two without one);
+   the video sits --vx/--vy into it, --vw x --vh. The label's columns are Figma's gaps between
+   no. / name / year / tags; hovering the tile draws the line under the label's words. Phones keep the rows */
+.tiles {
+  display: none;
+}
+
+.works-area {
+  scroll-margin-top: var(--space-l);
+}
+
+@media (min-width: 701px) {
+  .hero {
+    height: calc(2511 * var(--x)); /* the footer's bio starts 2571px down in Figma; everything here sits 60px higher */
+  }
+
+  .works {
+    display: none;
+  }
+
+  .works-area {
+    position: absolute;
+    top: calc(776.29 * var(--x)); /* Figma's 836.29 (Reach's board), the page sitting 60px higher */
+    left: 0;
+    right: 0;
+  }
+
+  .tiles {
+    display: block;
+  }
+
+  .tile {
+    position: absolute;
+    top: calc(var(--top) * var(--x));
+    left: calc(var(--left) * var(--x));
+    width: calc(var(--w) * var(--x));
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tile__media {
+    position: relative;
+    display: block;
+    height: calc(var(--h) * var(--x));
+    background: var(--board, none);
+  }
+
+  .tile__media video {
+    position: absolute;
+    top: calc(var(--vy, 0) * var(--x));
+    left: calc(var(--vx, 0) * var(--x));
+    width: calc(var(--vw) * var(--x));
+    height: calc(var(--vh) * var(--x));
+    object-fit: cover;
+  }
+
+  .tile__label {
+    display: grid;
+    width: fit-content;
+    grid-template-columns: var(--cols);
+    align-items: baseline;
+    margin-top: calc(var(--gap) * var(--x));
+    font-family: var(--body-font-family);
+    font-size: calc(16 * var(--x));
+    font-weight: var(--body-font-weight);
+    letter-spacing: var(--body-letter-spacing);
+    white-space: nowrap;
+  }
+
+  /* "no." in Reckless, a little bigger, like in Figma */
+  .tile__label > :first-child {
+    font-family: var(--subtitle-font-family);
+    font-size: calc(18 * var(--x));
+    font-weight: var(--subtitle-font-weight);
+  }
+
+  /* Each part is only as wide as its words, so the line stays under the words, not the gaps */
+  .tile__label > * {
+    justify-self: start;
+  }
+
+  /* Hovering a tile draws the line under every part of its label */
+  .tile:is(:hover, :focus-visible) .link-line {
+    background-size: 100% var(--line-thickness);
+    background-position: 0 100%;
+  }
+
+  .tile--reach {
+    --left: 15; --top: 0; --w: 815; --h: 493.79;
+    --board: var(--color-accent);
+    --vx: 54.87; --vy: 25.94; --vw: 704.86; --vh: 442.17;
+    --gap: 5.92;
+    --cols: calc(82 * var(--x)) calc(124 * var(--x)) calc(350 * var(--x)) auto;
+  }
+
+  .tile--museum {
+    --left: 837; --top: 101.04; --w: 587; --h: 392;
+    --board: var(--color-board-museum);
+    --vx: 39; --vy: 40; --vw: 508; --vh: 312;
+    --gap: 7;
+    --cols: calc(57 * var(--x)) calc(180 * var(--x)) calc(76 * var(--x)) auto;
+  }
+
+  .tile--record {
+    --left: 18; --top: 532.71; --w: 931; --h: 626;
+    --vw: 931; --vh: 626;
+    --gap: 5;
+    --cols: calc(246 * var(--x)) calc(262 * var(--x)) calc(136 * var(--x)) auto;
+  }
+
+  .tile--haven {
+    --left: 956; --top: 532.71; --w: 469; --h: 334;
+    --vw: 469; --vh: 334;
+    --gap: 5; /* 5 under the video, like the others (Figma has 2) */
+    --cols: calc(103 * var(--x)) calc(109 * var(--x)) auto 1fr;
+  }
+
+  .tile--posters {
+    /* 33 under HAVEN's label, like Record-Day under Reach's (Figma has 890.71) */
+    --left: 956; --top: 904.71; --w: 473; --h: 592;
+    --vw: 473; --vh: 592;
+    --gap: 5;
+    --cols: calc(55 * var(--x)) calc(117 * var(--x)) calc(94 * var(--x)) calc(203 * var(--x));
+  }
+
+  /* Poster Archive's tags break in two lines, right-aligned, like in Figma */
+  .tile--posters .tile__label > :last-child {
+    justify-self: end;
+    white-space: normal;
+    text-align: right;
+    line-height: var(--body-line-height);
+  }
+
+  /* HAVEN's tags end on the frame's right edge, like in Figma, so its label runs the tile's width */
+  .tile--haven .tile__label {
+    width: auto;
+  }
+
+  .tile--haven .tile__label > :last-child {
+    justify-self: end;
+  }
+}
+
 /* ===== Phones: the home page from the Figma phone frame ("iPhone 16 & 17 Pro - 1", 402px wide) =====
    Like the computer, everything scales with the width: --p = 1px of the 402px frame.
    The headline is justified edge to edge, broken where Figma breaks it, with the spark
@@ -1709,6 +1871,7 @@ nav,
 /* "Visit the site →" on the description's first line, over the tags (Israel Museum Index) */
 .project__visit {
   position: absolute;
+  z-index: 2; /* above the title (z-index 1), whose box reaches down over it */
   top: calc(145 * var(--x));
   left: calc(491 * var(--x));
   line-height: var(--body-line-height);
@@ -2029,7 +2192,7 @@ nav,
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט הייבן") is set here. It has no subtitle */
 .project--haven {
-  height: calc(2993 * var(--x)); /* the footer's bio starts 2993px down */
+  height: calc(3033 * var(--x)); /* the footer's bio starts 2993px down in Figma; everything sits 40px lower, to make room for ©itay benma */
 }
 
 .project--haven .project__track--about {
@@ -2037,32 +2200,32 @@ nav,
   width: 343px;
 }
 
-/* Starts on the description's first line */
+/* Starts on the description's fifth line */
 .project--haven .project__tags {
-  top: calc(145 * var(--x));
+  top: calc(145 * var(--x) + 4 * var(--body-line-height) * 1em);
 }
 
 .project--haven .project__track--research {
-  top: calc(1046 * var(--x));
+  top: calc(1086 * var(--x));
   width: 332px;
 }
 
 .project--haven .project__track--graphic {
-  top: calc(1696 * var(--x));
+  top: calc(1736 * var(--x));
   width: 309px;
 }
 
 .project--haven .project__next {
-  top: calc(3024 * var(--x));
+  top: calc(3064 * var(--x));
 }
 
-.project__media--flow { top: calc(233 * var(--x)); left: calc(169 * var(--x)); width: calc(1102 * var(--x)); height: calc(784 * var(--x)); }
-.project__media--onboarding { top: calc(1208 * var(--x)); left: calc(143 * var(--x)); width: calc(656 * var(--x)); height: calc(466 * var(--x)); }
-.project__media--popup { top: calc(1208 * var(--x)); left: calc(817 * var(--x)); width: calc(480 * var(--x)); height: calc(466 * var(--x)); }
-.project__media--pattern { top: calc(1884 * var(--x)); left: calc(146 * var(--x)); width: calc(566 * var(--x)); height: calc(402 * var(--x)); }
-.project__media--mars { top: calc(1884 * var(--x)); left: calc(728 * var(--x)); width: calc(568 * var(--x)); height: calc(404 * var(--x)); }
-.project__media--mobile { top: calc(2334 * var(--x)); left: calc(138 * var(--x)); width: calc(274 * var(--x)); height: calc(596 * var(--x)); }
-.project__media--logo { top: calc(2385 * var(--x)); left: calc(426 * var(--x)); width: calc(878 * var(--x)); height: calc(494 * var(--x)); }
+.project__media--flow { top: calc(273 * var(--x)); left: calc(169 * var(--x)); width: calc(1102 * var(--x)); height: calc(784 * var(--x)); }
+.project__media--onboarding { top: calc(1248 * var(--x)); left: calc(143 * var(--x)); width: calc(656 * var(--x)); height: calc(466 * var(--x)); }
+.project__media--popup { top: calc(1248 * var(--x)); left: calc(817 * var(--x)); width: calc(480 * var(--x)); height: calc(466 * var(--x)); }
+.project__media--pattern { top: calc(1924 * var(--x)); left: calc(146 * var(--x)); width: calc(566 * var(--x)); height: calc(402 * var(--x)); }
+.project__media--mars { top: calc(1924 * var(--x)); left: calc(728 * var(--x)); width: calc(568 * var(--x)); height: calc(404 * var(--x)); }
+.project__media--mobile { top: calc(2374 * var(--x)); left: calc(138 * var(--x)); width: calc(274 * var(--x)); height: calc(596 * var(--x)); }
+.project__media--logo { top: calc(2425 * var(--x)); left: calc(426 * var(--x)); width: calc(878 * var(--x)); height: calc(494 * var(--x)); }
 
 /* ===== Project page: Poster Archive (posters.html) =====
    Built on the Reach page above; only what sits elsewhere in its Figma frame
@@ -2093,7 +2256,7 @@ nav,
 }
 
 .has-custom-cursor .cursor {
-  transition: width 0.4s var(--ease), height 0.4s var(--ease), border-radius 0.4s var(--ease), background-color 0.4s var(--ease);
+  transition: width 0.4s var(--ease), height 0.4s var(--ease), border-radius 0.4s var(--ease);
 }
 
 .poster-info {

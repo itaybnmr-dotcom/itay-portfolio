@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=113">
+  <link rel="stylesheet" href="styles.css?v=128">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
@@ -33,8 +33,8 @@
     }
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=54" defer></script>
-  <script src="home.js?v=37" defer></script>
+  <script src="script.js?v=57" defer></script>
+  <script src="home.js?v=40" defer></script>
 </head>
 <body class="home">
   <!-- Top bar: name (left), tagline (center), links (right) -->
@@ -72,10 +72,36 @@
 
     <!-- Computers: the works as an index of rows (no. / name / year / tags); hovering one opens a crack, a click opens it
          to fill the screen while the others squash (styles.css "Works as an index of rows"). Phones: the cards, from the Figma phone frame -->
+    <!-- #works holds both: on computers the grid (".tiles"), on phones the rows (".works") -->
+    <div class="works-area" id="works">
+    <!-- Computers: the works as a grid of five, as drawn in Figma ("Home screen" 302:132) -->
+    <div class="tiles">
+      <a class="tile tile--reach" href="reach.html" data-cursor="More info">
+        <span class="tile__media"><video src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video></span>
+        <span class="tile__label"><span class="link-line">no. 1</span><span class="link-line">Reach</span><span class="link-line">(2026)</span><span class="link-line">ux-ui / Product / Interactive / Branding</span></span>
+      </a>
+      <a class="tile tile--museum" href="israel-museum.html" data-cursor="More info">
+        <span class="tile__media"><video src="IMG/Israel-Museum-Index/web/showreel.mp4" width="1920" height="1178" muted loop playsinline preload="none" data-play aria-hidden="true"></video></span>
+        <span class="tile__label"><span class="link-line">no. 2</span><span class="link-line">Israel Museum Index</span><span class="link-line">(2026)</span><span class="link-line">Web / Layout / Interactive / Typography</span></span>
+      </a>
+      <a class="tile tile--record" href="record-day.html" data-cursor="More info">
+        <span class="tile__media"><video src="IMG/Record-Day/web/train-station.mp4" width="1920" height="1106" muted loop playsinline preload="none" data-play aria-hidden="true"></video></span>
+        <span class="tile__label"><span class="link-line">no. 3</span><span class="link-line">Record-Day</span><span class="link-line">(2026)</span><span class="link-line">Motion / Branding / Posters / IMG-Making</span></span>
+      </a>
+      <a class="tile tile--haven" href="haven.html" data-cursor="More info">
+        <span class="tile__media"><video src="IMG/HAVEN/web/desktop.mp4" width="1920" height="1080" muted loop playsinline preload="none" data-play aria-hidden="true"></video></span>
+        <span class="tile__label"><span class="link-line">no. 4</span><span class="link-line">HAVEN</span><span class="link-line">(2026)</span><span class="link-line">Motion / ux-ui / Interface</span></span>
+      </a>
+      <a class="tile tile--posters" href="posters.html" data-cursor="More info">
+        <span class="tile__media"><video src="IMG/Posters/web/showreel-edited.mp4" width="1080" height="1350" muted loop playsinline preload="none" data-play aria-hidden="true"></video></span>
+        <span class="tile__label"><span class="link-line">no. 5</span><span class="link-line">Poster Archive</span><span class="link-line">(2023-2026)</span><span class="link-line">Posters / Typography / IMG-Making / Print / Motion</span></span>
+      </a>
+    </div>
+
     <div class="works">
     <!-- The works. Hovering a card turns the cursor into a circle in the project's colors with "More info"
          (data-cursor, script.js; the colors are --circle and --circle-ink in styles.css) -->
-    <a class="work work--reach" id="works" href="reach.html" data-cursor="More info">
+    <a class="work work--reach" href="reach.html" data-cursor="More info">
       <!-- Touch screens have no cursor to grow, so the card wears the circle as a sticker instead -->
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-reach" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-reach" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
       <span class="work__row"><span class="work__track"><span>no. 1</span><span><b>Reach</b></span><b>(2026)</b><span>ux-ui / Product / Interactive / Branding</span></span></span>
@@ -202,6 +228,7 @@
         <span>Posters / Layout / Typography / Print</span>
       </span>
     </a>
+    </div>
     </div>
 
   </main>

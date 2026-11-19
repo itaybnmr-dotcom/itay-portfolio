@@ -15,7 +15,7 @@ function markSection() {
     return;
   }
   const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 1;
-  topName.classList.toggle("is-active", reached(".work") && !atBottom);
+  topName.classList.toggle("is-active", reached("#works") && !atBottom);
   contactLink.classList.toggle("is-active", atBottom);
 }
 markSection();

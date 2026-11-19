@@ -82,6 +82,8 @@
 
   /* Thickness of the line under links on hover */
   --line-thickness: 1.5px;
+  --line-gap: 2px; /* the gap the hover line leaves on each side of a letter that reaches down into it (.link-line) */
+  --line-raise: 0.05em; /* how far the hover line sits above the bottom of the text: just under the letters, so g, p, y and the brackets cross it */
 
   /* One pixel of the keyboard-focus frame: its thickness, and the step at its corners */
   --pixel: 2px;
@@ -334,7 +336,7 @@ nav,
 /* The line comes in with the word */
 .roll:is(:hover, :focus-visible, :active, [data-state]) .link-line {
   background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+  background-position-x: 0;
 }
 
 /* Touch screens: no rolling, the name just stays "Itay Benma" */
@@ -364,7 +366,7 @@ nav,
 
 .roll.is-active .link-line {
   background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+  background-position-x: 0;
 }
 .top-bar__tagline {
   text-align: center;
@@ -402,8 +404,17 @@ nav,
   background-image: linear-gradient(currentColor, currentColor); /* the line */
   background-repeat: no-repeat;
   background-size: 0% var(--line-thickness); /* hidden: zero width */
-  background-position: 100% 100%; /* anchored right, so it shrinks away to the right */
+  background-position-x: 100%; /* anchored right, so it shrinks away to the right */
+  background-position-y: calc(100% - var(--line-raise)); /* up under the letters, where their tails cross it */
   transition: background-size 0.3s ease;
+  /* Where a letter reaches down into the line (g, p, y, the brackets) the line breaks around it, like skip-ink:
+     each letter wears a thin outline in the page's color, sideways, that covers the line next to it.
+     On the black page it can't be seen anywhere else */
+  text-shadow:
+    var(--line-gap) 0 var(--color-bg),
+    calc(var(--line-gap) / -1) 0 var(--color-bg),
+    calc(var(--line-gap) / 2) 0 var(--color-bg),
+    calc(var(--line-gap) / -2) 0 var(--color-bg);
 }
 
 .link-line:hover,
@@ -412,7 +423,7 @@ nav,
 .link-line[data-state],
 .link-line.is-tapped {
   background-size: 100% var(--line-thickness); /* full width */
-  background-position: 0 100%;  /* anchored left, so it grows in from the left */
+  background-position-x: 0;  /* anchored left, so it grows in from the left */
 }
 
 /* Touch screens: a tap leaves the "hover" stuck on, so there the line only comes
@@ -432,13 +443,13 @@ nav,
 /* The part of the home page you've scrolled to (home.js): its link keeps the line */
 .link-line.is-active {
   background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+  background-position-x: 0;
 }
 
 /* The page you're on: the hover line stays */
 .link-line.is-current {
   background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+  background-position-x: 0;
   /* Draws in from the left as the page arrives, as if following the click that led here */
   animation: line-in 0.5s var(--ease) 0.15s both;
 }
@@ -451,11 +462,17 @@ nav,
    Every link and card has four: as it is, hovered, pressed and focused from the keyboard.
    [data-state] shows one of them held still, for the styleguide (styleguide.html) */
 
-/* Pressed: the link turns into its own negative for as long as it's held */
+/* Pressed: the link turns into its own negative for as long as it's held
+   (without the letters' outline, which would show on the white) */
 .link-line:is(:active, [data-state="active"]),
 .roll:is(:active, [data-state="active"]) {
   background-color: var(--color-text);
   color: var(--color-bg);
+}
+
+:is(.link-line, .roll):is(:active, [data-state="active"]),
+:is(.link-line, .roll):is(:active, [data-state="active"]) * {
+  text-shadow: none;
 }
 
 /* A pressed card's labels turn negative: only as the "Pressed" state on the styleguide board,
@@ -557,7 +574,7 @@ nav,
 /* Hovering anywhere on the row draws the line under all of it */
 .process__entry:hover .link-line {
   background-size: 100% var(--line-thickness);
-  background-position: 0 100%;
+  background-position-x: 0;
 }
 
 /* Like the reference: hovering one row fades the others */
@@ -1454,21 +1471,17 @@ nav,
   }
 
   /* "no." in Reckless, a little bigger, like in Figma */
-  .tile__label > :first-child {
+  .tile__no {
     font-family: var(--subtitle-font-family);
     font-size: calc(18 * var(--x));
     font-weight: var(--subtitle-font-weight);
   }
 
-  /* Each part is only as wide as its words, so the line stays under the words, not the gaps */
-  .tile__label > * {
-    justify-self: start;
-  }
-
-  /* Hovering a tile draws the line under every part of its label */
+  /* Hovering a tile draws a line under each line of its label: "no. 1 Reach (2026)" as one, and the tags
+     (each of their lines, where they break), not under each word */
   .tile:is(:hover, :focus-visible) .link-line {
     background-size: 100% var(--line-thickness);
-    background-position: 0 100%;
+    background-position-x: 0;
   }
 
   .tile--reach {
@@ -1476,7 +1489,7 @@ nav,
     --board: var(--color-accent);
     --vx: 54.87; --vy: 25.94; --vw: 704.86; --vh: 442.17;
     --gap: 5.92;
-    --cols: calc(82 * var(--x)) calc(124 * var(--x)) calc(350 * var(--x)) auto;
+    --cols: calc(556 * var(--x)) auto; /* the tags start 556px into the tile, like in Figma */
   }
 
   .tile--museum {
@@ -1484,21 +1497,21 @@ nav,
     --board: var(--color-board-museum);
     --vx: 39; --vy: 40; --vw: 508; --vh: 312;
     --gap: 7;
-    --cols: calc(57 * var(--x)) calc(180 * var(--x)) calc(76 * var(--x)) auto;
+    --cols: calc(313 * var(--x)) auto;
   }
 
   .tile--record {
     --left: 18; --top: 532.71; --w: 931; --h: 626;
     --vw: 931; --vh: 626;
     --gap: 5;
-    --cols: calc(246 * var(--x)) calc(262 * var(--x)) calc(136 * var(--x)) auto;
+    --cols: calc(644 * var(--x)) auto;
   }
 
   .tile--haven {
     --left: 956; --top: 532.71; --w: 469; --h: 334;
     --vw: 469; --vh: 334;
     --gap: 5; /* 5 under the video, like the others (Figma has 2) */
-    --cols: calc(103 * var(--x)) calc(109 * var(--x)) auto 1fr;
+    --cols: auto 1fr;
   }
 
   .tile--posters {
@@ -1506,7 +1519,7 @@ nav,
     --left: 956; --top: 904.71; --w: 473; --h: 592;
     --vw: 473; --vh: 592;
     --gap: 5;
-    --cols: calc(55 * var(--x)) calc(117 * var(--x)) calc(94 * var(--x)) calc(203 * var(--x));
+    --cols: calc(266 * var(--x)) calc(203 * var(--x));
   }
 
   /* Poster Archive's tags break in two lines, right-aligned, like in Figma */
@@ -1688,7 +1701,7 @@ nav,
      It sits on the text itself, so a name that wraps gets it across its first line, then the next. */
   .process__entry.is-open .link-line {
     background-size: 100% var(--line-thickness);
-    background-position: 0 100%;
+    background-position-x: 0;
     transition: background-size 0.5s var(--ease);
   }
 

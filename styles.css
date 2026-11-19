@@ -1386,7 +1386,7 @@ nav,
 
 @media (min-width: 701px) {
   .hero {
-    height: calc(2511 * var(--x)); /* the footer's bio starts 2571px down in Figma; everything here sits 60px higher */
+    height: calc(2406 * var(--x)); /* the footer's bio starts 2466px down in Figma; everything here sits 60px higher */
   }
 
   .works {

@@ -55,6 +55,8 @@ function writeRing(textPath, word) {
   };
   const width = (string) => measure(`a${string}a`) - measure("aa");
   const wordWidth = width(word);
+  // A hidden circle (the cursor on a phone) measures 0: the ring would fit endless words and crash Safari
+  if (!(wordWidth > 0)) return;
   const dotWidth = width("·");
   const times = Math.max(1, Math.floor(RING / (wordWidth + width(" · ")) + 0.05)); // a hair tight is fine
   const slot = RING / times;

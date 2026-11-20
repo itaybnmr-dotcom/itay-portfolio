@@ -12,7 +12,7 @@
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=73" defer></script>
+  <script src="script.js?v=74" defer></script>
   <script src="reach.js?v=23" defer></script>
 </head>
 <body class="project-page">
@@ -46,7 +46,7 @@
 
     <!-- The landing page on a red board -->
     <div class="project__board project__board--site"></div>
-    <video class="project__site" src="IMG/Reach/web/site-sequence.mp4" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__site" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Reach/web/site-sequence-phone.mp4" media="(max-width: 700px)"><source src="IMG/Reach/web/site-sequence.mp4"></video>
 
     <!-- The research, next to two phones running the app. Each text sticks under the one before it. -->
     <div class="project__track project__track--research">
@@ -77,18 +77,19 @@
     <div class="project__board project__board--dark"></div>
     <span class="project__route project__route--1"><span><img src="IMG/Reach/page/route-dark-1.svg" width="703.784" height="58.4406" alt=""></span></span>
     <span class="project__route project__route--2"><span><img src="IMG/Reach/page/route-dark-2.svg" width="704.325" height="58.8756" alt=""></span></span>
-    <!-- On a phone the three become a strip to swipe through; on a computer the wrapper isn't there (display: contents) -->
+    <!-- On a phone the three become a strip to swipe through; on a computer the wrapper isn't there (display: contents).
+         srcset: phones get them 420px wide (they show at 114), not the full 844, to keep the page light enough for iPhone Safari -->
     <div class="project__strip">
-      <img class="project__phone project__phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.webp" width="844" height="1738" alt="" loading="lazy">
-      <img class="project__phone project__phone--timer" src="IMG/Reach/mood/reach-phone-timer.webp" width="844" height="1738" alt="" loading="lazy">
-      <img class="project__phone project__phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.webp" width="844" height="1738" alt="" loading="lazy">
+      <img class="project__phone project__phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.webp" srcset="IMG/Reach/mood/reach-phone-congrats-420.webp 420w, IMG/Reach/mood/reach-phone-congrats.webp 844w" sizes="(max-width: 700px) 29vw, 15vw" width="844" height="1738" alt="" loading="lazy">
+      <img class="project__phone project__phone--timer" src="IMG/Reach/mood/reach-phone-timer.webp" srcset="IMG/Reach/mood/reach-phone-timer-420.webp 420w, IMG/Reach/mood/reach-phone-timer.webp 844w" sizes="(max-width: 700px) 29vw, 15vw" width="844" height="1738" alt="" loading="lazy">
+      <img class="project__phone project__phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.webp" srcset="IMG/Reach/mood/reach-phone-arm-pain-420.webp 420w, IMG/Reach/mood/reach-phone-arm-pain.webp 844w" sizes="(max-width: 700px) 29vw, 15vw" width="844" height="1738" alt="" loading="lazy">
     </div>
 
     <!-- Two red boards: the landing page's still screen, and its holds section -->
     <div class="project__board project__board--still"></div>
     <video class="project__still" src="IMG/Reach/web/still-page.mp4" width="1920" height="1242" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
     <div class="project__board project__board--holds"></div>
-    <img class="project__holds" src="IMG/Reach/page/holds-page.webp" width="2400" height="1511" alt="The landing page's section: Less Planning. More Climbing." loading="lazy">
+    <img class="project__holds" src="IMG/Reach/page/holds-page.webp" srcset="IMG/Reach/page/holds-page-1000.webp 1000w, IMG/Reach/page/holds-page.webp 2400w" sizes="(max-width: 700px) 81vw, 44vw" width="2400" height="1511" alt="The landing page's section: Less Planning. More Climbing." loading="lazy">
 
     <!-- Phones: "← Prev Project" on the left, like the phone frame; the one before Reach is the last, Poster Archive -->
     <a class="project__prev roll" href="posters.html" aria-label="Previous project: Poster Archive"><span class="roll__from">← Prev Project</span><span class="roll__to" aria-hidden="true">Poster Archive</span></a>

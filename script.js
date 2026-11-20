@@ -404,6 +404,13 @@ if (words.length && media.length) {
 // it scrolls in and pauses once it's out, instead of all of them loading at once (the Record Day page has seven)
 // A card's videos are watched through the card: the home intro masks the card's inside (clip-path),
 // and a masked video counts as off screen, even once the mask is gone
+// Phones get the lighter copies (<source media>, "-phone.mp4"). A video picks its source when the page reaches it,
+// which can be before the phone's width is known: one that picked the wrong one picks again now. Only the ones
+// on the page: load() makes Safari fetch it, and the hidden ones (the home page's old rows) never play
+document.querySelectorAll("video:has(source[media])").forEach((video) => {
+  const right = [...video.querySelectorAll("source")].find((source) => !source.media || matchMedia(source.media).matches);
+  if (video.checkVisibility() && video.currentSrc !== right.src) video.load();
+});
 const nearScreen = new Set();
 let glide; // the Tab glide running now, if any (glideTo, below)
 const videoWatcher = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {

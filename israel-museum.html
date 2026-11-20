@@ -12,7 +12,7 @@
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=73" defer></script>
+  <script src="script.js?v=74" defer></script>
   <script src="reach.js?v=23" defer></script>
 </head>
 <body class="project-page">
@@ -43,9 +43,9 @@
     <a class="project__visit" href="https://itaybnmr-dotcom.github.io/Israel-Museum-Collection/index.html" target="_blank" rel="noopener"><span class="link-line">Visit the site</span> <span class="hero__arrow" aria-hidden="true"><span>→</span></span></a>
 
     <!-- The site, recorded: a showreel, then a work's page and the index -->
-    <video class="project__site" src="IMG/Israel-Museum-Index/web/showreel.mp4" width="1920" height="1178" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
-    <video class="project__clip project__clip--artwork" src="IMG/Israel-Museum-Index/web/03-artwork-page.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
-    <video class="project__clip project__clip--index" src="IMG/Israel-Museum-Index/web/04-index-list-grid.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__site" width="1920" height="1178" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Israel-Museum-Index/web/showreel-phone.mp4" media="(max-width: 700px)"><source src="IMG/Israel-Museum-Index/web/showreel.mp4"></video>
+    <video class="project__clip project__clip--artwork" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Israel-Museum-Index/web/03-artwork-page-phone.mp4" media="(max-width: 700px)"><source src="IMG/Israel-Museum-Index/web/03-artwork-page.mp4"></video>
+    <video class="project__clip project__clip--index" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Israel-Museum-Index/web/04-index-list-grid-phone.mp4" media="(max-width: 700px)"><source src="IMG/Israel-Museum-Index/web/04-index-list-grid.mp4"></video>
 
     <!-- The idea, next to the five motifs being hovered on the home page -->
     <div class="project__track project__track--research">
@@ -55,7 +55,7 @@
         <p>I curated five basic motifs: circle, verticality, gate, motion and fracture. In some works the motif was the artist’s intention, in others, it is my curatorial choice. The site holds 150 works in total.</p>
       </div>
     </div>
-    <video class="project__clip project__clip--hover" src="IMG/Israel-Museum-Index/web/collections-hover.mp4" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
+    <video class="project__clip project__clip--hover" width="1920" height="1170" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Israel-Museum-Index/web/collections-hover-phone.mp4" media="(max-width: 700px)"><source src="IMG/Israel-Museum-Index/web/collections-hover.mp4"></video>
 
     <!-- Scrolling past it, its letters slide right one by one until the words close up against the right edge (reach.js) -->
     <h2 class="project__subtitle project__big" data-phone="Layout     as                    Curation">          Layout    as            Curation        </h2>

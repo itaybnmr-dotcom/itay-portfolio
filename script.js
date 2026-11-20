@@ -187,6 +187,21 @@ document.querySelectorAll(".project__next").forEach(alignRollEnds);
 // until the mouse leaves the link
 const email = document.querySelector('.footer a[href^="mailto:"]');
 const address = email?.href.slice("mailto:".length);
+// Copies text; a page on plain http (the local server, opened on a phone) has no clipboard API, so the old way there
+function copyText(text) {
+  if (navigator.clipboard) return navigator.clipboard.writeText(text);
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.append(field);
+  field.select();
+  field.setSelectionRange(0, text.length); // iPhone
+  const copied = document.execCommand("copy");
+  field.remove();
+  return copied ? Promise.resolve() : Promise.reject();
+}
 if (email && matchMedia("(hover: hover)").matches) {
   email.classList.replace("link-line", "roll");
   email.classList.add("footer__email");
@@ -226,7 +241,7 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
   }
   email?.addEventListener("click", (event) => {
     event.preventDefault();
-    navigator.clipboard.writeText(address).then(() => {
+    copyText(address).then(() => {
       // It stays until the mouse leaves the link (the closing below)
       email.dataset.info = shownInfo = "Copied!";
       cursor.classList.add("is-info");
@@ -304,6 +319,15 @@ if (collab) {
     };
     collab.parentElement.addEventListener("click", (event) => {
       if (event.target.closest("[data-collab]")) setTimeout(comeBack, 2000);
+    });
+    // "Email" copies the address instead of opening the mail app, and "Let's Collab" rolls into "Copied!"
+    // (like the computer's cursor), then back with the rest
+    email?.addEventListener("click", (event) => {
+      event.preventDefault();
+      copyText(address).then(() => {
+        clearTimeout(leaving);
+        rollTo("Copied!");
+      }, () => { location.href = email.href; }); // no copying here: open the mail app after all
     });
     addEventListener("pageshow", comeBack);
     addEventListener("focus", comeBack);

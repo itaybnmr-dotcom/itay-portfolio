@@ -109,17 +109,21 @@ function requestUpdate() {
   if (!frame) frame = requestAnimationFrame(update);
 }
 
-root.style.setProperty("--stick-end", `${STICK_END}px`);
-document.fonts.ready.then(() => {
-  measureSubtitle();
+// Phones stop here: they only needed the phone frame's spacing above. Measuring and redrawing the page
+// on every scroll is for effects a phone doesn't show (on phones nothing sticks or slides, styles.css)
+if (!phone.matches) {
+  root.style.setProperty("--stick-end", `${STICK_END}px`);
+  document.fonts.ready.then(() => {
+    measureSubtitle();
+    measureStacks();
+    update();
+  });
   measureStacks();
   update();
-});
-measureStacks();
-update();
-addEventListener("scroll", requestUpdate, { passive: true });
-addEventListener("resize", () => {
-  measureSubtitle();
-  measureStacks();
-  requestUpdate();
-});
+  addEventListener("scroll", requestUpdate, { passive: true });
+  addEventListener("resize", () => {
+    measureSubtitle();
+    measureStacks();
+    requestUpdate();
+  });
+}

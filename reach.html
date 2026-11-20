@@ -12,8 +12,8 @@
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=74" defer></script>
-  <script src="reach.js?v=23" defer></script>
+  <script src="script.js?v=75" defer></script>
+  <script src="reach.js?v=24" defer></script>
 </head>
 <body class="project-page">
   <!-- Top bar: here only the links show, like in Figma (the project's title takes the top left) -->
@@ -73,10 +73,10 @@
 
     <!-- The logo on dark with its route lines (one drawing: logo-board.svg, rendered once into a WebP with its noise,
          since iPhone Safari computing the SVG's noise filter on the spot crashed the page), and three app screens on dark with two more lines -->
-    <img class="project__logo-board" src="IMG/Reach/page/logo-board.webp" width="715.909" height="601" alt="reach">
+    <img class="project__logo-board" src="IMG/Reach/page/logo-board.webp" width="715.909" height="601" alt="reach" loading="lazy">
     <div class="project__board project__board--dark"></div>
-    <span class="project__route project__route--1"><span><img src="IMG/Reach/page/route-dark-1.svg" width="703.784" height="58.4406" alt=""></span></span>
-    <span class="project__route project__route--2"><span><img src="IMG/Reach/page/route-dark-2.svg" width="704.325" height="58.8756" alt=""></span></span>
+    <span class="project__route project__route--1"><span><img src="IMG/Reach/page/route-dark-1.svg" width="703.784" height="58.4406" alt="" loading="lazy"></span></span>
+    <span class="project__route project__route--2"><span><img src="IMG/Reach/page/route-dark-2.svg" width="704.325" height="58.8756" alt="" loading="lazy"></span></span>
     <!-- On a phone the three become a strip to swipe through; on a computer the wrapper isn't there (display: contents).
          srcset: phones get them 420px wide (they show at 114), not the full 844, to keep the page light enough for iPhone Safari -->
     <div class="project__strip">

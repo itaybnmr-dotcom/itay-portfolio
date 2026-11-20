@@ -33,7 +33,7 @@
     }
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=74" defer></script>
+  <script src="script.js?v=75" defer></script>
   <script src="home.js?v=41" defer></script>
 </head>
 <body class="home">
@@ -127,14 +127,14 @@
       <span class="work__card work__card--reach">
         <span class="work__set">
           <span class="work__board work__board--dark"></span>
-          <span class="work__route work__route--1"><span><img src="IMG/Reach/page/vector-141.svg" width="708.89" height="52.4959" alt=""></span></span>
-          <span class="work__route work__route--2"><span><img src="IMG/Reach/page/vector-142.svg" width="708.742" height="52.9892" alt=""></span></span>
-          <img class="work__card-phone work__card-phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="">
-          <img class="work__card-phone work__card-phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="">
-          <img class="work__card-phone work__card-phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+          <span class="work__route work__route--1"><span><img src="IMG/Reach/page/vector-141.svg" width="708.89" height="52.4959" alt="" loading="lazy"></span></span>
+          <span class="work__route work__route--2"><span><img src="IMG/Reach/page/vector-142.svg" width="708.742" height="52.9892" alt="" loading="lazy"></span></span>
+          <img class="work__card-phone work__card-phone--congrats" src="IMG/Reach/mood/reach-phone-congrats.png" width="844" height="1738" alt="" loading="lazy">
+          <img class="work__card-phone work__card-phone--timer" src="IMG/Reach/mood/reach-phone-timer.png" width="844" height="1738" alt="" loading="lazy">
+          <img class="work__card-phone work__card-phone--arm" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="" loading="lazy">
           <span class="work__board work__board--red"></span>
           <video class="work__card-site" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Reach/web/site-sequence-phone.mp4" media="(max-width: 700px)"><source src="IMG/Reach/web/site-sequence.mp4"></video>
-          <img class="work__card-line" src="IMG/Reach/page/card-route.svg" width="303.238" height="111.823" alt="">
+          <img class="work__card-line" src="IMG/Reach/page/card-route.svg" width="303.238" height="111.823" alt="" loading="lazy">
           <video class="work__card-app work__card-app--home" src="IMG/Reach/web/app-home.mp4" width="1380" height="1992" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
           <video class="work__card-app work__card-app--check-in" src="IMG/Reach/web/app-check-in.mp4" width="1380" height="1992" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
         </span>
@@ -142,7 +142,7 @@
       <span class="work__frame">
         <span class="work__label"><span>No. 1</span><span>Reach</span></span>
         <video class="work__site" width="1920" height="1204" muted loop playsinline preload="none" data-play aria-hidden="true"><source src="IMG/Reach/web/site-sequence-phone.mp4" media="(max-width: 700px)"><source src="IMG/Reach/web/site-sequence.mp4"></video>
-        <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="">
+        <img class="work__phone" src="IMG/Reach/mood/reach-phone-arm-pain.png" width="844" height="1738" alt="" loading="lazy">
       </span>
       <span class="work__info">
         <span>Landing Page &amp; App</span>
@@ -217,18 +217,19 @@
     </a>
 
     <!-- No. 5: on computers the posters in IMG/Posters, as mp4s (IMG/Posters/web), ordered so no two neighbours share a palette, even where the loop meets.
-         The stills never play (no data-play): they just show their one frame, so nothing restarts while the strip runs -->
+         The stills never play (no data-play): they just show their one frame, so nothing restarts while the strip runs.
+         The rows are hidden now (styles.css, .works), so nothing in them loads (preload="none", loading="lazy") -->
     <a class="work work--posters" href="posters.html" data-cursor="More info">
       <span class="work__sticker" aria-hidden="true"><svg viewBox="0 0 120 120"><path id="sticker-posters" d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" fill="none"/><text><textPath href="#sticker-posters" textLength="257" lengthAdjust="spacing">More info · More info · </textPath></text></svg></span>
       <span class="work__row"><span class="work__track"><span>no. 5</span><span><b>Poster Archive</b></span><b>(2026)</b><span>Posters / Layout / Typography / Print</span></span></span>
       <span class="work__card work__card--row">
-        <video src="IMG/Posters/web/radiohead.mp4" width="930" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
-        <video src="IMG/Posters/web/letter-to-infinity.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/radiohead.mp4" width="930" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/letter-to-infinity.mp4" width="868" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
         <video src="IMG/Posters/web/bat.mp4" width="698" height="1240" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
-        <video src="IMG/Posters/web/casiopea.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
-        <video src="IMG/Posters/web/swedish-wrench.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
-        <video src="IMG/Posters/web/amsterdam-book-launch.mp4" width="868" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
-        <video src="IMG/Posters/web/night-in-the-course.mp4?v=2" width="496" height="1240" muted playsinline preload="auto" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/casiopea.mp4" width="868" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/swedish-wrench.mp4" width="868" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/amsterdam-book-launch.mp4" width="868" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
+        <video src="IMG/Posters/web/night-in-the-course.mp4?v=2" width="496" height="1240" muted playsinline preload="none" aria-hidden="true"></video>
       </span>
       <!-- Phones: three of its motion posters on the black screen, like Record Day's card -->
       <span class="work__frame">

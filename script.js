@@ -182,14 +182,9 @@ function alignRollEnds(roll) {
 }
 document.querySelectorAll(".project__next").forEach(alignRollEnds);
 
-// ===== Poster Archive: what each poster is, on hover =====
-// Over a poster the cursor's circle grows into a black rectangle with one of the poster's lines
-// (data-info, split by "|"); the lines take turns, each rolling into the next like a .roll.
-// Posters of one series share their lines, so moving between them the turns carry on
-const INFO_TURN = 2600; // milliseconds each line stays before the next rolls in
-const INFO_GAP = 40; // the gaps between posters (Figma px): within one of a poster of the same series it stays open
 // The footer's "Email" rolls into the address, like the name into "Home"; a click copies it instead of opening
-// the mail app, and the cursor becomes the posters' rectangle with "Copied!" until the mouse leaves the link
+// the mail app, and the cursor's circle grows into a black rectangle with "Copied!" (rolling in like a .roll)
+// until the mouse leaves the link
 const email = document.querySelector('.footer a[href^="mailto:"]');
 const address = email?.href.slice("mailto:".length);
 if (email && matchMedia("(hover: hover)").matches) {
@@ -210,9 +205,6 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
   cursor.append(posterInfo);
   const line = posterInfo.firstElementChild;
   let shownInfo = null;
-  let lastInfo = null; // the series last hovered, and the line it was on
-  let turn = 0;
-  let turns = null;
   let shownLength = 0;
   function rollLine(text) {
     line.querySelectorAll(".poster-info__word:not(.is-leaving)").forEach((old) => {
@@ -232,47 +224,19 @@ if (posterInfo && matchMedia("(hover: hover)").matches) {
     cursor.style.width = `${word.offsetWidth + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
     requestAnimationFrame(() => requestAnimationFrame(() => word.classList.add("is-in")));
   }
-  document.querySelectorAll("[data-info]").forEach((poster) => {
-    poster.addEventListener("pointerenter", () => {
-      if (poster.dataset.info === shownInfo) return;
-      shownInfo = poster.dataset.info;
-      const lines = shownInfo.split("|");
-      cursor.classList.add("is-info");
-      // Another poster of the same series carries on from the line it was on, instead of starting over
-      if (shownInfo !== lastInfo) turn = 0;
-      lastInfo = shownInfo;
-      rollLine(lines[turn % lines.length]);
-      // One line high, measured once the line is in (an empty line has no height)
-      cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
-      clearInterval(turns);
-      if (lines.length > 1) turns = setInterval(() => rollLine(lines[++turn % lines.length]), INFO_TURN);
-    });
-  });
   email?.addEventListener("click", (event) => {
     event.preventDefault();
     navigator.clipboard.writeText(address).then(() => {
-      // It counts as a poster with one line until the mouse leaves it (the closing below)
+      // It stays until the mouse leaves the link (the closing below)
       email.dataset.info = shownInfo = "Copied!";
       cursor.classList.add("is-info");
       rollLine(shownInfo);
       cursor.style.height = `${line.offsetHeight + 2 * parseFloat(getComputedStyle(posterInfo).paddingLeft)}px`;
     });
   });
-  // Off the posters it closes, unless it's in a gap next to a poster of the series it's showing
+  // Off the link it closes
   addEventListener("pointermove", (event) => {
     if (shownInfo === null || event.target.closest?.("[data-info]")) return;
-    // A link comes first: over one (like the top bar's, which lies over the posters) it closes
-    // even inside a poster's box, so the cursor is the link's circle
-    const onLink = event.target.closest?.("a") !== null;
-    const gap = (INFO_GAP * innerWidth) / 1440;
-    const near = !onLink && [...document.querySelectorAll("[data-info]")].some((poster) => {
-      if (poster === email || poster.dataset.info !== shownInfo) return false; // "Copied!" closes as soon as it's off the link
-      const box = poster.getBoundingClientRect();
-      return event.clientX > box.left - gap && event.clientX < box.right + gap &&
-        event.clientY > box.top - gap && event.clientY < box.bottom + gap;
-    });
-    if (near) return;
-    clearInterval(turns);
     shownInfo = null;
     if (email) delete email.dataset.info;
     rollLine("");

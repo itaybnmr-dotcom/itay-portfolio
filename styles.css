@@ -2650,11 +2650,11 @@ nav,
   .project--haven :is(.project__prev, .project__next) { top: calc(3000 * var(--x)); }
 
   /* ----- Poster Archive ("phone - Poster Archive" 531:340): one poster under another ----- */
-  .project--posters { height: calc(7839 * var(--x)); } /* "Let's Collab" at 7836 */
+  .project--posters { height: calc(7755 * var(--x)); } /* "Let's Collab" at 7752 */
   /* The frame's tags start four empty lines under 32 */
   .project--posters .project__tags { top: calc(32 * var(--x) + 4 * var(--body-line-height) * 1em); width: 323px; }
   .project--posters .project__track--about { top: calc(168 * var(--x)); width: 370px; }
-  .project--posters :is(.project__prev, .project__next) { top: calc(7772 * var(--x)); }
+  .project--posters :is(.project__prev, .project__next) { top: calc(7688 * var(--x)); }
 
   .project__media--casiopea { top: calc(258 * var(--x)); left: calc(67 * var(--x)); width: calc(269 * var(--x)); height: calc(385 * var(--x)); }
   .project__media--book-launch { top: calc(663 * var(--x)); }
@@ -2663,17 +2663,17 @@ nav,
   .project__media--medusa { top: calc(1896 * var(--x)); }
   .project__media--bat { top: calc(2404 * var(--x)); }
   .project__media--malaria { top: calc(2908 * var(--x)); }
-  /* The two handmade posters apart, 21px like the others (in the frame the first reaches 12px over the second);
-     everything under them moves down by the same 33px */
-  .project__media--photo-1 { top: calc(3416 * var(--x)); left: calc(47 * var(--x)); width: calc(308 * var(--x)); height: calc(410 * var(--x)); }
-  .project__media--photo-2 { top: calc(3847 * var(--x)); left: calc(80 * var(--x)); width: calc(264 * var(--x)); height: calc(352 * var(--x)); }
-  .project__media--wrench { top: calc(4220 * var(--x)); }
-  .project__media--infinity { top: calc(4627 * var(--x)); }
+  /* The two handmade posters 11% smaller than in the frame (the first as wide as the other posters), each on its
+     own centre, 21px apart like the others; everything under them moves up by what that saves (84px) */
+  .project__media--photo-1 { top: calc(3416 * var(--x)); left: calc(64 * var(--x)); width: calc(274 * var(--x)); height: calc(365 * var(--x)); }
+  .project__media--photo-2 { top: calc(3802 * var(--x)); left: calc(94.5 * var(--x)); width: calc(235 * var(--x)); height: calc(313 * var(--x)); }
+  .project__media--wrench { top: calc(4136 * var(--x)); }
+  .project__media--infinity { top: calc(4543 * var(--x)); }
   .project__media--stamp { display: none; } /* not in the frame */
-  .project__media--strangest { top: calc(5030 * var(--x)); }
-  .project__media--transformation { top: calc(5534 * var(--x)); }
-  .project__media--night { top: calc(6232 * var(--x)); }
-  .project__media--event { top: calc(6934 * var(--x)); }
+  .project__media--strangest { top: calc(4946 * var(--x)); }
+  .project__media--transformation { top: calc(5450 * var(--x)); }
+  .project__media--night { top: calc(6148 * var(--x)); }
+  .project__media--event { top: calc(6850 * var(--x)); }
 
   .project__media--book-launch,
   .project__media--all-nighter,

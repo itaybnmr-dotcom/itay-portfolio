@@ -51,6 +51,7 @@
      so the page can scale them with the width: calc(var(--size-title) * var(--x)) */
   --size-caption: 14px;
   --size-body: 16px;
+  --size-body-phone: 18px; /* the project pages' texts in the phone frames */
   --size-subtitle: 65;
   --size-title: 108;
 
@@ -814,7 +815,7 @@ nav,
 
 .intro .hero__spark { --n: 2; }
 /* About page: its text hides until about.js splits it, and the globe writes in like the home page's spark */
-.intro .about-story__text:not(.is-split) {
+.intro :is(.about-story__text, .about-story__phone):not(.is-split) {
   visibility: hidden;
 }
 .intro .about-story__globe { --n: 2; }
@@ -1578,14 +1579,16 @@ nav,
     line-height: calc(54.05 * var(--p));
   }
 
-  .hero__phone-line {
+  .hero__phone-line,
+  .about-story__line {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     white-space: pre;
   }
 
-  .hero__phone-line.is-center {
+  .hero__phone-line.is-center,
+  .about-story__line.is-center {
     justify-content: center;
   }
 
@@ -2414,7 +2417,7 @@ nav,
   display: none;
 }
 
-/* "← Prev Project": only in the phone frame (Reach) */
+/* "← Prev Project": only in the phone frames */
 .project__prev {
   display: none;
 }
@@ -2475,19 +2478,25 @@ nav,
     left: calc(12 * var(--x));
   }
 
-  /* The phone frame has no spot for it yet: the line under the tags */
-  .project__visit {
-    top: calc(112 * var(--x) + 2 * 1.15em);
+  /* "← Prev Project" on the left and "Next Project →" on the right, 34px on 402, like the frames */
+  .project__prev,
+  .project__next {
+    font-size: calc(34 * var(--x));
+    white-space: nowrap;
+  }
+
+  .project__prev {
+    display: block;
     left: calc(12 * var(--x));
   }
 
-  /* "Next Project →" in the middle, 34px on 402 */
   .project__next {
-    left: 50%;
-    right: auto;
-    translate: -50% 0;
-    font-size: calc(34 * var(--x));
-    white-space: nowrap; /* from the middle there's only half the screen to its right: it mustn't wrap */
+    right: calc(12 * var(--x));
+  }
+
+  /* The texts of the four newer frames are 18px (Reach's keep their own sizes below) */
+  :is(.project--museum, .project--record, .project--haven, .project--posters) :is(.project__tags, .project__track) {
+    font-size: var(--size-body-phone);
   }
 
   /* ----- Reach ("phone - Reach" 460:29) ----- */
@@ -2560,64 +2569,48 @@ nav,
   .project__board--holds { top: calc(2919 * var(--x)); height: calc(245 * var(--x)); }
   .project__holds { top: calc(2940 * var(--x)); left: calc(41 * var(--x)); width: calc(323 * var(--x)); height: calc(203 * var(--x)); }
 
-  .project__next { top: calc(3215 * var(--x)); }
+  .project--reach :is(.project__prev, .project__next) { top: calc(3215 * var(--x)); }
 
-  /* "← Prev Project" on the left and "Next Project →" on the right, like the frame */
-  .project--reach .project__prev {
-    display: block;
-    top: calc(3215 * var(--x));
-    left: calc(12 * var(--x));
-    font-size: calc(34 * var(--x));
-    white-space: nowrap;
-  }
+  /* ----- Israel Museum Index ("phone - israel museum index" 460:133) ----- */
+  .project--museum { height: calc(3414 * var(--x)); } /* "Let's Collab" at 3411 */
+  .project--museum .project__tags { top: calc(106 * var(--x)); width: 342px; }
+  /* The frame has no "Visit the site": the tags take three lines down to the showreel */
+  .project--museum .project__visit { display: none; }
+  .project--museum .project__site { top: calc(182 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(228 * var(--x)); object-fit: cover; }
+  .project--museum .project__track--about { top: calc(425 * var(--x)); width: 361px; }
+  .project--museum .project__track--research { top: calc(565 * var(--x)); left: calc(12 * var(--x)); width: 384px; }
+  .project__clip--artwork { top: calc(746 * var(--x)); left: calc(16 * var(--x)); width: calc(371 * var(--x)); }
+  .project__clip--index { top: calc(981 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
+  .project__clip--hover { top: calc(1217 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
 
-  .project--reach .project__next {
-    left: auto;
-    right: calc(12 * var(--x));
-    translate: none;
-  }
+  .project--museum .project__subtitle { top: calc(1479 * var(--x)); }
+  .project--museum .project__track--graphic { top: calc(1536 * var(--x)); left: calc(15 * var(--x)); width: 381px; }
 
-  /* ----- Israel Museum Index ----- */
-  .project--museum { height: calc(3398 * var(--x)); }
-  .project--museum .project__track--about { top: calc(185 * var(--x)); width: 333px; }
-
-  .project--museum .project__site { top: calc(343 * var(--x)); left: calc(16 * var(--x)); width: calc(371 * var(--x)); height: calc(228 * var(--x)); object-fit: cover; }
-  .project__clip--artwork { top: calc(580 * var(--x)); left: calc(16 * var(--x)); width: calc(371 * var(--x)); }
-  .project__clip--index { top: calc(815 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
-  .project--museum .project__track--research { top: calc(1071 * var(--x)); left: calc(12 * var(--x)); width: 346px; }
-  .project__clip--hover { top: calc(1226 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
-
-  .project--museum .project__subtitle { top: calc(1487 * var(--x)); }
-  .project--museum .project__track--graphic { top: calc(1540 * var(--x)); left: calc(15 * var(--x)); width: 351px; }
-
-  .project__board--m1 { top: calc(1691 * var(--x)); left: calc(17 * var(--x)); width: calc(368 * var(--x)); height: calc(255 * var(--x)); }
-  .project__board--m2 { top: calc(1955 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
-  .project__board--m3 { top: calc(2220 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(255 * var(--x)); }
-  .project__board--m4 { top: calc(2484 * var(--x)); left: calc(17 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
-  .project__board--m5 { top: calc(2749 * var(--x)); left: calc(18 * var(--x)); width: calc(370 * var(--x)); height: calc(256 * var(--x)); }
-  .project__board--m6 { top: calc(3014 * var(--x)); left: calc(18 * var(--x)); width: calc(369 * var(--x)); height: calc(255 * var(--x)); }
+  .project__board--museum { left: calc(15 * var(--x)); width: calc(372 * var(--x)); }
+  .project__board--m1 { top: calc(1699 * var(--x)); height: calc(256 * var(--x)); }
+  .project__board--m2 { top: calc(1965 * var(--x)); height: calc(256 * var(--x)); }
+  .project__board--m3 { top: calc(2230 * var(--x)); height: calc(255 * var(--x)); }
+  .project__board--m4 { top: calc(2494 * var(--x)); height: calc(257 * var(--x)); }
+  .project__board--m5 { top: calc(2758 * var(--x)); height: calc(257 * var(--x)); }
+  .project__board--m6 { top: calc(3024 * var(--x)); height: calc(256 * var(--x)); }
 
   .project__shot { height: auto; }
-  .project__shot--m1 { top: calc(1725 * var(--x)); left: calc(34 * var(--x)); width: calc(334 * var(--x)); }
-  .project__shot--m2 { top: calc(1989 * var(--x)); left: calc(34 * var(--x)); width: calc(336 * var(--x)); }
-  .project__shot--m3 { top: calc(2255 * var(--x)); left: calc(35 * var(--x)); width: calc(334 * var(--x)); }
-  .project__shot--m4 { top: calc(2518 * var(--x)); left: calc(34 * var(--x)); width: calc(337 * var(--x)); }
-  .project__shot--m5 { top: calc(2780 * var(--x)); left: calc(36 * var(--x)); width: calc(334 * var(--x)); }
-  .project__shot--m6 { top: calc(3044 * var(--x)); left: calc(42 * var(--x)); width: calc(335 * var(--x)); }
+  .project__shot--m1 { top: calc(1727 * var(--x)); left: calc(29 * var(--x)); width: calc(344 * var(--x)); }
+  .project__shot--m2 { top: calc(1993 * var(--x)); left: calc(30 * var(--x)); width: calc(342 * var(--x)); }
+  .project__shot--m3 { top: calc(2258 * var(--x)); left: calc(29 * var(--x)); width: calc(344 * var(--x)); }
+  .project__shot--m4 { top: calc(2522 * var(--x)); left: calc(30 * var(--x)); width: calc(342 * var(--x)); }
+  .project__shot--m5 { top: calc(2786 * var(--x)); left: calc(29 * var(--x)); width: calc(342 * var(--x)); }
+  .project__shot--m6 { top: calc(3052 * var(--x)); left: calc(28 * var(--x)); width: calc(342 * var(--x)); }
 
-  .project--museum .project__next { top: calc(3278 * var(--x)); }
+  .project--museum :is(.project__prev, .project__next) { top: calc(3340 * var(--x)); }
 
-  /* ----- Record Day ----- */
-  .project--record { height: calc(4131 * var(--x)); }
-  .project--record .project__title { top: calc(43 * var(--x)); }
-  .project--record .project__tags { top: calc(112 * var(--x)); width: 322px; }
-  .project--record .project__track--about { top: calc(175 * var(--x)); width: 342px; }
-  .project--record .project__track--research { top: calc(567 * var(--x)); left: calc(15 * var(--x)); width: 338px; }
-  .project--record .project__subtitle { top: calc(2826 * var(--x)); left: calc(12 * var(--x)); }
-  .project--record .project__track--graphic { top: calc(2879 * var(--x)); left: calc(15 * var(--x)); width: 351px; }
-  .project--record .project__next { top: calc(4023 * var(--x)); }
+  /* ----- Record Day ("phone - Record Day" 477:339) ----- */
+  .project--record { height: calc(4124 * var(--x)); } /* "Let's Collab" at 4121 */
+  .project--record .project__tags { top: calc(112 * var(--x)); width: 361px; }
+  .project__media--train { top: calc(172 * var(--x)); left: calc(-21 * var(--x)); width: calc(435 * var(--x)); height: calc(250 * var(--x)); }
+  .project--record .project__track--about { top: calc(438 * var(--x)); width: 355px; }
+  .project--record .project__track--research { top: calc(567 * var(--x)); left: calc(15 * var(--x)); width: 365px; }
 
-  .project__media--train { top: calc(293 * var(--x)); left: calc(-21 * var(--x)); width: calc(435 * var(--x)); height: calc(250 * var(--x)); }
   .project__media--stories { top: calc(808 * var(--x)); }
   .project__media--bus { top: calc(1375 * var(--x)); }
   .project__media--schedule { top: calc(1942 * var(--x)); }
@@ -2631,52 +2624,56 @@ nav,
   }
 
   .project__media--screens { top: calc(2519 * var(--x)); left: calc(-11 * var(--x)); width: calc(428 * var(--x)); height: calc(246 * var(--x)); }
-  .project__media--lines { top: calc(3170 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(372 * var(--x)); }
-  .project__media--name { top: calc(3554 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(465 * var(--x)); }
+  .project--record .project__subtitle { top: calc(2798 * var(--x)); left: calc(12 * var(--x)); }
+  /* 16px here, like the frame */
+  .project--record .project__track--graphic { top: calc(2851 * var(--x)); left: calc(15 * var(--x)); width: 351px; font-size: var(--size-body); }
+  .project__media--lines { top: calc(3121 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(372 * var(--x)); }
+  .project__media--name { top: calc(3507 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(465 * var(--x)); }
 
-  /* ----- HAVEN ("phone - HAVEN") ----- */
-  .project--haven { height: calc(2947 * var(--x)); }
-  .project--haven .project__title { top: calc(43 * var(--x)); }
-  .project--haven .project__tags { top: calc(112 * var(--x)); width: 322px; }
-  .project--haven .project__track--about { top: calc(175 * var(--x)); width: 342px; }
-  .project--haven .project__track--research { top: calc(606 * var(--x)); left: calc(15 * var(--x)); width: 338px; }
-  .project--haven .project__track--graphic { top: calc(1417 * var(--x)); left: calc(15 * var(--x)); width: 357px; }
-  .project--haven .project__next { top: calc(2846 * var(--x)); }
+  .project--record :is(.project__prev, .project__next) { top: calc(4050 * var(--x)); }
 
-  .project__media--flow { top: calc(316 * var(--x)); left: calc(12 * var(--x)); width: calc(372 * var(--x)); height: calc(265 * var(--x)); }
-  .project__media--onboarding { top: calc(786 * var(--x)); left: calc(16 * var(--x)); width: calc(370 * var(--x)); height: calc(263 * var(--x)); }
-  .project__media--popup { top: calc(1061 * var(--x)); left: calc(45 * var(--x)); width: calc(312 * var(--x)); height: calc(303 * var(--x)); }
-  .project__media--pattern { top: calc(1612 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(265 * var(--x)); }
-  .project__media--mars { top: calc(1891 * var(--x)); left: calc(16 * var(--x)); width: calc(370 * var(--x)); height: calc(263 * var(--x)); }
-  .project__media--logo { top: calc(2169 * var(--x)); left: calc(13 * var(--x)); width: calc(375 * var(--x)); height: calc(211 * var(--x)); }
-  .project__media--mobile { top: calc(2395 * var(--x)); left: calc(112 * var(--x)); width: calc(177 * var(--x)); height: calc(385 * var(--x)); }
+  /* ----- HAVEN ("phone - HAVEN" 531:284) ----- */
+  .project--haven { height: calc(3074 * var(--x)); } /* "Let's Collab" at 3071 */
+  /* The frame's tags start three empty lines under 56 */
+  .project--haven .project__tags { top: calc(56 * var(--x) + 3 * var(--body-line-height) * 1em); width: 361px; }
+  .project__media--flow { top: calc(174 * var(--x)); left: calc(12 * var(--x)); width: calc(372 * var(--x)); height: calc(265 * var(--x)); }
+  .project--haven .project__track--about { top: calc(461 * var(--x)); width: 361px; }
+  .project--haven .project__track--research { top: calc(606 * var(--x)); left: calc(15 * var(--x)); width: 376px; }
+  .project__media--onboarding { top: calc(811 * var(--x)); left: calc(16 * var(--x)); width: calc(370 * var(--x)); height: calc(263 * var(--x)); }
+  .project__media--popup { top: calc(1099 * var(--x)); left: calc(45 * var(--x)); width: calc(312 * var(--x)); height: calc(303 * var(--x)); }
+  .project--haven .project__track--graphic { top: calc(1422 * var(--x)); left: calc(15 * var(--x)); width: 339px; }
+  .project__media--pattern { top: calc(1656 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(265 * var(--x)); }
+  .project__media--mars { top: calc(1935 * var(--x)); left: calc(16 * var(--x)); width: calc(370 * var(--x)); height: calc(263 * var(--x)); }
+  .project__media--logo { top: calc(2212 * var(--x)); left: calc(13 * var(--x)); width: calc(375 * var(--x)); height: calc(211 * var(--x)); }
+  .project__media--mobile { top: calc(2452 * var(--x)); left: calc(97 * var(--x)); width: calc(207 * var(--x)); height: calc(450 * var(--x)); }
 
-  /* ----- Poster Archive ("phone - Poster Archive"): one poster under another ----- */
-  .project--posters { height: calc(7843 * var(--x)); }
-  .project--posters .project__title { top: calc(43 * var(--x)); }
-  .project--posters .project__tags { top: calc(43 * var(--x) + 4 * var(--body-line-height) * 1em); width: 207px; }
-  .project--posters .project__track--about { top: calc(175 * var(--x)); width: 336px; }
-  .project--posters .project__next { top: calc(7742 * var(--x)); }
+  .project--haven :is(.project__prev, .project__next) { top: calc(3000 * var(--x)); }
 
-  .project__media--casiopea { top: calc(293 * var(--x)); left: calc(67 * var(--x)); width: calc(269 * var(--x)); height: calc(385 * var(--x)); }
-  .project__media--book-launch { top: calc(698 * var(--x)); }
-  .project__media--all-nighter { top: calc(1109 * var(--x)); }
-  .project__media--exhibition { top: calc(1520 * var(--x)); }
-  .project__media--medusa { top: calc(1931 * var(--x)); }
-  .project__media--bat { top: calc(2439 * var(--x)); }
-  .project__media--malaria { top: calc(2943 * var(--x)); }
-  .project__media--photo-1 { top: calc(3451 * var(--x)); left: calc(47 * var(--x)); width: calc(308 * var(--x)); height: calc(410 * var(--x)); }
-  .project__media--photo-2 { top: calc(3849 * var(--x)); left: calc(80 * var(--x)); width: calc(264 * var(--x)); height: calc(352 * var(--x)); }
-  .project__media--wrench { top: calc(4222 * var(--x)); }
-  .project__media--infinity { top: calc(4629 * var(--x)); }
-  .project__media--stamp { top: calc(4504 * var(--x)); width: calc(66 * var(--x)); height: calc(89 * var(--x)); }
-  .project__media--stamp-eye { left: calc(83 * var(--x)); }
-  .project__media--stamp-tooth { left: calc(168 * var(--x)); }
-  .project__media--stamp-tongue { left: calc(253 * var(--x)); }
-  .project__media--strangest { top: calc(5032 * var(--x)); }
-  .project__media--transformation { top: calc(5536 * var(--x)); }
-  .project__media--night { top: calc(6234 * var(--x)); }
-  .project__media--event { top: calc(6936 * var(--x)); }
+  /* ----- Poster Archive ("phone - Poster Archive" 531:340): one poster under another ----- */
+  .project--posters { height: calc(7839 * var(--x)); } /* "Let's Collab" at 7836 */
+  /* The frame's tags start four empty lines under 32 */
+  .project--posters .project__tags { top: calc(32 * var(--x) + 4 * var(--body-line-height) * 1em); width: 323px; }
+  .project--posters .project__track--about { top: calc(168 * var(--x)); width: 370px; }
+  .project--posters :is(.project__prev, .project__next) { top: calc(7772 * var(--x)); }
+
+  .project__media--casiopea { top: calc(258 * var(--x)); left: calc(67 * var(--x)); width: calc(269 * var(--x)); height: calc(385 * var(--x)); }
+  .project__media--book-launch { top: calc(663 * var(--x)); }
+  .project__media--all-nighter { top: calc(1074 * var(--x)); }
+  .project__media--exhibition { top: calc(1485 * var(--x)); }
+  .project__media--medusa { top: calc(1896 * var(--x)); }
+  .project__media--bat { top: calc(2404 * var(--x)); }
+  .project__media--malaria { top: calc(2908 * var(--x)); }
+  /* The two handmade posters apart, 21px like the others (in the frame the first reaches 12px over the second);
+     everything under them moves down by the same 33px */
+  .project__media--photo-1 { top: calc(3416 * var(--x)); left: calc(47 * var(--x)); width: calc(308 * var(--x)); height: calc(410 * var(--x)); }
+  .project__media--photo-2 { top: calc(3847 * var(--x)); left: calc(80 * var(--x)); width: calc(264 * var(--x)); height: calc(352 * var(--x)); }
+  .project__media--wrench { top: calc(4220 * var(--x)); }
+  .project__media--infinity { top: calc(4627 * var(--x)); }
+  .project__media--stamp { display: none; } /* not in the frame */
+  .project__media--strangest { top: calc(5030 * var(--x)); }
+  .project__media--transformation { top: calc(5534 * var(--x)); }
+  .project__media--night { top: calc(6232 * var(--x)); }
+  .project__media--event { top: calc(6934 * var(--x)); }
 
   .project__media--book-launch,
   .project__media--all-nighter,
@@ -2876,8 +2873,14 @@ video::-webkit-media-controls {
 }
 
 /* In the text the bold words, and the periods after them, are 88 against the text's 90 in Figma */
-.about-story__text :is(b, .about-story__dot) {
+.about-story__text :is(b, .about-story__dot),
+.about-story__phone :is(b, .about-story__dot) {
   font-size: calc(88em / 90);
+}
+
+/* Only phones show their own text */
+.about-story__phone {
+  display: none;
 }
 
 .about-story__globe {
@@ -2974,3 +2977,48 @@ video::-webkit-media-controls {
   }
 }
 
+
+/* ===== About on phones ("phone - HAVEN" 666:249, the About phone frame, 402px wide) =====
+   --p = 1px of the frame. The text is set line by line like the home page's phone headline
+   (.about-story__line shares .hero__phone-line's rule): Reckless 52.5px, the bold words and their
+   periods at 88/90 of it, 85/90 of it apart. The globe under it, then the footer at Figma's 681.
+   The frame has no "And most importantly I am..." or "Open to work" */
+@media (max-width: 700px) {
+  .about-story {
+    --p: calc(100vw / 402);
+    height: calc(684 * var(--p)); /* "Let's Collab" at 681 */
+  }
+
+  /* The computer's text stays for screen readers only; the phone's own shows instead */
+  .about-story__text {
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .about-story__rise,
+  .about-story__strip {
+    display: none;
+  }
+
+  .about-story__phone {
+    display: block;
+    top: calc(119 * var(--p));
+    left: calc(15 * var(--p));
+    width: calc(372 * var(--p));
+    font-family: var(--title-font-family);
+    font-size: calc(52.5 * var(--p));
+    font-weight: var(--title-font-weight);
+    letter-spacing: var(--title-letter-spacing);
+    line-height: calc(52.5 * 85 / 90 * var(--p));
+  }
+
+  /* The globe's ellipse at 165.5, 542, 70.5 wide, with a 2px line (the SVG's box reaches 3 of its 109.5 units past it) */
+  .about-story__globe {
+    top: calc((542 - 3 * 70.5 / 109.5) * var(--p));
+    left: calc((165.5 - 3 * 70.5 / 109.5) * var(--p));
+    width: calc(115.5 * 70.5 / 109.5 * var(--p));
+    stroke-width: calc(2 * 109.5 / 70.5);
+  }
+}

@@ -29,6 +29,17 @@ function splitWords(element) {
 splitWords(text);
 text.classList.add("is-split");
 
+// Phones: their own text (about.html), set line by line; each word rises with the rest, like the home page's
+const phoneText = document.querySelector(".about-story__phone");
+phoneText.querySelectorAll(".w").forEach((word) => {
+  const inner = document.createElement("span");
+  inner.append(...word.childNodes);
+  inner.style.setProperty("--d", "var(--rest)");
+  word.classList.add("intro__word");
+  word.append(inner);
+});
+phoneText.classList.add("is-split");
+
 const page = document.documentElement;
 // about.html decides whether it plays (adding .intro); a page prepared in the background decides once
 // it's shown, so this waits for that too (about.html's listener runs first, it was added first)

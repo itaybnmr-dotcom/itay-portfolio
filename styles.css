@@ -694,7 +694,7 @@ nav,
   margin: 0 auto 0 calc(54 * var(--x));
 }
 
-/* Only phones show the drawn headline */
+/* Only phones show their own headline */
 .hero__phone-statement {
   display: none;
 }
@@ -807,14 +807,9 @@ nav,
   animation: none;
 }
 
-/* On phones the drawn headline takes the live one's place: its words rise into their lines' windows
-   at the live words' moments (home.js copies each word's --d; --drop is its window's height) */
-.intro .hero__phone-statement path {
-  animation: drawn-word-rise 0.9s var(--ease) var(--d) both;
-}
-
-@keyframes drawn-word-rise {
-  from { transform: translateY(calc(var(--drop) * 1px)); }
+/* The phone's headline too stays hidden until home.js has given its words their windows */
+.intro .hero__phone-statement:not(.is-split) {
+  visibility: hidden;
 }
 
 .intro .hero__spark { --n: 2; }
@@ -884,7 +879,7 @@ nav,
   will-change: transform;
 }
 
-/* The footer's "Works" glides up to the cards instead of jumping */
+/* "Works" under the headline scrolls down to the works instead of jumping */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -1399,17 +1394,88 @@ nav,
   }
 }
 
-/* ===== Works as a grid of five (computers), from Figma ("Home screen" 302:132) =====
-   Each tile sits where Figma puts it: the numbers are Figma px, counted from the top of the grid (Figma's 872)
-   and from the frame's left. --board is the color behind the video (none for the two without one);
-   the video sits --vx/--vy into it, --vw x --vh. The label's columns are Figma's gaps between
-   no. / name / year / tags; hovering the tile draws the line under the label's words. Phones keep the rows */
-.tiles {
+/* ===== Works as tiles, from Figma: computers "Home screen" 302:132, phones "phone - home screen" 353:2 =====
+   Each tile sits where its frame puts it: --top is Figma px counted from the first tile's top, --left from the
+   frame's left, all times --u (1px of the 1440px frame on a computer, of the 402px one on a phone).
+   --board is the color behind the video (none for the ones without one); the video sits --vx/--vy into it,
+   --vw x --vh. The label is "no. 1 Reach (2026)" and the tags, in --cols; hovering a tile draws a line
+   under each line of its label. The old rows (.works) are no longer shown */
+.works {
   display: none;
 }
 
 .works-area {
+  --u: var(--x);
+  position: absolute;
+  left: 0;
+  right: 0;
   scroll-margin-top: var(--space-l);
+}
+
+.tile {
+  position: absolute;
+  top: calc(var(--top) * var(--u));
+  left: calc(var(--left) * var(--u));
+  width: calc(var(--w) * var(--u));
+  color: inherit;
+  text-decoration: none;
+}
+
+.tile__media {
+  position: relative;
+  display: block;
+  height: calc(var(--h) * var(--u));
+  background: var(--board, none);
+}
+
+.tile__media video {
+  position: absolute;
+  top: calc(var(--vy, 0) * var(--u));
+  left: calc(var(--vx, 0) * var(--u));
+  width: calc(var(--vw) * var(--u));
+  height: calc(var(--vh) * var(--u));
+  object-fit: cover;
+}
+
+.tile__label {
+  display: grid;
+  width: fit-content;
+  grid-template-columns: var(--cols);
+  align-items: baseline;
+  margin-top: calc(var(--gap) * var(--u));
+  font-family: var(--body-font-family);
+  font-size: calc(16 * var(--u));
+  font-weight: var(--body-font-weight);
+  letter-spacing: var(--body-letter-spacing);
+  white-space: nowrap; /* on a computer the year stays on the name's line (its line break counts as a space) */
+}
+
+/* "no." in Reckless, a little bigger, like in Figma */
+.tile__no {
+  font-family: var(--subtitle-font-family);
+  font-size: calc(18 * var(--u));
+  font-weight: var(--subtitle-font-weight);
+}
+
+/* Hovering a tile draws a line under each line of its label: "no. 1 Reach (2026)" as one, and the tags
+   (each of their lines, where they break), not under each word */
+.tile:is(:hover, :focus-visible) .link-line {
+  background-size: 100% var(--line-thickness);
+  background-position-x: 0;
+}
+
+/* Touch screens: a tap on a work just opens it, nothing marks it (no gray flash, no line, no negative) */
+.tile {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) {
+  .tile:is(:hover, :focus-visible, :active) .link-line,
+  .tile .link-line:active {
+    background-size: 0% var(--line-thickness);
+    background-color: transparent;
+    color: inherit;
+  }
 }
 
 @media (min-width: 701px) {
@@ -1417,71 +1483,8 @@ nav,
     height: calc(2406 * var(--x)); /* the footer's bio starts 2466px down in Figma; everything here sits 60px higher */
   }
 
-  .works {
-    display: none;
-  }
-
   .works-area {
-    position: absolute;
     top: calc(776.29 * var(--x)); /* Figma's 836.29 (Reach's board), the page sitting 60px higher */
-    left: 0;
-    right: 0;
-  }
-
-  .tiles {
-    display: block;
-  }
-
-  .tile {
-    position: absolute;
-    top: calc(var(--top) * var(--x));
-    left: calc(var(--left) * var(--x));
-    width: calc(var(--w) * var(--x));
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .tile__media {
-    position: relative;
-    display: block;
-    height: calc(var(--h) * var(--x));
-    background: var(--board, none);
-  }
-
-  .tile__media video {
-    position: absolute;
-    top: calc(var(--vy, 0) * var(--x));
-    left: calc(var(--vx, 0) * var(--x));
-    width: calc(var(--vw) * var(--x));
-    height: calc(var(--vh) * var(--x));
-    object-fit: cover;
-  }
-
-  .tile__label {
-    display: grid;
-    width: fit-content;
-    grid-template-columns: var(--cols);
-    align-items: baseline;
-    margin-top: calc(var(--gap) * var(--x));
-    font-family: var(--body-font-family);
-    font-size: calc(16 * var(--x));
-    font-weight: var(--body-font-weight);
-    letter-spacing: var(--body-letter-spacing);
-    white-space: nowrap;
-  }
-
-  /* "no." in Reckless, a little bigger, like in Figma */
-  .tile__no {
-    font-family: var(--subtitle-font-family);
-    font-size: calc(18 * var(--x));
-    font-weight: var(--subtitle-font-weight);
-  }
-
-  /* Hovering a tile draws a line under each line of its label: "no. 1 Reach (2026)" as one, and the tags
-     (each of their lines, where they break), not under each word */
-  .tile:is(:hover, :focus-visible) .link-line {
-    background-size: 100% var(--line-thickness);
-    background-position-x: 0;
   }
 
   .tile--reach {
@@ -1540,24 +1543,19 @@ nav,
   }
 }
 
-/* ===== Phones: the home page from the Figma phone frame ("iPhone 16 & 17 Pro - 1", 402px wide) =====
-   Like the computer, everything scales with the width: --p = 1px of the 402px frame.
-   The headline is justified edge to edge, broken where Figma breaks it, with the spark
-   in the third line (home.js puts the breaks and the spark in); the card is the computer's card,
-   scaled down to 378px */
+/* ===== Phones: the home page from the Figma phone frame ("phone - home screen" 353:2, 402px wide) =====
+   Everything scales with the width: --p = 1px of the 402px frame. The frame starts with the phone's status bar,
+   so everything sits 53px higher than in it (--down): the top bar's 64 is the page's 11.
+   The headline is set line by line (.hero__phone-statement), the spark in the gap between "across" and
+   "Interactive"; under them the note, "Works ↓" and the five works as tiles, one under the other */
 @media (max-width: 700px) {
-  /* "Works ↓" under the note, like on the computer */
-  .hero__works {
-    top: calc(535 * var(--p) + var(--down));
-    font-size: calc(28 * var(--p));
-  }
-
   .hero {
     --p: calc(100vw / 402);
-    --down: calc(-40 * var(--p)); /* with no place and time corner, the headline and everything under it sit higher than in the frame */
+    --down: calc(-53 * var(--p));
+    height: calc(2680 * var(--p)); /* down to the footer, so "Let's Collab" sits at Figma's 2730 */
   }
 
-  /* The live headline stays for screen readers only; the drawn one shows instead */
+  /* The live headline stays for screen readers only; the phone's own shows instead */
   .hero__statement {
     clip-path: inset(50%);
     width: 1px;
@@ -1565,84 +1563,126 @@ nav,
     overflow: hidden;
   }
 
-  /* Figma's paragraph as drawn, a little smaller and centred: --w wide, its top at --t */
+  /* One line per row, 372px wide: a full line runs edge to edge (its words spread), a short one is centered.
+     Reckless 57.5px, the name and Tel Aviv in Diatype at 56.235px (the computer's 88 to 90), 54.05px apart */
   .hero__phone-statement {
-    --w: calc(368 * var(--p));
-    --t: calc(139 * var(--p) + var(--down));
     display: block;
     position: absolute;
-    top: var(--t);
-    left: calc((100vw - var(--w)) / 2);
-    width: var(--w);
-    height: auto;
+    top: calc(122 * var(--p) + var(--down));
+    left: calc(15 * var(--p));
+    width: calc(372 * var(--p));
+    font-family: var(--title-font-family);
+    font-size: calc(57.5 * var(--p));
+    font-weight: var(--title-font-weight);
+    letter-spacing: var(--title-letter-spacing);
+    line-height: calc(54.05 * var(--p));
   }
 
-  /* The spark in its gap in the paragraph (126.6, 73.8 and 51px wide on the 386px drawing) */
+  .hero__phone-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    white-space: pre;
+  }
+
+  .hero__phone-line.is-center {
+    justify-content: center;
+  }
+
+  .hero__phone-statement b {
+    font-family: var(--body-font-family);
+    font-size: calc(56.235 * var(--p));
+    font-weight: var(--body-font-weight);
+  }
+
+  /* The spark in the gap between "across" and "Interactive" (44.35px wide, at 141 in the frame), 8px under
+     Figma's 407, down inside the line, as asked */
   .hero__spark {
-    --w: calc(368 * var(--p));
-    top: calc(139 * var(--p) + var(--down) + var(--w) * 73.8 / 386);
-    left: calc((100vw - var(--w)) / 2 + var(--w) * 126.6 / 386);
-    width: calc(var(--w) * 51 / 386);
+    top: calc(415 * var(--p) + var(--down));
+    left: calc(141 * var(--p));
+    width: calc(44.35 * var(--p));
   }
 
   .hero__note {
-    top: calc(436 * var(--p) + var(--down));
+    top: calc(649 * var(--p) + var(--down));
     left: calc(101 * var(--p));
     width: calc(200 * var(--p));
     font-size: calc(14 * var(--p));
     letter-spacing: -0.03em;
   }
 
-  /* The computer's index of rows, starting where the first screen ends, like on the computer: no. / name / year,
-     no tags. A tap opens a row (home.js), its card --card tall under the header, running left; a tap on the
-     open card goes to the case study */
-  .works {
-    --closed: calc(46 * var(--p));
-    --crack: var(--closed); /* no hover on a phone: a tapped row mustn't stay cracked open */
-    --sliver: var(--closed); /* the others stay readable while one is open */
-    --card: calc(300 * var(--p));
-    --open: calc(var(--closed) + var(--card) + 12 * var(--p));
-    --u: calc(var(--card) / 383);
-    margin: max(calc(600 * var(--p) + var(--down)), 100svh) 0 calc(64 * var(--p));
+  /* "Works ↓" under the note, centered (20px above Figma's 752, as asked) */
+  .hero__works {
+    top: calc(732 * var(--p) + var(--down));
+    font-size: calc(30 * var(--p));
   }
 
-  .work {
-    padding: 0 calc(12 * var(--p));
+  /* The works, one under the other, from Reach's board at 887 in the frame */
+  .works-area {
+    --u: var(--p);
+    top: calc(887 * var(--p) + var(--down));
   }
 
-  .work__track {
-    grid-template-columns: calc(44 * var(--p)) 1fr auto;
-    padding-block: calc(6 * var(--p));
+  /* The label runs the tile's width: "no. 1 Reach" over "(2026)" on the left, the tags on the right,
+     right-aligned in their Figma width (--cols), breaking where they have to */
+  .tile__label {
+    width: auto;
+    line-height: normal;
   }
 
-  .work__row {
-    font-size: calc(28 * var(--p));
+  .tile__label > :first-child {
+    white-space: pre-line;
   }
 
-  .work__track > :first-child {
-    font-size: calc(14 * var(--p));
+  .tile__label > :last-child {
+    justify-self: end;
+    white-space: normal;
+    text-align: right;
   }
 
-  .work__track b {
-    font-size: calc(22 * var(--p));
-  }
-
-  .work__track > :last-child {
+  /* Poster Archive's tags end at "Print" on the phone, like in its frame */
+  .tile__computer-only {
     display: none;
   }
 
-  .work__card {
-    top: var(--closed);
-    left: calc(12 * var(--p));
+  .tile--reach {
+    --left: 15; --top: 0; --w: 375.9; --h: 227.75;
+    --board: var(--color-accent);
+    --vx: 25.31; --vy: 11.96; --vw: 325.1; --vh: 203.94;
+    --gap: 2.95;
+    --cols: 1fr calc(180 * var(--p));
   }
 
-  /* No stickers on the rows */
-  .work__sticker {
-    display: none;
+  .tile--museum {
+    --left: 15; --top: 280.71; --w: 372.48; --h: 248.74;
+    --board: var(--color-board-museum);
+    --vx: 24.75; --vy: 25.38; --vw: 322.39; --vh: 197.95;
+    --gap: 3.25;
+    --cols: 1fr calc(172 * var(--p));
+  }
+
+  .tile--record {
+    /* Figma has the picture at 1423, over Israel Museum Index's label; here it sits 3px over its own label (1730.71) */
+    --left: 15; --top: 590.71; --w: 372; --h: 250;
+    --vw: 372; --vh: 250;
+    --gap: 3;
+    --cols: 1fr calc(185 * var(--p));
+  }
+
+  .tile--haven {
+    --left: 15; --top: 890.71; --w: 373; --h: 265;
+    --vw: 373; --vh: 265;
+    --gap: 2;
+    --cols: 1fr calc(141 * var(--p));
+  }
+
+  .tile--posters {
+    --left: 14; --top: 1202.71; --w: 374; --h: 468;
+    --vw: 374; --vh: 468;
+    --gap: 0;
+    --cols: 1fr calc(145 * var(--p));
   }
 }
-
-
 
 /* ===== Phones: the WIP page as a simple column ===== */
 @media (max-width: 700px) {
@@ -2067,7 +2107,8 @@ nav,
 }
 
 /* Anchored on the right, so the longer "Israel Museum Index" it rolls into grows to the left */
-.project__next {
+.project__next,
+.project__prev {
   z-index: 1; /* the top of the footer's Let's Collab box reaches over it */
   top: calc(3472 * var(--x));
   right: calc(15 * var(--x));
@@ -2373,6 +2414,11 @@ nav,
   display: none;
 }
 
+/* "← Prev Project": only in the phone frame (Reach) */
+.project__prev {
+  display: none;
+}
+
 /* ===== Phones: the project pages from their Figma phone frames, 402px wide
    ("phone - Reach", "phone - israel museum index", "phone - Record Day").
    Like on the computer, everything sits at its Figma spot: here --x is 1px of the 402px frame,
@@ -2387,6 +2433,11 @@ nav,
 
   .project__phone-only {
     display: block;
+  }
+
+  /* Words that are only in the phone frame, inside a line */
+  span.project__phone-only {
+    display: inline;
   }
 
   /* The title and the subtitle on one line each, 39px on 402 */
@@ -2439,12 +2490,16 @@ nav,
     white-space: nowrap; /* from the middle there's only half the screen to its right: it mustn't wrap */
   }
 
-  /* ----- Reach ----- */
+  /* ----- Reach ("phone - Reach" 460:29) ----- */
+  .project--reach { height: calc(3310 * var(--x)); } /* "Let's Collab" at 3307 */
   .project__tags { width: 296px; white-space: normal; }
-  .project__track--about { top: calc(173 * var(--x)); width: 340px; }
-  .project__board--site { top: calc(337 * var(--x)); left: calc(14 * var(--x)); width: calc(372 * var(--x)); height: calc(226 * var(--x)); }
-  .project__site { top: calc(349 * var(--x)); left: calc(39 * var(--x)); width: calc(323 * var(--x)); }
-  .project__track--research { top: calc(610 * var(--x)); left: calc(13 * var(--x)); width: 368px; }
+  /* The red board right under the tags, the description under it, 17px like in the frame */
+  .project__board--site { top: calc(169 * var(--x)); left: calc(14 * var(--x)); width: calc(372 * var(--x)); height: calc(226 * var(--x)); }
+  .project__site { top: calc(181 * var(--x)); left: calc(39 * var(--x)); width: calc(323 * var(--x)); }
+  .project--reach .project__track--about { top: calc(416 * var(--x)); width: 363px; font-size: 17px; }
+  .project--reach .project__collab { display: none; } /* on the phone it ends the course's line instead */
+  .project__track--research { top: calc(549 * var(--x)); left: calc(15 * var(--x)); width: 367px; }
+  .project--reach .project__track--research { font-size: 17px; }
 
   .project__app,
   .project__app--after {
@@ -2453,29 +2508,30 @@ nav,
     border-radius: calc(41 * var(--x));
   }
 
-  .project__app--before { top: calc(823 * var(--x)); height: calc(456 * var(--x)); }
-  .project__app--after { top: calc(1304 * var(--x)); height: calc(454 * var(--x)); }
+  .project__app--before { top: calc(792 * var(--x)); height: calc(456 * var(--x)); }
+  .project__app--after { top: calc(1273 * var(--x)); height: calc(454 * var(--x)); }
 
-  .project__subtitle { top: calc(1813 * var(--x)); }
-  .project__track--graphic { top: calc(1882 * var(--x)); left: calc(15 * var(--x)); width: 357px; }
+  .project__subtitle { top: calc(1770 * var(--x)); }
+  .project__track--graphic { top: calc(1839 * var(--x)); left: calc(15 * var(--x)); width: 378px; }
+  .project--reach .project__track--graphic { font-size: 18px; }
 
-  /* The logo drawing, scaled so its board is 362 wide (695 on the computer) */
+  /* The logo drawing, scaled so its board is 362 wide (695 on the computer); the board is the drawing's top */
   .project__logo-board {
-    top: calc(2024 * var(--x));
+    top: calc(1988 * var(--x));
     left: calc(14.7 * var(--x));
     width: calc(372.9 * var(--x));
   }
 
   /* The three app screens on the dark board, with its two route lines */
-  .project__board--dark { top: calc(2355 * var(--x)); left: calc(25.07 * var(--x)); width: calc(354.915 * var(--x)); height: calc(335.96 * var(--x)); }
+  .project__board--dark { top: calc(2315 * var(--x)); left: calc(25.07 * var(--x)); width: calc(354.915 * var(--x)); height: calc(335.96 * var(--x)); }
 
   .project__route > span {
     rotate: -170.04deg;
     transform: skewX(-0.9deg);
   }
 
-  .project__route--1 { top: calc(2463.05 * var(--x)); left: calc(20.11 * var(--x)); width: calc(361.858 * var(--x)); height: calc(94.022 * var(--x)); }
-  .project__route--2 { top: calc(2454.76 * var(--x)); left: calc(20 * var(--x)); width: calc(362 * var(--x)); height: calc(93.748 * var(--x)); }
+  .project__route--1 { top: calc(2423.05 * var(--x)); left: calc(20.11 * var(--x)); width: calc(361.858 * var(--x)); height: calc(94.022 * var(--x)); }
+  .project__route--2 { top: calc(2414.76 * var(--x)); left: calc(20 * var(--x)); width: calc(362 * var(--x)); height: calc(93.748 * var(--x)); }
   .project__route--1 > span { width: calc(361.254 * var(--x)); height: calc(32.112 * var(--x)); }
   .project__route--2 > span { width: calc(361.458 * var(--x)); height: calc(31.797 * var(--x)); }
   .project__route--1 img { top: -1.25%; height: 102.5%; }
@@ -2483,13 +2539,13 @@ nav,
 
   .project__phone,
   .project__phone--arm {
-    top: calc(2406 * var(--x));
+    top: calc(2366 * var(--x));
     width: calc(114.102 * var(--x));
     height: calc(234.963 * var(--x));
   }
 
   .project__phone--congrats { left: calc(32 * var(--x)); border-radius: calc(16 * var(--x)); }
-  .project__phone--timer { left: calc(148.05 * var(--x)); top: calc(2405.83 * var(--x)); border-radius: calc(17 * var(--x)); }
+  .project__phone--timer { left: calc(148.05 * var(--x)); top: calc(2365.83 * var(--x)); border-radius: calc(17 * var(--x)); }
   .project__phone--arm { left: calc(264 * var(--x)); width: calc(113.967 * var(--x)); height: calc(234.685 * var(--x)); border-radius: calc(15 * var(--x)); }
 
   /* Two red boards: the still landing page, and its holds section */
@@ -2499,12 +2555,27 @@ nav,
     width: calc(355 * var(--x));
   }
 
-  .project__board--still { top: calc(2708 * var(--x)); height: calc(244 * var(--x)); }
-  .project__still { top: calc(2727 * var(--x)); left: calc(43 * var(--x)); width: calc(320 * var(--x)); }
-  .project__board--holds { top: calc(2963 * var(--x)); height: calc(245 * var(--x)); }
-  .project__holds { top: calc(2984 * var(--x)); left: calc(41 * var(--x)); width: calc(323 * var(--x)); height: calc(203 * var(--x)); }
+  .project__board--still { top: calc(2664 * var(--x)); height: calc(244 * var(--x)); }
+  .project__still { top: calc(2683 * var(--x)); left: calc(43 * var(--x)); width: calc(320 * var(--x)); }
+  .project__board--holds { top: calc(2919 * var(--x)); height: calc(245 * var(--x)); }
+  .project__holds { top: calc(2940 * var(--x)); left: calc(41 * var(--x)); width: calc(323 * var(--x)); height: calc(203 * var(--x)); }
 
   .project__next { top: calc(3215 * var(--x)); }
+
+  /* "← Prev Project" on the left and "Next Project →" on the right, like the frame */
+  .project--reach .project__prev {
+    display: block;
+    top: calc(3215 * var(--x));
+    left: calc(12 * var(--x));
+    font-size: calc(34 * var(--x));
+    white-space: nowrap;
+  }
+
+  .project--reach .project__next {
+    left: auto;
+    right: calc(12 * var(--x));
+    translate: none;
+  }
 
   /* ----- Israel Museum Index ----- */
   .project--museum { height: calc(3398 * var(--x)); }
@@ -2705,7 +2776,7 @@ nav,
 /* Copyright and Works on the left, contact links on the right */
 .footer__bottom {
   display: grid;
-  grid-template-columns: 8.5% 1fr auto; /* "Works" starts 120px in, like in Figma */
+  grid-template-columns: 1fr auto; /* the copyright on the left, the links on the right (no "Works" here any more) */
   line-height: normal;
 }
 
@@ -2730,8 +2801,7 @@ nav,
   white-space: nowrap;
 }
 
-/* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 on the left,
-   and "Works" a third of the way across, like on the computer */
+/* Phones (the Figma phone frame): no bio, "Let's Collab" at 96px of 402 on the left */
 @media (max-width: 700px) {
   .footer {
     font-size: var(--size-caption);
@@ -2743,10 +2813,6 @@ nav,
 
   .footer__collab {
     font-size: calc(100vw * 96 / 402);
-  }
-
-  .footer__bottom {
-    grid-template-columns: calc(100vw / 3 - 15px) 1fr auto;
   }
 }
 

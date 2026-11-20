@@ -54,11 +54,17 @@ statement.querySelectorAll(".hero__line > span").forEach((part) => {
 });
 statement.classList.add("is-split");
 
-// Phones: the drawn headline's words take the same moments, in order ("Hi," "I'm" "Itay" "Ben" "Mayor,"
-// on their beats, the rest with the rest of the headline)
-document.querySelectorAll(".hero__phone-statement path").forEach((word, index) => {
-  word.style.setProperty("--d", index < BEATS.length ? `${START + BEATS[index]}ms` : "var(--rest)");
+// Phones: the phone headline's words rise the same way at the same moments, in order ("Hi," "I'm" "Itay"
+// "Ben" "Mayor," on their beats, the rest with the rest of the headline)
+const phoneStatement = document.querySelector(".hero__phone-statement");
+phoneStatement.querySelectorAll(".w").forEach((word, index) => {
+  const inner = document.createElement("span");
+  inner.append(...word.childNodes);
+  inner.style.setProperty("--d", index < BEATS.length ? `${START + BEATS[index]}ms` : "var(--rest)");
+  word.classList.add("intro__word");
+  word.append(inner);
 });
+phoneStatement.classList.add("is-split");
 
 
 // The note under the headline types itself in like code: one character after another,

@@ -83,7 +83,9 @@ function writeRing(textPath, word) {
 if (matchMedia("(hover: none)").matches) {
   document.fonts.ready.then(() => {
     document.querySelectorAll(".work__sticker textPath").forEach((textPath) => {
-      writeRing(textPath, textPath.closest("[data-cursor]").dataset.cursor);
+      // home.js takes data-cursor off the old rows on phones, so a sticker may have no word left: skip it
+      const word = textPath.closest("[data-cursor]")?.dataset.cursor;
+      if (word) writeRing(textPath, word);
     });
   });
 }
@@ -487,6 +489,8 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest('a[href^="#"]');
   const target = link && link.getAttribute("href").length > 1 && document.querySelector(link.getAttribute("href"));
   if (!target || event.metaKey || event.ctrlKey || event.shiftKey) return;
+  // Phones scroll there themselves: their own smooth scroll (styles.css, scroll-behavior) is smoother than any glide
+  if (matchMedia("(hover: none)").matches) return;
   event.preventDefault();
   if (target.closest("footer")) return glideTo(document.documentElement.scrollHeight);
   glideTo(scrollY + target.getBoundingClientRect().top - parseFloat(getComputedStyle(target).scrollMarginTop));

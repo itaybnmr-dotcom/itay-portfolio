@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Reach</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=146">
+  <link rel="stylesheet" href="styles.css?v=153">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.otf" as="font" type="font/otf" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.otf" as="font" type="font/otf" crossorigin>
   <!-- Chrome: prepares a page in the background as soon as its link is pointed at or touched, so it opens instantly -->
   <script type="speculationrules">{ "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }</script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=70" defer></script>
+  <script src="script.js?v=72" defer></script>
   <script src="reach.js?v=23" defer></script>
 </head>
 <body class="project-page">
@@ -29,7 +29,7 @@
   </header>
 
   <!-- Positions follow the 1440px-wide Figma frame ("עמוד פריט") -->
-  <main class="project">
+  <main class="project project--reach">
     <!-- The spaces spread the words across the page, like in Figma.
          Scrolling down, each word shrinks in its own spot into a small title at the top (reach.js) -->
     <!-- data-phone: the line as the phone frame spaces it (reach.js puts it in on phones) -->
@@ -39,7 +39,7 @@
          slide up under it and are cut off (reach.js). The track is how far the description sticks. -->
     <div class="project__track project__track--about">
       <p class="project__about">A climbing app for intermediate climbers that logs training sessions, pain, and builds you personalized workouts. </p>
-      <p class="project__course">       Course: Startup! Intro to ux/ui and Product Design, Third-year  (2026)  Mentor(s): Ben Lev, Ofir Gurevich</p>
+      <p class="project__course">       Course: Startup! Intro to ux/ui and Product Design, Third-year  (2026)  Mentor(s): Ben Lev, Ofir Gurevich<span class="project__phone-only">, In collaboration with: Or Sinalevich</span></p>
       <p class="project__collab">        In  collaboration with: Or Sinalevich</p>
     </div>
     <p class="project__tags">ux-ui / Product / Interactive / Branding<br>Designed and prototyped in Figma</p>
@@ -54,7 +54,8 @@
         <p>Bouldering has no established training methods. Climbers often plateau, get injured, or don’t know how to fit tools like the MoonBoard to progress. </p>
         <p>       Mid-session, hands are chalky and the phone sits aside, so we knew that during sessions, the flow needs a minimal amount of intervention from the user. We solved it with one-tap logging, voice guidance and a smart watch extension version. </p>
         <!-- Only in the phone frame -->
-        <p class="project__phone-only">       Our goal was to make Reach feel like a personal trainer who understands and feels the users.</p>
+        <p class="project__phone-only"> </p>
+        <p class="project__phone-only">Our goal was to make Reach feel like a personal trainer who understands and feels the users.</p>
       </div>
     </div>
     <video class="project__app project__app--before" src="IMG/Reach/web/reach-before.mp4" width="844" height="1738" muted loop playsinline preload="none" data-play aria-hidden="true"></video>
@@ -66,12 +67,13 @@
       <div class="project__text project__text--graphic">
         <p>Our brand-values were instinctive, responsive, grounded, minimal and calculated. </p>
         <p>      A material direction felt like fashion, so we moved to a minimal, calculated data language: typography, one color, vector holds, red on black.</p>
-        <p>Each route becomes a shareable abstraction.</p>
+        <p><span class="project__phone-only">      </span>Each route becomes a shareable abstraction.</p>
       </div>
     </div>
 
-    <!-- The logo on dark with its route lines (one drawing), and three app screens on dark with two more lines -->
-    <img class="project__logo-board" src="IMG/Reach/page/logo-board.svg" width="715.909" height="601" alt="reach">
+    <!-- The logo on dark with its route lines (one drawing: logo-board.svg, rendered once into a WebP with its noise,
+         since iPhone Safari computing the SVG's noise filter on the spot crashed the page), and three app screens on dark with two more lines -->
+    <img class="project__logo-board" src="IMG/Reach/page/logo-board.webp" width="715.909" height="601" alt="reach">
     <div class="project__board project__board--dark"></div>
     <span class="project__route project__route--1"><span><img src="IMG/Reach/page/route-dark-1.svg" width="703.784" height="58.4406" alt=""></span></span>
     <span class="project__route project__route--2"><span><img src="IMG/Reach/page/route-dark-2.svg" width="704.325" height="58.8756" alt=""></span></span>
@@ -88,6 +90,9 @@
     <div class="project__board project__board--holds"></div>
     <img class="project__holds" src="IMG/Reach/page/holds-page.webp" width="2400" height="1511" alt="The landing page's section: Less Planning. More Climbing." loading="lazy">
 
+    <!-- Phones: "← Prev Project" on the left, like the phone frame; the one before Reach is the last, Poster Archive -->
+    <a class="project__prev roll" href="posters.html" aria-label="Previous project: Poster Archive"><span class="roll__from">← Prev Project</span><span class="roll__to" aria-hidden="true">Poster Archive</span></a>
+
     <!-- On hover it rolls into the next project's name, like the name into "Works" -->
     <a class="project__next roll" href="israel-museum.html" aria-label="Next project: Israel Museum Index"><span class="roll__from">Next Project →</span><span class="roll__to" aria-hidden="true">Israel Museum Index</span></a>
   </main>
@@ -98,10 +103,9 @@
     <!-- Hovering a link under it rolls "Let's Collab" into that link's word, like the name into "Works" (script.js) -->
     <p class="footer__collab" aria-label="Let’s Collab"><span class="footer__word" aria-hidden="true">Let’s Collab</span></p>
 
-    <!-- Bottom row: copyright, works, contact links -->
+    <!-- Bottom row: copyright, contact links -->
     <div class="footer__bottom">
       <p><a class="link-line" href="index.html" data-collab="Home"><span class="footer__copyright">©</span>itay benma</a></p>
-      <p><a class="link-line" href="index.html#works" data-collab="Works">Works</a></p>
       <nav class="footer__links">
         <a class="link-line" href="mailto:itaybnmr@gmail.com" data-collab="Email">Email</a> /
         <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener" data-collab="Instagram">IG</a> /

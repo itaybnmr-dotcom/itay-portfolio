@@ -2426,16 +2426,11 @@ nav,
   display: none;
 }
 
-/* "← Previous Project" on the row of "Next Project →", from where it starts in each Figma frame
+/* "← Previous Project" on the row of "Next Project →", from where it starts in the Figma frames
    ("← Prev Project" on phones); anchored on the left, so the name it rolls into grows to the right */
 .project__prev {
   right: auto;
-  left: calc(640 * var(--x));
-}
-
-@media (min-width: 701px) {
-  .project--posters .project__prev { left: calc(638 * var(--x)); }
-  :is(.project--record, .project--haven) .project__prev { left: calc(671 * var(--x)); }
+  left: calc(491 * var(--x)); /* the same in every frame */
 }
 
 .project__prev-short {
@@ -3061,11 +3056,14 @@ video::-webkit-media-controls {
    --p = 1px of the frame. The text is set line by line like the home page's phone headline
    (.about-story__line shares .hero__phone-line's rule): Reckless 52.5px, the bold words and their
    periods at 88/90 of it, 85/90 of it apart. The globe under it, then the footer at Figma's 681.
-   The frame has no "And most importantly I am..." or "Open to work" */
+   The frame has no "And most importantly I am..." or "Open to work": they come under the globe like on
+   the computer, at the phone text's scale (52.5 of the computer's 90), before the frame's sections at 800.
+   The sections, the photo and the footer at their spots in the frame ("phone - about" 666:249);
+   the small text 18px with Figma's widths in px, like the project pages, so its lines break where they do in Figma */
 @media (max-width: 700px) {
   .about-story {
     --p: calc(100vw / 402);
-    height: calc(684 * var(--p)); /* "Let's Collab" at 681 */
+    height: calc(1749 * var(--p)); /* "Let's Collab" at 1746 */
   }
 
   /* The computer's text stays for screen readers only; the phone's own shows instead */
@@ -3076,11 +3074,52 @@ video::-webkit-media-controls {
     overflow: hidden;
   }
 
-  .about-story__rise,
-  .about-story__strip,
-  .about-story__more,
+  .about-story__more {
+    display: contents;
+  }
+
+  .about-story__more > * {
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+    font-size: var(--size-body-phone);
+    line-height: var(--body-line-height);
+    letter-spacing: var(--body-letter-spacing); /* of the 18px, not the computer's smaller text */
+  }
+
+  .about-story__label {
+    width: max-content;
+    line-height: calc(85 * var(--p)); /* the 85px row */
+  }
+
+  .about-story__more > :nth-child(1) { top: calc(800 * var(--p)); }                 /* Approach & Philosophy */
+  .about-story__more > :nth-child(2) { top: calc(898 * var(--p)); width: 359px; }
+  .about-story__more > :nth-child(3) { top: calc(1022 * var(--p)); width: 350px; }
+  .about-story__more > :nth-child(4) { top: calc(1203 * var(--p)); }                /* Capabilities */
+  .about-story__more > :nth-child(5) { top: calc(1301 * var(--p)); width: 401px; }
+  .about-story__more > :nth-child(6) { top: calc(1426 * var(--p)); }                /* Tools & Such */
+  .about-story__more > :nth-child(7) { top: calc(1519 * var(--p)); width: 372px; }
+
+  /* 274 × 407, turned 15°, its middle at 200.8, 1471.9 */
   .about-story__photo {
-    display: none;
+    width: calc(273.6 * var(--p));
+    height: calc(406.84 * var(--p));
+    left: calc(64 * var(--p));
+    top: calc(1268.5 * var(--p));
+  }
+
+  /* Under the globe (it ends at 589), 105 × 52.5/90 below it, like on the computer */
+  .about-story__rise,
+  .about-story__strip {
+    top: calc(650 * var(--p));
+    font-size: calc(52.5 * var(--p));
+    line-height: calc(52.5 * 85 / 90 * var(--p));
+  }
+
+  .about-story__rise {
+    left: 0;
+    width: 100%;
+    font-size: calc(17.5 * var(--p)); /* 30 × 52.5/90 */
   }
 
   .about-story__phone {

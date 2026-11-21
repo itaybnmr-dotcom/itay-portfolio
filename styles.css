@@ -2848,8 +2848,7 @@ video::-webkit-media-controls {
    "Open to work" takes the place of "And most importantly I am..." instead of a row of its own,
    so everything under it comes up by that row too (144px in Figma). Measured from the text's top (172), in Figma:
    the globe 410px down, the line 588px; the sections under the strip from 762px (1078 - 144 - 172),
-   the photo's middle 1095px (1411 - 144 - 172), the footer 1554px (1870 - 144 - 172); at 90% that's
-   369, 529.2, 685.8, 985.8 and 1398.6. */
+   the footer 1554px (1870 - 144 - 172); at 90% that's 369, 529.2, 685.8 and 1398.6. */
 .about-story {
   --x: calc(100vw / 1440);
   position: relative;
@@ -2957,12 +2956,12 @@ video::-webkit-media-controls {
   font-weight: var(--bold-font-weight);
 }
 
-/* The photo: 313 × 465 in Figma, turned 15°, its middle at 1135, 1411; under the text (it comes first in about.html) */
+/* The photo: 434 × 645 in Figma, turned 15°, its middle at 1123, 1485; under the text (it comes first in about.html) */
 .about-story__photo {
-  width: calc(281.7 * var(--x));
-  height: calc(418.8 * var(--x));
-  left: calc((1093.8 - 140.85) * var(--x)); /* the middle at 720 + 0.9 × (1135.4 - 720) */
-  top: calc((1065.8 - 209.4) * var(--x));   /* the middle at 80 + 985.8 */
+  width: calc(390.5 * var(--x));
+  height: calc(580.7 * var(--x));
+  left: calc((1082.8 - 195.25) * var(--x)); /* the middle at 720 + 0.9 × (1123.1 - 720) */
+  top: calc((1131.9 - 290.35) * var(--x));  /* the middle at 80 + 0.9 × (1484.8 - 316) */
   object-fit: cover;
   object-position: 71.4% 50%; /* Figma's crop: 8.39% of 11.75% cut on the left */
   rotate: 15deg;

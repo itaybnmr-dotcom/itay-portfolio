@@ -827,8 +827,10 @@ nav,
   visibility: hidden;
 }
 .intro .about-story__globe { --n: 2; }
-/* The About page can't be scrolled until its opening is over (about.js removes .intro) */
-.intro:has(.about-story) {
+/* The About page can't be scrolled until its opening is over and "Open to work" is in
+   (about.js removes .intro, then .is-holding) */
+.intro:has(.about-story),
+.is-holding {
   overflow: hidden;
 }
 /* On the About page the top of the footer shows from the start, so it writes in last too

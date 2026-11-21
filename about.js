@@ -141,14 +141,30 @@ riseText.split(" ").forEach((word, index) => {
 shown.then(() => {
   if (page.classList.contains("is-returning")) document.querySelector(".about-story").classList.add("is-settled");
 });
-introOver.then(() => !page.classList.contains("is-returning") && new IntersectionObserver(([entry], observer) => {
-  if (!entry.isIntersecting) return;
-  rise.classList.add("is-in");
-  observer.disconnect();
-  const words = rise.querySelectorAll(".about-story__word").length;
-  const risen = 900 + (words - 1) * 90; // the last word's delay plus its rise (styles.css)
-  setTimeout(() => {
-    rise.classList.add("is-out");
-    setTimeout(() => document.querySelector(".about-story__strip").classList.add("is-in"), 300);
-  }, risen + RISE_HOLD);
-}, { threshold: 1 }).observe(rise));
+// After the opening the page stays unscrollable (.is-holding, styles.css) until "Open to work" is in;
+// if the line isn't on screen then (a short window), it lets go right away
+let played = false;
+shown.then(() => { played = page.classList.contains("intro"); });
+introOver.then(() => {
+  if (page.classList.contains("is-returning")) return;
+  if (played) page.classList.add("is-holding");
+  let first = true;
+  new IntersectionObserver(([entry], observer) => {
+    if (!entry.isIntersecting) {
+      if (first) page.classList.remove("is-holding");
+      first = false;
+      return;
+    }
+    rise.classList.add("is-in");
+    observer.disconnect();
+    const words = rise.querySelectorAll(".about-story__word").length;
+    const risen = 900 + (words - 1) * 90; // the last word's delay plus its rise (styles.css)
+    setTimeout(() => {
+      rise.classList.add("is-out");
+      setTimeout(() => {
+        document.querySelector(".about-story__strip").classList.add("is-in");
+        page.classList.remove("is-holding");
+      }, 300);
+    }, risen + RISE_HOLD);
+  }, { threshold: 1 }).observe(rise);
+});

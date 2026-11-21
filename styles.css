@@ -20,6 +20,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "ABC Diatype";
+  src: url("fonts/ABCDiatype-Bold-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* ===== Design tokens: the variables and text styles of the Figma file, under the same names
    (Figma's "color/bg" is --color-bg here: a CSS name can't have a slash) ===== */
 :root {
@@ -70,6 +77,7 @@
   --body-font-weight: 500; /* Medium */
   --body-line-height: 1.15; /* 115% */
   --body-letter-spacing: -0.02em;
+  --bold-font-weight: 700; /* Bold: the labels in About's "Tools & Such" */
 
   --caption-font-family: "ABC Diatype", Helvetica, Arial, sans-serif;
   --caption-font-weight: 500; /* Medium */
@@ -2203,7 +2211,7 @@ nav,
 .project__shot--m5 { top: calc(3284 * var(--x)); left: calc(69 * var(--x)); }
 .project__shot--m6 { top: calc(3284 * var(--x)); left: calc(774 * var(--x)); }
 
-.project--museum .project__next {
+.project--museum :is(.project__prev, .project__next) {
   top: calc(3818 * var(--x));
 }
 
@@ -2239,7 +2247,7 @@ nav,
   width: 357px;
 }
 
-.project--record .project__next {
+.project--record :is(.project__prev, .project__next) {
   top: calc(4281 * var(--x));
 }
 
@@ -2283,7 +2291,7 @@ nav,
   width: 309px;
 }
 
-.project--haven .project__next {
+.project--haven :is(.project__prev, .project__next) {
   top: calc(3064 * var(--x));
 }
 
@@ -2365,7 +2373,7 @@ nav,
   transform: translateY(-100%);
 }
 
-.project--posters .project__next {
+.project--posters :is(.project__prev, .project__next) {
   top: calc(3266 * var(--x));
 }
 
@@ -2418,8 +2426,19 @@ nav,
   display: none;
 }
 
-/* "← Prev Project": only in the phone frames */
+/* "← Previous Project" on the row of "Next Project →", from where it starts in each Figma frame
+   ("← Prev Project" on phones); anchored on the left, so the name it rolls into grows to the right */
 .project__prev {
+  right: auto;
+  left: calc(640 * var(--x));
+}
+
+@media (min-width: 701px) {
+  .project--posters .project__prev { left: calc(638 * var(--x)); }
+  :is(.project--record, .project--haven) .project__prev { left: calc(671 * var(--x)); }
+}
+
+.project__prev-short {
   display: none;
 }
 
@@ -2487,8 +2506,15 @@ nav,
   }
 
   .project__prev {
-    display: block;
     left: calc(12 * var(--x));
+  }
+
+  .project__prev-long {
+    display: none;
+  }
+
+  .project__prev-short {
+    display: block;
   }
 
   .project__next {
@@ -2825,12 +2851,14 @@ video::-webkit-media-controls {
    Placed like the Figma frame "about": its numbers are px of the 1440px-wide frame, times --x.
    Everything is 90% of the Figma size, kept centered, and starts higher: the text at 80px.
    "Open to work" takes the place of "And most importantly I am..." instead of a row of its own,
-   so the footer comes up by that row too. Measured from the text's top, in Figma:
-   the globe 386px down, the line 564px, the footer 867px; at 90% that's 347, 508 and 780. */
+   so everything under it comes up by that row too (144px in Figma). Measured from the text's top (172), in Figma:
+   the globe 410px down, the line 588px; the sections under the strip from 762px (1078 - 144 - 172),
+   the photo's middle 1095px (1411 - 144 - 172), the footer 1554px (1870 - 144 - 172); at 90% that's
+   369, 529.2, 685.8, 985.8 and 1398.6. */
 .about-story {
   --x: calc(100vw / 1440);
   position: relative;
-  height: calc(860 * var(--x)); /* 80 + 780 */
+  height: calc(1478.6 * var(--x)); /* 80 + 1398.6 */
 }
 
 .about-story > * {
@@ -2885,7 +2913,7 @@ video::-webkit-media-controls {
 }
 
 .about-story__globe {
-  top: calc(427 * var(--x)); /* 80 + 347 */
+  top: calc(449 * var(--x)); /* 80 + 369 */
   left: calc((720 - 49.275) * var(--x)); /* centered */
   width: calc(98.55 * var(--x)); /* 109.5 in Figma */
   overflow: visible; /* the stroke sits half outside the globe's box */
@@ -2893,8 +2921,58 @@ video::-webkit-media-controls {
 
 .about-story__rise,
 .about-story__strip {
-  top: calc(588 * var(--x)); /* 80 + 508 */
+  top: calc(609.2 * var(--x)); /* 80 + 529.2 */
 }
+
+/* Approach, capabilities and tools: Diatype 16px with 19px lines, centered, each heading in an 85px row
+   with 13px under it (Figma); 90% like the rest, so the lines break where they do in Figma */
+.about-story__more {
+  top: calc(765.8 * var(--x)); /* 80 + 685.8 */
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: var(--body-font-family);
+  font-size: calc(14.4 * var(--x)); /* 16 */
+  font-weight: var(--body-font-weight);
+  letter-spacing: var(--body-letter-spacing);
+  line-height: calc(17.1 * var(--x)); /* 19 */
+}
+
+.about-story__more > * {
+  margin: 0;
+}
+
+.about-story__label {
+  font: inherit;
+  line-height: calc(76.5 * var(--x)); /* the 85px row */
+  margin-bottom: calc(11.7 * var(--x)); /* 13 */
+}
+
+/* Gaps from Figma: 14 between the two paragraphs, 64 above the next heading */
+.about-story__para--1 { width: calc(594 * var(--x)); margin-bottom: calc(12.6 * var(--x)); }   /* 660 */
+.about-story__para--2 { width: calc(539.1 * var(--x)); }                                        /* 599 */
+.about-story__para--3 { width: calc(510.3 * var(--x)); }                                        /* 567 */
+.about-story__para--2,
+.about-story__para--3 { margin-bottom: calc(57.6 * var(--x)); }
+
+.about-story__more strong {
+  font-weight: var(--bold-font-weight);
+}
+
+/* The photo: 313 × 465 in Figma, turned 15°, its middle at 1135, 1411; under the text (it comes first in about.html) */
+.about-story__photo {
+  width: calc(281.7 * var(--x));
+  height: calc(418.8 * var(--x));
+  left: calc((1093.8 - 140.85) * var(--x)); /* the middle at 720 + 0.9 × (1135.4 - 720) */
+  top: calc((1065.8 - 209.4) * var(--x));   /* the middle at 80 + 985.8 */
+  object-fit: cover;
+  object-position: 71.4% 50%; /* Figma's crop: 8.39% of 11.75% cut on the left */
+  rotate: 15deg;
+}
+
 
 /* Each word rises into its own window, one after another (about.js adds .is-in),
    then they all rise on out of it (.is-out) and "Open to work" rises into the same place */
@@ -2999,7 +3077,9 @@ video::-webkit-media-controls {
   }
 
   .about-story__rise,
-  .about-story__strip {
+  .about-story__strip,
+  .about-story__more,
+  .about-story__photo {
     display: none;
   }
 

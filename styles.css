@@ -1409,7 +1409,7 @@ nav,
    Each tile sits where its frame puts it: --top is Figma px counted from the first tile's top, --left from the
    frame's left, all times --u (1px of the 1440px frame on a computer, of the 402px one on a phone).
    --board is the color behind the video (none for the ones without one); the video sits --vx/--vy into it,
-   --vw x --vh. The label is "no. 1 Reach (2026)" and the tags, in --cols; hovering a tile draws a line
+   --vw x --vh. The label is "Reach (2026)" and the tags, in --cols; hovering a tile draws a line
    under each line of its label. The old rows (.works) are no longer shown */
 .works {
   display: none;
@@ -1459,13 +1459,6 @@ nav,
   font-weight: var(--body-font-weight);
   letter-spacing: var(--body-letter-spacing);
   white-space: nowrap; /* on a computer the year stays on the name's line (its line break counts as a space) */
-}
-
-/* "no." in Reckless, a little bigger, like in Figma */
-.tile__no {
-  font-family: var(--subtitle-font-family);
-  font-size: calc(18 * var(--u));
-  font-weight: var(--subtitle-font-weight);
 }
 
 /* Hovering a tile draws a line under each line of its label: "no. 1 Reach (2026)" as one, and the tags

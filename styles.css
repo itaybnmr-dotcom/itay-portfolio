@@ -806,6 +806,39 @@ nav,
   from { transform: translateY(130%); }
 }
 
+/* ===== Title intro (project pages' head, reach.js) =====
+   The first time a project page is reached in a visit, its top strip (the title, the description, the course,
+   the collaboration and the tags) rises in word by word like the headline above, once the fonts are in
+   (.title-go); until then it stays hidden */
+.title-intro:not(.title-go) :is(.project__title, .project__about, .project__visit, .project__course, .project__collab, .project__tags) {
+  visibility: hidden;
+}
+
+.title-intro .intro__word > span {
+  animation: word-drop 0.9s var(--ease) var(--d) both;
+}
+
+/* The texts' words: each rises from just below its own spot and cuts itself off at it as it goes
+   (the cut moves up with the word), so the lines keep their spacing */
+.intro__rise {
+  display: inline-block;
+}
+
+.title-intro .intro__rise {
+  animation: word-rise 0.9s var(--ease) var(--d) both;
+}
+
+@keyframes word-rise {
+  from {
+    transform: translateY(130%);
+    clip-path: inset(calc(-130% - 0.15em) -1em calc(130% - 0.2em));
+  }
+  to {
+    transform: none;
+    clip-path: inset(-0.15em -1em -0.2em);
+  }
+}
+
 /* Then everything else writes itself in, left to right, one after another */
 .intro :is(.top-bar, .hero__spark, .tile, .work__row, .work__frame, .work__info, .about-story__globe, .footer) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
@@ -1797,7 +1830,7 @@ nav,
 .project {
   --x: calc(100vw / 1440);
   position: relative;
-  height: calc(3441 * var(--x));
+  height: calc(3631 * var(--x)); /* Reach: Previous / Next at 3472, the footer 159 under them */
   font-size: var(--size-body); /* the small text stays 16px at any width; its blocks keep Figma's widths in px, so lines break where they do in Figma */
   font-weight: var(--body-font-weight);
   letter-spacing: var(--body-letter-spacing);
@@ -1831,7 +1864,7 @@ nav,
   left: calc(13 * var(--x));
 }
 
-.project__title span {
+.project__title > span {
   display: inline-block;
   transform: scale(var(--title-scale, 1));
   transform-origin: 0 0;
@@ -2112,11 +2145,13 @@ nav,
   height: calc(438.615 * var(--x));
 }
 
-/* Anchored on the right, so the longer "Israel Museum Index" it rolls into grows to the left */
+/* Anchored on the right, so the longer "Israel Museum Index" it rolls into grows to the left.
+   On every page the row sits the same distance above the footer: 159px from its top to the footer's bio
+   (Figma's Record Day and Poster Archive frames); each page's height puts the row where its frame has it */
 .project__next,
 .project__prev {
   z-index: 1; /* the top of the footer's Let's Collab box reaches over it */
-  top: calc(3472 * var(--x));
+  top: calc(100% - 159 * var(--x));
   right: calc(15 * var(--x));
   color: inherit;
   text-decoration: none;
@@ -2131,7 +2166,7 @@ nav,
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט אינדקס מוזיאון ישראל") is set here */
 .project--museum {
-  height: calc(3787 * var(--x)); /* the footer's bio starts 3787px down */
+  height: calc(3919 * var(--x)); /* Previous / Next at 3760, the footer 159 under them */
 }
 
 .project--museum .project__track--about {
@@ -2206,15 +2241,11 @@ nav,
 .project__shot--m5 { top: calc(3284 * var(--x)); left: calc(69 * var(--x)); }
 .project__shot--m6 { top: calc(3284 * var(--x)); left: calc(774 * var(--x)); }
 
-.project--museum :is(.project__prev, .project__next) {
-  top: calc(3818 * var(--x));
-}
-
 /* ===== Project page: Record Day (record-day.html) =====
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט יום התקליט") is set here */
 .project--record {
-  height: calc(4250 * var(--x)); /* the footer's bio starts 4250px down */
+  height: calc(4440 * var(--x)); /* Previous / Next at 4281, the footer 159 under them */
 }
 
 .project--record .project__track--about {
@@ -2242,10 +2273,6 @@ nav,
   width: 357px;
 }
 
-.project--record :is(.project__prev, .project__next) {
-  top: calc(4281 * var(--x));
-}
-
 /* The videos: each fills its Figma box */
 .project__media {
   object-fit: cover;
@@ -2263,7 +2290,7 @@ nav,
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט הייבן") is set here. It has no subtitle */
 .project--haven {
-  height: calc(3033 * var(--x)); /* the footer's bio starts 2993px down in Figma; everything sits 40px lower, to make room for ©itay benma */
+  height: calc(3337 * var(--x)); /* Previous / Next at 3138 in Figma; everything sits 40px lower, to make room for ©itay benma; the footer 159 under them */
 }
 
 .project--haven .project__track--about {
@@ -2286,10 +2313,6 @@ nav,
   width: 309px;
 }
 
-.project--haven :is(.project__prev, .project__next) {
-  top: calc(3064 * var(--x));
-}
-
 .project__media--flow { top: calc(273 * var(--x)); left: calc(169 * var(--x)); width: calc(1102 * var(--x)); height: calc(784 * var(--x)); }
 .project__media--onboarding { top: calc(1248 * var(--x)); left: calc(143 * var(--x)); width: calc(656 * var(--x)); height: calc(466 * var(--x)); }
 .project__media--popup { top: calc(1248 * var(--x)); left: calc(817 * var(--x)); width: calc(480 * var(--x)); height: calc(466 * var(--x)); }
@@ -2302,7 +2325,7 @@ nav,
    Built on the Reach page above; only what sits elsewhere in its Figma frame
    ("עמוד פריט פוסטרים") is set here. Just the description and the tags: no texts further down, no subtitle */
 .project--posters {
-  height: calc(3235 * var(--x)); /* the footer's bio starts 3235px down */
+  height: calc(3371 * var(--x)); /* Previous / Next at 3212, the footer 159 under them */
 }
 
 .project--posters .project__track--about {
@@ -2368,10 +2391,6 @@ nav,
   transform: translateY(-100%);
 }
 
-.project--posters :is(.project__prev, .project__next) {
-  top: calc(3266 * var(--x));
-}
-
 .project__media--casiopea { top: calc(317 * var(--x)); left: calc(15 * var(--x)); width: calc(519 * var(--x)); height: calc(742 * var(--x)); }
 .project__media--all-nighter { top: calc(439 * var(--x)); left: calc(545 * var(--x)); width: calc(434 * var(--x)); height: calc(620 * var(--x)); }
 .project__media--book-launch { top: calc(258 * var(--x)); left: calc(991 * var(--x)); width: calc(434 * var(--x)); height: calc(620 * var(--x)); }
@@ -2421,11 +2440,11 @@ nav,
   display: none;
 }
 
-/* "← Previous Project" on the row of "Next Project →", from where it starts in the Figma frames
+/* "← Previous Project" on the row of "Next Project →", against the left edge like in the Figma frames
    ("← Prev Project" on phones); anchored on the left, so the name it rolls into grows to the right */
 .project__prev {
   right: auto;
-  left: calc(491 * var(--x)); /* the same in every frame */
+  left: calc(15 * var(--x)); /* the same in every frame */
 }
 
 .project__prev-short {
@@ -2464,7 +2483,7 @@ nav,
     left: calc(12 * var(--x));
   }
 
-  .project__title span {
+  .project__title > span {
     transform: none;
   }
 
@@ -2491,6 +2510,7 @@ nav,
   /* "← Prev Project" on the left and "Next Project →" on the right, 34px on 402, like the frames */
   .project__prev,
   .project__next {
+    top: calc(100% - 95 * var(--x)); /* the same distance above the footer on every page, like the Reach phone frame */
     font-size: calc(34 * var(--x));
     white-space: nowrap;
   }
@@ -2517,7 +2537,7 @@ nav,
   }
 
   /* ----- Reach ("phone - Reach" 460:29) ----- */
-  .project--reach { height: calc(3310 * var(--x)); } /* "Let's Collab" at 3307 */
+  .project--reach { height: calc(3310 * var(--x)); } /* the footer 95 under Previous / Next */
   .project__tags { width: 296px; white-space: normal; }
   /* The red board right under the tags, the description under it, 17px like in the frame */
   .project__board--site { top: calc(169 * var(--x)); left: calc(14 * var(--x)); width: calc(372 * var(--x)); height: calc(226 * var(--x)); }
@@ -2586,10 +2606,9 @@ nav,
   .project__board--holds { top: calc(2919 * var(--x)); height: calc(245 * var(--x)); }
   .project__holds { top: calc(2940 * var(--x)); left: calc(41 * var(--x)); width: calc(323 * var(--x)); height: calc(203 * var(--x)); }
 
-  .project--reach :is(.project__prev, .project__next) { top: calc(3215 * var(--x)); }
 
   /* ----- Israel Museum Index ("phone - israel museum index" 460:133) ----- */
-  .project--museum { height: calc(3414 * var(--x)); } /* "Let's Collab" at 3411 */
+  .project--museum { height: calc(3435 * var(--x)); } /* the footer 95 under Previous / Next */
   .project--museum .project__tags { top: calc(106 * var(--x)); width: 342px; }
   /* The frame has no "Visit the site": the tags take three lines down to the showreel */
   .project--museum .project__visit { display: none; }
@@ -2619,10 +2638,9 @@ nav,
   .project__shot--m5 { top: calc(2786 * var(--x)); left: calc(29 * var(--x)); width: calc(342 * var(--x)); }
   .project__shot--m6 { top: calc(3052 * var(--x)); left: calc(28 * var(--x)); width: calc(342 * var(--x)); }
 
-  .project--museum :is(.project__prev, .project__next) { top: calc(3340 * var(--x)); }
 
   /* ----- Record Day ("phone - Record Day" 477:339) ----- */
-  .project--record { height: calc(4124 * var(--x)); } /* "Let's Collab" at 4121 */
+  .project--record { height: calc(4145 * var(--x)); } /* the footer 95 under Previous / Next */
   .project--record .project__tags { top: calc(112 * var(--x)); width: 361px; }
   .project__media--train { top: calc(172 * var(--x)); left: calc(-21 * var(--x)); width: calc(435 * var(--x)); height: calc(250 * var(--x)); }
   .project--record .project__track--about { top: calc(438 * var(--x)); width: 355px; }
@@ -2647,10 +2665,9 @@ nav,
   .project__media--lines { top: calc(3121 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(372 * var(--x)); }
   .project__media--name { top: calc(3507 * var(--x)); left: calc(15 * var(--x)); width: calc(372 * var(--x)); height: calc(465 * var(--x)); }
 
-  .project--record :is(.project__prev, .project__next) { top: calc(4050 * var(--x)); }
 
   /* ----- HAVEN ("phone - HAVEN" 531:284) ----- */
-  .project--haven { height: calc(3074 * var(--x)); } /* "Let's Collab" at 3071 */
+  .project--haven { height: calc(3095 * var(--x)); } /* the footer 95 under Previous / Next */
   /* The frame's tags start three empty lines under 56 */
   .project--haven .project__tags { top: calc(56 * var(--x) + 3 * var(--body-line-height) * 1em); width: 361px; }
   .project__media--flow { top: calc(174 * var(--x)); left: calc(12 * var(--x)); width: calc(372 * var(--x)); height: calc(265 * var(--x)); }
@@ -2664,14 +2681,12 @@ nav,
   .project__media--logo { top: calc(2212 * var(--x)); left: calc(13 * var(--x)); width: calc(375 * var(--x)); height: calc(211 * var(--x)); }
   .project__media--mobile { top: calc(2452 * var(--x)); left: calc(97 * var(--x)); width: calc(207 * var(--x)); height: calc(450 * var(--x)); }
 
-  .project--haven :is(.project__prev, .project__next) { top: calc(3000 * var(--x)); }
 
   /* ----- Poster Archive ("phone - Poster Archive" 531:340): one poster under another ----- */
-  .project--posters { height: calc(7839 * var(--x)); } /* "Let's Collab" at 7836 */
+  .project--posters { height: calc(7867 * var(--x)); } /* the footer 95 under Previous / Next */
   /* The frame's tags start four empty lines under 32 */
   .project--posters .project__tags { top: calc(32 * var(--x) + 4 * var(--body-line-height) * 1em); width: 323px; }
   .project--posters .project__track--about { top: calc(168 * var(--x)); width: 370px; }
-  .project--posters :is(.project__prev, .project__next) { top: calc(7772 * var(--x)); }
 
   .project__media--casiopea { top: calc(258 * var(--x)); left: calc(67 * var(--x)); width: calc(269 * var(--x)); height: calc(385 * var(--x)); }
   .project__media--book-launch { top: calc(663 * var(--x)); }

@@ -31,6 +31,57 @@ function measureStacks() {
 // ponytail: decided once on load, so turning a tablet across 700px keeps the first layout until a reload
 const subtitle = document.querySelector(".project__subtitle");
 if (phone.matches) document.querySelectorAll("[data-phone]").forEach((line) => { line.textContent = line.dataset.phone; });
+
+// The top strip's opening (styles.css "Title intro"): every word rises into its spot. The title's words
+// come one after another, 150ms apart like the home page's name; then the description, the course, the collaboration
+// and the tags, each block at once, 150ms after the one before. Always split, so a page Chrome prepared can still
+// play it once shown; it waits for the fonts, so the type doesn't swap mid-way.
+// The title's words rise in windows, like the home page's; the texts' words cut themselves off instead
+// (.intro__rise), since a window would push their lines apart
+function splitWords(el, delay, windowed) {
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  const texts = [];
+  while (walker.nextNode()) texts.push(walker.currentNode);
+  texts.forEach((text) => {
+    text.replaceWith(...text.textContent.split(/(\s+)/).map((part) => {
+      if (!part.trim()) return part;
+      const word = document.createElement("span");
+      word.textContent = part;
+      word.style.setProperty("--d", `${delay()}ms`);
+      if (!windowed) {
+        word.className = "intro__rise";
+        return word;
+      }
+      const mask = document.createElement("span");
+      mask.className = "intro__word";
+      mask.append(word);
+      return mask;
+    }));
+  });
+}
+let beat = 0;
+splitWords(document.querySelector(".project__title"), () => beat++ * 150, true);
+// "Visit the site →" (Israel Museum Index) rises as one piece, so its hover line and its arrow's window stay whole
+document.querySelectorAll(".project__about, .project__visit, .project__course, .project__collab, .project__tags").forEach((block) => {
+  const at = beat++ * 150;
+  if (block.matches(".project__visit")) {
+    block.classList.add("intro__rise");
+    block.style.setProperty("--d", `${at}ms`);
+  } else splitWords(block, () => at);
+});
+document.fonts.ready.then(() => document.documentElement.classList.add("title-go"));
+// The strip starts over at the moment the page is shown, however it got here: a link (with or without the page
+// transition), a page Chrome prepared in the background while its link was pointed at (its animation could
+// otherwise have run, unseen, before), or Back / Forward (the page comes back as it was left)
+function replayStrip() {
+  const root = document.documentElement;
+  if (!root.classList.contains("title-intro")) return;
+  root.classList.remove("title-intro");
+  root.offsetHeight; // the browser takes in that it's gone, so putting it back starts it over
+  root.classList.add("title-intro");
+}
+addEventListener("pagereveal", replayStrip);
+addEventListener("pageshow", (event) => event.persisted && replayStrip());
 // HAVEN has no subtitle: then there are no letters to move
 const subtitleLetters = phone.matches || !subtitle ? [] : [...subtitle.textContent].map((char) => {
   const letter = document.createElement("span");

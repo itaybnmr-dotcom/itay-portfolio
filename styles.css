@@ -807,7 +807,7 @@ nav,
 }
 
 /* Then everything else writes itself in, left to right, one after another */
-.intro :is(.top-bar, .hero__spark, .work__row, .work__frame, .work__info, .about-story__globe, .footer) {
+.intro :is(.top-bar, .hero__spark, .tile, .work__row, .work__frame, .work__info, .about-story__globe, .footer) {
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--n, 0) * 150ms) both;
 }
 
@@ -841,7 +841,7 @@ nav,
   animation: write-in 1.2s var(--ease-in-out) calc(var(--rest) + 900ms + var(--last)) both;
 }
 /* The cards' insides, not the cards: clipping a card would cut its sticker, which sits over its edge */
-.intro :is(.work__row, .work__frame, .work__info) { --n: 3; }
+.intro :is(.tile, .work__row, .work__frame, .work__info) { --n: 3; }
 
 /* ...while the note types itself in (home.js): each character appears at its turn,
    first as a solid block for a moment, like a cursor, then as itself */
@@ -1461,7 +1461,7 @@ nav,
   white-space: nowrap; /* on a computer the year stays on the name's line (its line break counts as a space) */
 }
 
-/* Hovering a tile draws a line under each line of its label: "no. 1 Reach (2026)" as one, and the tags
+/* Hovering a tile draws a line under each line of its label: "Reach (2026)" as one, and the tags
    (each of their lines, where they break), not under each word */
 .tile:is(:hover, :focus-visible) .link-line {
   background-size: 100% var(--line-thickness);
@@ -1629,7 +1629,7 @@ nav,
     top: calc(887 * var(--p) + var(--down));
   }
 
-  /* The label runs the tile's width: "no. 1 Reach" over "(2026)" on the left, the tags on the right,
+  /* The label runs the tile's width: "Reach" over "(2026)" on the left, the tags on the right,
      right-aligned in their Figma width (--cols), breaking where they have to */
   .tile__label {
     width: auto;

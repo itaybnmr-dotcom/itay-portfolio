@@ -187,9 +187,13 @@ document.querySelectorAll(".project__next").forEach(alignRollEnds);
 // until the mouse leaves the link
 const email = document.querySelector('.footer a[href^="mailto:"]');
 const address = email?.href.slice("mailto:".length);
-// Copies text; a page on plain http (the local server, opened on a phone) has no clipboard API, so the old way there
+// Copies text; a page on plain http (the local server, opened on a phone) has no clipboard API, and a page
+// opened as a file can have it refuse, so the old way there
 function copyText(text) {
-  if (navigator.clipboard) return navigator.clipboard.writeText(text);
+  const modern = navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject();
+  return modern.catch(() => copyTheOldWay(text));
+}
+function copyTheOldWay(text) {
   const field = document.createElement("textarea");
   field.value = text;
   field.setAttribute("readonly", "");
@@ -526,3 +530,61 @@ addEventListener("keydown", (event) => {
     if (box.top < 0 || box.bottom > innerHeight) glideTo(scrollY + box.top + box.height / 2 - innerHeight / 2);
   }
 });
+
+// ===== The globe (About, under "So yeah that's me...", and the home page, over "More to come soon...") =====
+// Like the reference: six meridians, each one arc from pole to pole, crossing the equator at even gaps
+// and sliding sideways; one that reaches the edge comes back in at the other side.
+// It goes around twice, faster than the reference (left, one gap every 0.22s), slows down softly
+// to a stop, rests a moment, picks up speed softly again, and goes around twice more, and so on.
+const GLOBE_ARCS = 6;         // meridians
+const GLOBE_GAP_TIME = 0.22;  // seconds for a meridian to slide one gap at full speed (the reference: 0.36)
+const GLOBE_ROUNDS = 2;       // times around between stops (once around = all six gaps)
+const GLOBE_EASE_TIME = 1;    // seconds it takes to slow down to a stop, and to speed up again
+const GLOBE_REST = 0.3;       // seconds it rests between
+const GLOBE_A = 54.75;        // half the globe's width, in the SVG's units
+const GLOBE_B = 36.5;         // half its height
+const meridians = [...document.querySelectorAll(".globe__meridians path")];
+
+// A meridian whose equator crossing is `u` of the way from the middle to the edge (-1 left, 1 right)
+function meridianPath(u) {
+  const rx = Math.abs(u) * GLOBE_A;
+  if (rx < 0.01) return `M${GLOBE_A} 0V${2 * GLOBE_B}`; // through the middle: a straight line
+  return `M${GLOBE_A} 0A${rx} ${GLOBE_B} 0 0 ${u > 0 ? 1 : 0} ${GLOBE_A} ${2 * GLOBE_B}`;
+}
+
+// How far it has gone (in times around) after `seconds`. One cycle: speed up, glide, slow down, rest.
+// While speeding up its speed follows a smoothstep from 0 to full, so it covers half of what a full-speed
+// stretch of the same time would; slowing down is the same backwards.
+const SPEED = 1 / (GLOBE_GAP_TIME * GLOBE_ARCS);         // times around per second at full speed
+const EASE_WAY = (SPEED * GLOBE_EASE_TIME) / 2;          // how far it goes while speeding up (or slowing down)
+const GLIDE_TIME = (GLOBE_ROUNDS - 2 * EASE_WAY) / SPEED; // the full-speed stretch, so a cycle is GLOBE_ROUNDS times around
+const CYCLE = 2 * GLOBE_EASE_TIME + GLIDE_TIME + GLOBE_REST;
+const rampWay = (s) => s ** 3 - s ** 4 / 2; // distance under a smoothstep speed, 0 → 0.5
+function globeWay(seconds) {
+  const cycles = Math.floor(seconds / CYCLE);
+  let t = seconds - cycles * CYCLE;
+  let way = cycles * GLOBE_ROUNDS;
+  if (t < GLOBE_EASE_TIME) return way + SPEED * GLOBE_EASE_TIME * rampWay(t / GLOBE_EASE_TIME);
+  way += EASE_WAY; t -= GLOBE_EASE_TIME;
+  if (t < GLIDE_TIME) return way + SPEED * t;
+  way += SPEED * GLIDE_TIME; t -= GLIDE_TIME;
+  if (t < GLOBE_EASE_TIME) return way + SPEED * GLOBE_EASE_TIME * (0.5 - rampWay(1 - t / GLOBE_EASE_TIME));
+  return way + EASE_WAY; // resting
+}
+
+function drawGlobe(seconds) {
+  const slide = globeWay(seconds);
+  meridians.forEach((meridian, n) => {
+    const i = n % GLOBE_ARCS; // each globe has its own six
+    const place = (((i + 0.5) / GLOBE_ARCS - slide) % 1 + 1) % 1; // 0 = left edge, 1 = right edge
+    meridian.setAttribute("d", meridianPath(place * 2 - 1));
+  });
+}
+
+drawGlobe(0);
+if (meridians.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  requestAnimationFrame(function spin(now) {
+    drawGlobe(now / 1000);
+    requestAnimationFrame(spin);
+  });
+}

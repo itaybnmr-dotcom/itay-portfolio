@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — About</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=169">
+  <link rel="stylesheet" href="styles.css?v=173">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.woff" as="font" type="font/woff" crossorigin>
@@ -32,8 +32,8 @@
     else aboutIntro();
   </script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
-  <script src="script.js?v=79" defer></script>
-  <script src="about.js?v=32" defer></script>
+  <script src="script.js?v=81" defer></script>
+  <script src="about.js?v=33" defer></script>
 </head>
 <body>
   <header class="top-bar">
@@ -65,11 +65,11 @@
         <span class="about-story__line is-center"><span class="w">design.</span></span>
       </div>
 
-      <!-- The globe turns like the reference: its meridians slide sideways at one speed (about.js) -->
+      <!-- The globe turns like the reference: its meridians slide sideways at one speed (script.js) -->
       <svg class="about-story__globe" viewBox="-3 -3 115.5 79" aria-hidden="true" fill="none" stroke="white" stroke-width="5">
         <ellipse cx="54.75" cy="36.5" rx="54.75" ry="36.5"/>
         <line x1="0" y1="36.5" x2="109.5" y2="36.5"/>
-        <g class="about-story__meridians">
+        <g class="about-story__meridians globe__meridians">
           <path/><path/><path/><path/><path/><path/>
         </g>
       </svg>

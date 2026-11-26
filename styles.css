@@ -1517,66 +1517,101 @@ nav,
 
 @media (min-width: 701px) {
   .hero {
-    height: calc(2406 * var(--x)); /* the footer's bio starts 2466px down in Figma; everything here sits 60px higher */
+    height: calc(2823 * var(--x)); /* the footer 150px higher than Figma's 3033; everything here sits 60px higher */
   }
 
+  /* From Figma "Home screen" 703:2 */
   .works-area {
-    top: calc(776.29 * var(--x)); /* Figma's 836.29 (Reach's board), the page sitting 60px higher */
+    top: calc(768.53 * var(--x)); /* Figma's 828.53 (Reach's board), the page sitting 60px higher */
   }
 
   .tile--reach {
-    --left: 15; --top: 0; --w: 815; --h: 493.79;
+    --left: 27; --top: 0; --w: 760; --h: 460.47;
     --board: var(--color-accent);
-    --vx: 54.87; --vy: 25.94; --vw: 704.86; --vh: 442.17;
+    --vx: 51.16; --vy: 24.19; --vw: 657.3; --vh: 412.33;
     --gap: 5.92;
-    --cols: calc(556 * var(--x)) auto; /* the tags start 556px into the tile, like in Figma */
   }
 
   .tile--museum {
-    --left: 837; --top: 101.04; --w: 587; --h: 392;
+    --left: 804.75; --top: 0.47; --w: 610.25; --h: 407.52;
     --board: var(--color-board-museum);
-    --vx: 39; --vy: 40; --vw: 508; --vh: 312;
+    --vx: 40.55; --vy: 41.58; --vw: 528.19; --vh: 324.31;
     --gap: 7;
-    --cols: calc(313 * var(--x)) auto;
   }
 
   .tile--record {
-    --left: 18; --top: 532.71; --w: 931; --h: 626;
-    --vw: 931; --vh: 626;
+    --left: 27; --top: 497.47; --w: 941; --h: 633;
+    --vw: 941; --vh: 633;
     --gap: 5;
-    --cols: calc(644 * var(--x)) auto;
   }
 
   .tile--haven {
-    --left: 956; --top: 532.71; --w: 469; --h: 334;
-    --vw: 469; --vh: 334;
-    --gap: 5; /* 5 under the video, like the others (Figma has 2) */
-    --cols: auto 1fr;
+    --left: 988; --top: 497.47; --w: 427; --h: 304;
+    --vw: 427; --vh: 304;
+    --gap: 5;
   }
 
   .tile--posters {
-    /* 33 under HAVEN's label, like Record-Day under Reach's (Figma has 890.71) */
-    --left: 956; --top: 904.71; --w: 473; --h: 592;
-    --vw: 473; --vh: 592;
+    --left: 27; --top: 1164.47; --w: 564; --h: 705;
+    --vw: 564; --vh: 705;
     --gap: 5;
-    --cols: calc(266 * var(--x)) calc(203 * var(--x));
   }
 
-  /* Poster Archive's tags break in two lines, right-aligned, like in Figma */
-  .tile--posters .tile__label > :last-child {
-    justify-self: end;
-    white-space: normal;
-    text-align: right;
-    line-height: var(--body-line-height);
-  }
-
-  /* HAVEN's tags end on the frame's right edge, like in Figma, so its label runs the tile's width */
-  .tile--haven .tile__label {
+  /* Every label runs the tile's width: the name on the left, the tags ending on the tile's right edge */
+  .tile__label {
+    --cols: auto 1fr;
     width: auto;
   }
 
-  .tile--haven .tile__label > :last-child {
+  .tile__label > :last-child {
     justify-self: end;
+  }
+
+  /* Beside Poster Archive: About's globe (turned by script.js) over a strip like its "Open to work",
+     46px with 85px lines, kept inside the margins: 20 from Poster Archive (the gap between the tiles)
+     to 25 from the screen's edge (where the tiles end) (Figma 703:2) */
+  .more-soon__globe {
+    display: block;
+    position: absolute;
+    top: calc(1347.47 * var(--x)); /* Figma's 2176 */
+    left: calc(963 * var(--x));
+    width: calc(109.5 * var(--x));
+    overflow: visible; /* the stroke sits half outside the globe's box */
+  }
+
+  .more-soon__strip {
+    display: block;
+    position: absolute;
+    top: calc(1483.47 * var(--x)); /* Figma's 2312 */
+    left: calc(611 * var(--x));
+    right: calc(25 * var(--x));
+    overflow: clip;
+    font-family: var(--title-font-family);
+    font-size: calc(46 * var(--x));
+    font-weight: var(--title-font-weight);
+    line-height: calc(85 * var(--x));
+    letter-spacing: var(--title-letter-spacing);
+  }
+
+  .more-soon__strip .about-story__track {
+    translate: 0 0; /* on About it waits below and rises in; here it's just there */
+  }
+  .more-soon__strip i {
+    font-style: italic; /* Reckless Light Italic */
+  }
+
+  .more-soon__strip b {
+    font-family: var(--body-font-family);
+    font-weight: var(--body-font-weight);
+    font-style: italic; /* Diatype Medium Italic in Figma; the browser slants it */
+  }
+}
+
+/* Phones don't have them */
+@media (max-width: 700px) {
+  .more-soon__globe,
+  .more-soon__strip {
+    display: none;
   }
 }
 
@@ -2861,8 +2896,10 @@ video::-webkit-media-controls {
    the footer 1554px (1870 - 144 - 172); at 90% that's 369, 529.2, 685.8 and 1398.6. */
 .about-story {
   --x: calc(100vw / 1440);
+  /* Approach & Philosophy and everything under it start below the first screen: as far down as it takes */
+  --more-drop: max(0px, 100svh - 765.8 * var(--x));
   position: relative;
-  height: calc(1478.6 * var(--x)); /* 80 + 1398.6 */
+  height: calc(1478.6 * var(--x) + var(--more-drop)); /* 80 + 1398.6 */
 }
 
 .about-story > * {
@@ -2931,7 +2968,7 @@ video::-webkit-media-controls {
 /* Approach, capabilities and tools: Diatype 16px with 19px lines, centered, each heading in an 85px row
    with 13px under it (Figma); 90% like the rest, so the lines break where they do in Figma */
 .about-story__more {
-  top: calc(765.8 * var(--x)); /* 80 + 685.8 */
+  top: calc(765.8 * var(--x) + var(--more-drop)); /* 80 + 685.8 */
   left: 0;
   right: 0;
   display: flex;
@@ -2971,7 +3008,7 @@ video::-webkit-media-controls {
   width: calc(390.5 * var(--x));
   height: calc(580.7 * var(--x));
   left: calc((1082.8 - 195.25) * var(--x)); /* the middle at 720 + 0.9 × (1123.1 - 720) */
-  top: calc((1131.9 - 290.35) * var(--x));  /* the middle at 80 + 0.9 × (1484.8 - 316) */
+  top: calc((1131.9 - 290.35) * var(--x) + var(--more-drop));  /* the middle at 80 + 0.9 × (1484.8 - 316) */
   object-fit: cover;
   object-position: 71.4% 50%; /* Figma's crop: 8.39% of 11.75% cut on the left */
   rotate: 15deg;

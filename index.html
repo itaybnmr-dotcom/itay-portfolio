@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=176">
+  <link rel="stylesheet" href="styles.css?v=177">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.woff" as="font" type="font/woff" crossorigin>
@@ -114,8 +114,17 @@
       </a>
     </div>
 
-    <!-- Computers: beside Poster Archive, the "More to come soon" film from After Effects (Figma "Home screen experiments" 703:2) -->
-    <video class="more-soon" src="IMG/More-soon/web/more-soon.mp4" width="1080" height="1350" muted loop playsinline preload="none" data-play aria-label="More to come soon"></video>
+    <!-- Computers: beside Poster Archive, About's globe and a strip like its "Open to work" (Figma "Home screen experiments" 703:2) -->
+    <svg class="more-soon__globe" viewBox="-3 -3 115.5 79" aria-hidden="true" fill="none" stroke="white" stroke-width="5">
+      <ellipse cx="54.75" cy="36.5" rx="54.75" ry="36.5"/>
+      <line x1="0" y1="36.5" x2="109.5" y2="36.5"/>
+      <g class="globe__meridians">
+        <path/><path/><path/><path/><path/><path/>
+      </g>
+    </svg>
+    <div class="more-soon__strip" aria-label="More to come soon">
+      <p class="about-story__track" aria-hidden="true"><span><i>More to come soon</i>  — <b>More to come soon</b> — </span><span><i>More to come soon</i>  — <b>More to come soon</b> — </span><span><i>More to come soon</i>  — <b>More to come soon</b> — </span><span><i>More to come soon</i>  — <b>More to come soon</b> — </span></p>
+    </div>
 
     <div class="works">
     <!-- The works. Hovering a card turns the cursor into a circle in the project's colors with "More info"

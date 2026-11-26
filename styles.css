@@ -1590,22 +1590,50 @@ nav,
     justify-self: end;
   }
 
-  /* Beside Poster Archive: the "More to come soon" film (Figma 703:2's "Pre-comp 6": 794 by 483 at 610, 2005),
-     the 4:5 video cropped to its middle */
-  .more-soon {
+  /* Beside Poster Archive: About's globe (turned by script.js) over a strip like its "Open to work",
+     46px with 85px lines, kept inside the margins: 20 from Poster Archive (the gap between the tiles)
+     to 25 from the screen's edge (where the tiles end) (Figma 703:2) */
+  .more-soon__globe {
     display: block;
     position: absolute;
-    top: calc(1176.47 * var(--x)); /* Figma's 2005 */
-    left: calc(610 * var(--x));
-    width: calc(794 * var(--x));
-    height: calc(483 * var(--x));
-    object-fit: cover;
+    top: calc(1347.47 * var(--x)); /* Figma's 2176 */
+    left: calc(963 * var(--x));
+    width: calc(109.5 * var(--x));
+    overflow: visible; /* the stroke sits half outside the globe's box */
+  }
+
+  .more-soon__strip {
+    display: block;
+    position: absolute;
+    top: calc(1483.47 * var(--x)); /* Figma's 2312 */
+    left: calc(611 * var(--x));
+    right: calc(25 * var(--x));
+    overflow: clip;
+    font-family: var(--title-font-family);
+    font-size: calc(46 * var(--x));
+    font-weight: var(--title-font-weight);
+    line-height: calc(85 * var(--x));
+    letter-spacing: var(--title-letter-spacing);
+  }
+
+  .more-soon__strip .about-story__track {
+    translate: 0 0; /* on About it waits below and rises in; here it's just there */
+  }
+  .more-soon__strip i {
+    font-style: italic; /* Reckless Light Italic */
+  }
+
+  .more-soon__strip b {
+    font-family: var(--body-font-family);
+    font-weight: var(--body-font-weight);
+    font-style: italic; /* Diatype Medium Italic in Figma; the browser slants it */
   }
 }
 
-/* Phones don't have it */
+/* Phones don't have them */
 @media (max-width: 700px) {
-  .more-soon {
+  .more-soon__globe,
+  .more-soon__strip {
     display: none;
   }
 }

@@ -689,6 +689,22 @@ nav,
   height: auto;
 }
 
+/* A row of pictures that are all the same height (the video's), each as wide as it comes */
+.process__strip:first-child {
+  margin-top: 0;
+}
+
+.process__strip--even > *,
+.process__strip--even > * + * + * {
+  width: auto;
+  height: calc(440 * var(--x));
+  margin-top: 0;
+}
+
+.process__strip--even > * + * + * {
+  margin-left: calc(28 * var(--x));
+}
+
 video.process__media {
   width: calc(815 * var(--x));
 }
@@ -1933,6 +1949,12 @@ video.process__media {
   .process__strip > * + *,
   .process__strip > * + * + * {
     margin-left: var(--space-m);
+  }
+
+  .process__strip--even > *,
+  .process__strip--even > * + * + * {
+    width: auto;
+    height: 60vw;
   }
 
   /* No hover on phones: no fading, and the line marks the open row instead */

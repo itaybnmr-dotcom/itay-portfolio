@@ -1,29 +1,38 @@
 // ===== The log =====
-// Starts a row's video (if it has one) from the beginning
-function replay(entry) {
-  const video = entry.querySelector("video");
-  if (!video) return;
-  video.currentTime = 0;
-  video.play();
-}
-
+// Clicking a meeting that has notes opens its drawer (and closes the one that was open);
+// clicking it again closes it. Its video plays from the beginning while it's open.
 const entries = document.querySelectorAll(".process__entry");
-const isPhone = window.matchMedia("(max-width: 700px)"); // same width as the phone layout in styles.css
 
 entries.forEach((entry) => {
-  // Computer: hovering a row peeks at it
-  entry.addEventListener("mouseenter", () => replay(entry));
-
-  // Phone: tapping a row opens its drawer (and closes the one that was open)
-  entry.addEventListener("click", () => {
-    if (!isPhone.matches) return;
+  if (!entry.querySelector(".process__drawer")) return;
+  entry.addEventListener("click", (event) => {
+    if (event.target.closest(".process__notes")) return; // clicks inside the notes don't close them
     const opening = !entry.classList.contains("is-open");
-    entries.forEach((other) => other.classList.remove("is-open"));
+    entries.forEach((other) => {
+      other.classList.remove("is-open");
+      other.querySelector("video")?.pause();
+    });
     entry.classList.toggle("is-open", opening);
     if (!opening) return;
-    replay(entry);
-    navigator.vibrate?.(8); // a tiny haptic "tick" (Android; iPhones ignore it)
+    const video = entry.querySelector("video");
+    if (video) {
+      video.currentTime = 0;
+      video.play();
+    }
+    navigator.vibrate?.(8); // a tiny haptic "tick" on phones (Android; iPhones ignore it)
   });
+});
+
+// A mouse wheel scrolls the pictures sideways, until the row's end; then the page scrolls on
+document.querySelectorAll(".process__strip").forEach((strip) => {
+  strip.addEventListener("wheel", (event) => {
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return; // a trackpad already scrolls it sideways
+    const end = strip.scrollWidth - strip.clientWidth;
+    const goingOn = event.deltaY > 0 ? strip.scrollLeft < end - 1 : strip.scrollLeft > 0;
+    if (!goingOn) return;
+    event.preventDefault();
+    strip.scrollLeft += event.deltaY;
+  }, { passive: false });
 });
 
 // ===== Headline animation =====

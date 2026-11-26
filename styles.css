@@ -559,11 +559,9 @@ nav,
 .process {
   --x: calc(100vw / 1440);
   --u: calc(100vh / 1024);
-  /* The text column starts right under "Multidisciplinary Designer based in TLV",
-     which is centered and 235.6px wide */
-  --column: calc(50vw - 117.8px);
   position: relative;
-  height: 100vh;
+  min-height: 100vh; /* one screen; an open meeting makes the page longer (Figma "WIP first meeting") */
+  padding: calc(220 * var(--u)) 0 calc(350 * var(--u)); /* the log starts 220px down; room for the headline under it */
   overflow: clip; /* letters flying off don't make the page wider */
   font-size: var(--size-body);
   font-weight: var(--body-font-weight);
@@ -575,9 +573,9 @@ nav,
 }
 
 .process__intro {
-  left: var(--column);
+  left: var(--space-m);
   top: calc(78 * var(--u));
-  width: 345px; /* fixed, like the 14px text in it, so the lines break where they do in Figma on any screen */
+  width: 405px; /* fixed, like the 16px text in it, so the lines break where they do in Figma on any screen */
   line-height: var(--body-line-height);
 }
 
@@ -586,59 +584,144 @@ nav,
   text-indent: 2em;
 }
 
-/* ===== The log ===== */
-.process__index {
-  left: var(--column);
-  top: calc(220 * var(--u));
-  right: 17px; /* the years end 17px from the edge, like in Figma */
+/* ===== The log (Figma "WIP") =====
+   In the flow, so an open meeting pushes the rows under it, and the headline, down */
+.process > .process__index {
+  position: relative;
+  margin: 0 17px 0 var(--space-m); /* the years end 17px from the edge, like in Figma */
   list-style: none;
-  display: grid;
-  row-gap: 5px;
 }
 
-/* Name, date (starts 457px in, like in Figma), year on the right */
+/* Meeting, its name (centered on a 216px column), date, year on the right; one row every 52px.
+   The second row is the drawer, closed until the meeting is opened. */
 .process__entry {
   display: grid;
-  grid-template-columns: calc(457 * var(--x)) 1fr auto;
-  transition: opacity 0.3s ease;
+  grid-template-columns: calc(358 * var(--x)) calc(216 * var(--x)) 1fr auto;
+  grid-template-rows: calc(52 * var(--u)) 0fr;
+  transition: opacity 0.15s linear, grid-template-rows 0.7s var(--ease-in-out); /* quick fades, so moving between rows feels crisp */
 }
 
-/* Hovering anywhere on the row draws the line under all of it */
-.process__entry:hover .link-line {
+/* Opened: the drawer slides open and pushes the rest of the log down */
+.process__entry.is-open {
+  grid-template-rows: calc(52 * var(--u)) 1fr;
+}
+
+.process__entry > span:nth-child(2) {
+  text-align: center;
+}
+
+/* The date starts 564px after the name's column */
+.process__entry > span:nth-child(3) {
+  padding-left: calc(564 * var(--x));
+}
+
+.process__entry--bold {
+  font-weight: var(--bold-font-weight);
+}
+
+/* A meeting with notes can be opened */
+.process__entry:has(.process__drawer) {
+  cursor: pointer;
+}
+
+/* Hovering anywhere on the row draws the line under all of it; the open meeting keeps its line */
+.process__entry:hover .link-line,
+.process__entry.is-open .link-line {
   background-size: 100% var(--line-thickness);
   background-position-x: 0;
 }
 
-/* Like the reference: hovering one row fades the others */
-.process__index:hover .process__entry:not(:hover) {
+/* Like the reference: hovering one row fades the others (but not the open meeting's pictures) */
+.process__index:hover .process__entry:not(:hover, .is-open) {
   opacity: 0.35;
 }
 
-/* Quick fades, so moving between logs feels crisp */
-.process__entry {
-  transition: opacity 0.15s linear;
-}
-
-/* The peek: on the left side of the page, top lined up with the hovered row.
-   With no "top" set it stays at the row's own height.
-   "left" is measured from the log, so this puts it 14px from the page edge. */
-.process__preview {
-  position: absolute;
-  left: calc(var(--space-m) - var(--column));
-  width: calc(560 * var(--x));
-  height: auto;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.12s linear;
-}
-
-.process__entry:hover .process__preview {
-  opacity: 1;
-}
-
-/* On a computer the drawer is just a wrapper (it opens only on phones, see below) */
+/* ===== The drawer: a meeting's notes and pictures ===== */
 .process__drawer {
-  display: contents;
+  grid-column: 1 / -1;
+  min-height: 0;
+  overflow: visible clip; /* hides the notes while the meeting is closed, but lets the pictures' row reach the screen's edges */
+}
+
+/* The notes fade and slide in with the drawer */
+.process__notes {
+  padding: calc(17 * var(--u)) 0 calc(37 * var(--u));
+  line-height: var(--body-line-height);
+  cursor: auto;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.7s var(--ease-in-out), transform 0.7s var(--ease-in-out);
+}
+
+.process__entry.is-open .process__notes {
+  opacity: 1;
+  transform: none;
+}
+
+.process__about {
+  width: 405px; /* fixed like the text, so the lines break where they do in Figma */
+}
+
+/* The pictures, in a row that scrolls sideways, edge to edge across the screen */
+.process__strip {
+  display: flex;
+  align-items: flex-start;
+  margin: calc(78 * var(--u)) -17px 0 calc(-1 * var(--space-m));
+  padding: 0 17px 0 calc(40 * var(--x));
+  overflow-x: auto;
+  overscroll-behavior-x: contain; /* reaching its end doesn't swipe the browser back */
+  scrollbar-width: none;
+}
+
+.process__strip::-webkit-scrollbar {
+  display: none;
+}
+
+.process__strip > * {
+  flex: none;
+}
+
+.process__strip > * + * {
+  margin-left: calc(28 * var(--x));
+}
+
+.process__strip > * + * + * {
+  margin-left: calc(46 * var(--x));
+  margin-top: calc(9 * var(--u)); /* Direction no. 2 sits a little higher */
+}
+
+.process__media {
+  display: block;
+  height: auto;
+}
+
+video.process__media {
+  width: calc(815 * var(--x));
+}
+
+.process__shot {
+  width: calc(458 * var(--x));
+}
+
+.process__shot + .process__shot {
+  width: calc(478 * var(--x));
+}
+
+.process__shot .process__media {
+  width: 100%;
+}
+
+/* A note on the left and the direction's name on the right, sitting on the picture under them */
+.process__caption {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-bottom: var(--space-xs);
+}
+
+.process__caption-text {
+  width: 243px;
+  margin-right: auto;
 }
 
 /* ===== The big headline =====
@@ -1811,26 +1894,51 @@ nav,
     position: static;
   }
 
-  .process__intro {
+  .process__intro,
+  .process__about {
     width: auto;
   }
 
-  .process__index {
-    margin-top: 48px;
+  .process > .process__index {
+    margin: 48px 0 0;
+    display: grid;
     row-gap: 10px;
   }
 
-  /* Name, date, year; the name wraps if it has to */
+  /* Meeting, name, date, year; the name wraps if it has to */
   .process__entry {
-    grid-template-columns: 1fr auto auto;
-    grid-template-rows: auto 0fr; /* the drawer's row starts closed */
+    grid-template-columns: auto 1fr auto auto;
+    grid-template-rows: auto 0fr;
     column-gap: var(--space-m);
-    transition: grid-template-rows 0.7s var(--ease-in-out);
   }
 
-  /* Tapped: the drawer slides open and pushes the rest of the list down */
   .process__entry.is-open {
     grid-template-rows: auto 1fr;
+  }
+
+  .process__entry > span:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .process__notes {
+    padding: 10px 0 4px;
+  }
+
+  .process__strip {
+    margin: 10px calc(-1 * var(--space-m)) 0;
+    padding: 0 var(--space-m);
+  }
+
+  /* Bigger pictures on phones: most of the screen's width each, the next one peeking in */
+  video.process__media,
+  .process__shot,
+  .process__shot + .process__shot {
+    width: 80vw;
+  }
+
+  .process__strip > * + *,
+  .process__strip > * + * + * {
+    margin-left: var(--space-m);
   }
 
   /* No hover on phones: no fading, and the line marks the open row instead */
@@ -1848,29 +1956,6 @@ nav,
     background-size: 100% var(--line-thickness);
     background-position-x: 0;
     transition: background-size 0.5s var(--ease);
-  }
-
-  .process__drawer {
-    display: block;
-    grid-column: 1 / -1;
-    min-height: 0;
-    overflow: hidden; /* hides the picture while the row is closed */
-  }
-
-  /* The picture fades and slides in with the drawer */
-  .process__preview {
-    position: static;
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: 10px 0 4px;
-    transform: translateY(-12px);
-    transition: opacity 0.7s var(--ease-in-out), transform 0.7s var(--ease-in-out);
-  }
-
-  .process__entry.is-open .process__preview {
-    opacity: 1;
-    transform: none;
   }
 
   .process__title {

@@ -619,11 +619,6 @@ nav,
   font-weight: var(--bold-font-weight);
 }
 
-/* A meeting with notes can be opened */
-.process__entry:has(.process__drawer) {
-  cursor: pointer;
-}
-
 /* Hovering anywhere on the row draws the line under all of it; the open meeting keeps its line */
 .process__entry:hover .link-line,
 .process__entry.is-open .link-line {
@@ -647,7 +642,6 @@ nav,
 .process__notes {
   padding: calc(17 * var(--u)) 0 calc(37 * var(--u));
   line-height: var(--body-line-height);
-  cursor: auto;
   opacity: 0;
   transform: translateY(-12px);
   transition: opacity 0.7s var(--ease-in-out), transform 0.7s var(--ease-in-out);

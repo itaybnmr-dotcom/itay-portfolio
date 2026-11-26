@@ -125,9 +125,9 @@ if (matchMedia("(hover: hover)").matches) document.addEventListener("mousemove",
   cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px) translate(-50%, -50%)`;
   const card = event.target.closest("[data-cursor]");
   showWord(card);
-  // Over a link (that isn't a card, where it grows) the circle grows a little;
+  // Over a link (that isn't a card, where it grows), or a WIP meeting that opens, the circle grows a little;
   // over a link or the site's text it turns into the negative of what's under it
-  const link = card === null && event.target.closest("a") !== null;
+  const link = card === null && event.target.closest("a, .process__entry:has(.process__drawer) > span") !== null;
   cursor.classList.toggle("is-small", link);
   cursor.classList.toggle("is-negative", link || (card === null && hasText(event.target)));
   cursor.classList.add("is-visible");

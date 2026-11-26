@@ -392,9 +392,9 @@ nav,
     --space-m: 12px;
   }
 
-  /* The bar is in the caption size on phones (Figma's phone frames); the pages' text stays size/body */
+  /* The bar is 18px on phones (Figma's phone frames), "IG" spelled out, the menu breaking in Figma's 238px */
   .top-bar {
-    font-size: var(--size-caption);
+    font-size: var(--size-body-phone);
     grid-template-columns: 1fr auto;
     line-height: 1.2;
   }
@@ -402,6 +402,29 @@ nav,
   .top-bar__tagline {
     display: none;
   }
+
+  .top-bar__links {
+    max-width: calc(238 * 100vw / 402);
+  }
+
+  /* The menu takes two lines; the name stays one line high, so its second word stays hidden */
+  .top-bar__name {
+    align-self: start;
+  }
+
+  .top-bar .top-bar__ig {
+    display: none;
+  }
+
+  .top-bar .top-bar__instagram {
+    display: inline;
+  }
+}
+
+/* "Instagram" in the bar and the works' numbers are only in the phone frames */
+.top-bar__instagram,
+.tile__no {
+  display: none;
 }
 
 
@@ -1567,50 +1590,22 @@ nav,
     justify-self: end;
   }
 
-  /* Beside Poster Archive: About's globe (turned by script.js) over a strip like its "Open to work",
-     46px with 85px lines, kept inside the margins: 20 from Poster Archive (the gap between the tiles)
-     to 25 from the screen's edge (where the tiles end) (Figma 703:2) */
-  .more-soon__globe {
+  /* Beside Poster Archive: the "More to come soon" film (Figma 703:2's "Pre-comp 6": 794 by 483 at 610, 2005),
+     the 4:5 video cropped to its middle */
+  .more-soon {
     display: block;
     position: absolute;
-    top: calc(1347.47 * var(--x)); /* Figma's 2176 */
-    left: calc(963 * var(--x));
-    width: calc(109.5 * var(--x));
-    overflow: visible; /* the stroke sits half outside the globe's box */
-  }
-
-  .more-soon__strip {
-    display: block;
-    position: absolute;
-    top: calc(1483.47 * var(--x)); /* Figma's 2312 */
-    left: calc(611 * var(--x));
-    right: calc(25 * var(--x));
-    overflow: clip;
-    font-family: var(--title-font-family);
-    font-size: calc(46 * var(--x));
-    font-weight: var(--title-font-weight);
-    line-height: calc(85 * var(--x));
-    letter-spacing: var(--title-letter-spacing);
-  }
-
-  .more-soon__strip .about-story__track {
-    translate: 0 0; /* on About it waits below and rises in; here it's just there */
-  }
-  .more-soon__strip i {
-    font-style: italic; /* Reckless Light Italic */
-  }
-
-  .more-soon__strip b {
-    font-family: var(--body-font-family);
-    font-weight: var(--body-font-weight);
-    font-style: italic; /* Diatype Medium Italic in Figma; the browser slants it */
+    top: calc(1176.47 * var(--x)); /* Figma's 2005 */
+    left: calc(610 * var(--x));
+    width: calc(794 * var(--x));
+    height: calc(483 * var(--x));
+    object-fit: cover;
   }
 }
 
-/* Phones don't have them */
+/* Phones don't have it */
 @media (max-width: 700px) {
-  .more-soon__globe,
-  .more-soon__strip {
+  .more-soon {
     display: none;
   }
 }
@@ -1706,6 +1701,14 @@ nav,
 
   .tile__label > :first-child {
     white-space: pre-line;
+  }
+
+  /* "no. 1" before the name, in Reckless 18px (Figma's phone frame) */
+  .tile__no {
+    display: inline;
+    font-family: var(--title-font-family);
+    font-size: calc(18 * var(--u));
+    font-weight: var(--title-font-weight);
   }
 
   .tile__label > :last-child {
@@ -2495,6 +2498,8 @@ nav,
   .project {
     --x: calc(100vw / 402);
     height: calc(3314 * var(--x)); /* down to "Let's Collab" */
+    /* The bar is two lines now: the title sits 107px under the bar's top, like the Reach frame (it was 33) */
+    margin-top: calc(74 * var(--x));
     overflow-x: clip; /* some videos reach past the screen's edges, like in Figma */
   }
 
@@ -2573,7 +2578,7 @@ nav,
 
   /* ----- Reach ("phone - Reach" 460:29) ----- */
   .project--reach { height: calc(3310 * var(--x)); } /* the footer 95 under Previous / Next */
-  .project__tags { width: 296px; white-space: normal; }
+  .project__tags { width: 296px; white-space: normal; font-size: var(--size-body-phone); }
   /* The red board right under the tags, the description under it, 17px like in the frame */
   .project__board--site { top: calc(169 * var(--x)); left: calc(14 * var(--x)); width: calc(372 * var(--x)); height: calc(226 * var(--x)); }
   .project__site { top: calc(181 * var(--x)); left: calc(39 * var(--x)); width: calc(323 * var(--x)); }
@@ -2877,6 +2882,15 @@ nav,
 
   .footer__collab {
     font-size: calc(100vw * 96 / 402);
+  }
+
+  /* Every page but home has the footer at 18px, "©" too (the Reach phone frame); home keeps its 14px */
+  body:not(.home) .footer {
+    font-size: var(--size-body-phone);
+  }
+
+  body:not(.home) .footer__copyright {
+    font-size: inherit;
   }
 }
 

@@ -2055,14 +2055,21 @@ video.process__media {
 /* Coming back down into view (scrolling up), the small text at the top fades in (reach.js) */
 .project__course,
 .project__collab,
-.project__tags {
+.project__tags,
+.project__visit {
   transition: opacity 0.7s var(--ease);
 }
 
 .project__course.is-faded,
 .project__collab.is-faded,
-.project__tags.is-faded {
+.project__tags.is-faded,
+.project__visit.is-faded {
   opacity: 0;
+}
+
+/* "Visit the site" keeps its rise only until it's in place, so reach.js can cut it off on the way up */
+.title-intro .project__visit.intro__rise {
+  animation-fill-mode: backwards;
 }
 
 /* Each text sticks inside its track, which runs from its spot to the footer.

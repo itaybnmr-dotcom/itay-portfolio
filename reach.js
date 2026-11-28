@@ -15,7 +15,7 @@ const clamp = (n) => Math.min(Math.max(n, 0), 1);
 // The rest of the small text at the top isn't faded: it slides up and is cut off, as if going under
 // the title (the tags, at the line the description sits on) or under the description (the course and collaboration)
 const about = document.querySelector(".project__about");
-const vanishing = document.querySelectorAll(".project__course, .project__collab, .project__tags");
+const vanishing = document.querySelectorAll(".project__course, .project__collab, .project__tags, .project__visit");
 
 // The research and graphic texts each stick a line under the text before them
 const research = document.querySelector(".project__text--research");
@@ -136,7 +136,10 @@ function update() {
   if (scrollY !== lastScroll) goingUp = scrollY < lastScroll; // frames without a scroll keep the last direction
   lastScroll = scrollY;
   vanishing.forEach((text) => {
-    const line = text.parentElement === about.parentElement ? about.getBoundingClientRect().bottom : stickTop;
+    // Texts that start under the description are cut at its bottom, so the ones on the same line go together
+    // (the museum's course and tags); "Visit the site", up beside the description, is cut under the title right away
+    const underAbout = text.parentElement === about.parentElement || text.offsetTop >= about.parentElement.offsetTop + about.offsetHeight - 1;
+    const line = underAbout ? about.getBoundingClientRect().bottom : stickTop;
     const cut = phone.matches ? 0 : line - text.getBoundingClientRect().top;
     if (goingUp) {
       text.style.clipPath = "";

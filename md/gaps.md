@@ -1,109 +1,63 @@
 # Gaps: Figma vs. the site
 
-Checked on 9.11.2026 against the Figma file "Itay Ben Mayor Portfolio" (`zravRK9lDdBlU89ivMeEYq`).
-Desktop = the site at 1440×1024, compared to the 1440 frames. Phone = the site at 402×874, compared to the 402 "phone - …" frames.
-Positions are `x,y` in px from the top-left of the page. A difference of 1–3px is left out.
+Where the live site and the Figma file ("Itay Ben Mayor Portfolio") differed in a way that mattered, and what was decided for each:
 
-Not checked: hovers, animations, the cursor, and anything below where a Figma frame ends.
+- **Fixed in code:** the site was brought back to Figma.
+- **Update in Figma:** the site is right, and Figma should follow it.
+- **Works:** the gap stays on purpose, usually because the site does something a static frame can't show.
 
----
+The rule behind every decision: Figma wins, unless the thing depends on code (motion, hover, scroll, a browser limit).
 
-## Desktop
-
-### Home (`index.html` ↔ "Home screen")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Everything under the top bar sits higher | hero text box at y 177, cards at y 902, bio at y 1869, footer line at y 2281 | hero at y 117, cards at y 842, bio at y 1809, footer line at y 2222 (≈60px higher; page 2264 tall vs 2308) |
-| 2 | Card labels ("No. 1 … Reach", "Landing Page & App", tags): size and weight | 16px **Bold** (Record Day's labels: 14px Bold) | 14px **Medium** on all four cards |
-| 3 | "Currently in my final year of Visual Communication at Bezalel Academy of Arts & Design" | not in the desktop frame | shown at 609,525 |
-| 4 | HAVEN card video | 29,1348 | 29,1292 (part of #1) |
-
-### Reach (`reach.html` ↔ "עמוד פריט ריץ׳")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Third paragraph of the first text: "Our goal was to make Reach feel like a personal trainer who understands and feels the users." | shown on desktop | phone only, hidden on desktop (`project__phone-only`) |
-| 2 | Nav | "About / Contact / IG" (no WIP) | "About / Contact / IG / WIP" |
-
-Media, titles and the other texts match.
-
-### Israel Museum Index (`israel-museum.html` ↔ "עמוד פריט אינדקס מוזיאון ישראל")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Showreel | 60,245 · 1318×809 | 37,245 · 1364×837 |
-| 2 | Two videos under it (artwork page / index list) | y 1073 · 649×395, at x 60 and 729 | y 1101 · 673×410 at x 37, 671×409 at x 730 |
-| 3 | "collections-hover" video | 729,1484 · 648×395 | 730,1531 · 671×409 |
-| 4 | Research text ("The original museum's site…") | y 1484 | y 1531 (+47) |
-| 5 | "Layout as Curation" text ("The works are the main object…") | y 2040 | y 2098 (+58) |
-| 6 | Screenshot grid (6 images) | rows at y 2260 / 2747 / 3226 | rows at y 2318 / 2805 / 3284 (+58) |
-| 7 | Bio and footer | bio y 3729, page 4190 tall | bio y 3787, page 4242 tall (+58) |
-| 8 | Nav | "About / Contact / IG" | "… / WIP" |
-
-The site's media are on the 37px edge from the latest commits. Figma still has the 60px edge.
-
-### Record Day (`record-day.html` ↔ "עמוד פריט יום התקליט")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Nav | "About / Contact / IG" | "… / WIP" |
-
-Texts, media and positions match.
-
-### WIP (`wip.html` ↔ "WIP")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Intro ("A portfolio in progress…") | 14px, at 604,78, 332 wide | 16px, at 602,78, 345 wide |
-| 2 | Space between log rows | ≈51px (rows at y 220 / 272 / 323) | 24px (rows at y 220 / 244 / 268) |
-| 3 | Third log row | "Made a style guide page · 9.11 · 2026" | "From identity to a system · 2.11 · 2026" |
-| 4 | "Of this portfolio" | 14px | 16px |
+Sources: the measured audit of 9.11.2026 (desktop at 1440×1024, phone at 402×874) and the site's commit history. Gaps of 1–3px are left out.
 
 ---
 
-## Phone
+## Fixed in code
 
-### Home (`index.html` ↔ "phone - home screen")
+| # | Where | Figma | Site | When |
+|---|-------|-------|------|------|
+| 1 | Home | Everything under the top bar starts at y 177 | Everything sat about 60px higher | The footer moved 105px higher to match (19.11). The home page was later rebuilt from the "Home screen experiments" frame (26.11) |
+| 2 | WIP | Log rows 52px apart, intro 14px | Rows 24px apart, intro 16px | WIP rebuilt from the "WIP" frame, rows 52px apart (26.11) |
+| 3 | Phones, all pages | New phone frames: 18px bar, "Instagram" spelled out, numbered works, 18px tags and footer | Older phone layout | Rebuilt from the frames (20.11 and 26.11) |
+| 4 | Reach, phone | Collaboration line on the course line; one line indented | Own line, no indent | Rebuilt from the new phone frame (20.11) |
+| 5 | Israel Museum, phone | No "Visit the site" in the frame | Shown | Removed on phones (20.11) |
+| 6 | Project pages | Description at y 145, clear of the title | Description too close to the big and the small title | Placed like Figma (16.11) |
+| 7 | Reach | Intro line breaks before "personalized" | Broke elsewhere | Intro box set to Figma's 404px (9.11) |
 
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | "Currently in my final year…" | y 436 | y 396 (40 higher) |
-| 2 | Reach card media | site video 23,649 · 269×169; phone 301,649 · 82×169 | 21,603 · 262×164; 298,602 · 81×167 (46 higher, a little smaller) |
-| 3 | Reach card labels: size | 14px | 11.58px |
-| 4 | Reach card labels: position | y 916 | y 853 |
-| 5 | Reach card tags: text | "ux/ui · Product · Interactive · Branding · 2026" | "ux-ui / Product / Interactive / Branding" |
-| 6 | "No. 1 … Reach" label above the card | not in the frame | shown at y 495 |
-| 7 | Cards 2–4 (Israel Museum, Record Day, HAVEN) | not in the frame (it shows the Reach card only) | shown, so the footer lands at y 2190 instead of 1869 |
+## Update in Figma
 
-### Reach (`reach.html` ↔ "phone - Reach")
+| # | Where | Figma | Site | Why the site is right |
+|---|-------|-------|------|-----------------------|
+| 1 | Top bar, every page | "Multidisciplinary Designer based in TLV" in the middle | Removed (28.11) | Decided after the design was done; the frames still show it |
+| 2 | WIP in the menu | Phone frames have "/ WIP"; the desktop project frames don't | Computers have WIP, phones don't (28.11) | WIP is built for a computer screen (sideways rows, drawers) |
+| 3 | Home, "More to come soon" | The After Effects film (703:2) | The globe and the running strip | The film read as a project of its own (26.11) |
+| 4 | Poster Archive | The two handmade posters 478 wide, running 15px past the right edge and overlapping | 448 wide, inside the 15px margin, 10px apart | The frame breaks the page's own margin (20.11) |
+| 5 | Record Day, phone frame | "Indesgin" | "Indesign" | Typo in the frame |
+| 6 | Home, card labels | Record Day's labels at 14px Bold, the other three at 16px Bold | One size on all four (at the time) | Figma isn't consistent with itself |
 
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Collaboration line | on the course line: "…Ofir Gurevich, In collaboration with: Or Sinalevich" | on its own line, no comma |
-| 2 | "Each route becomes a shareable abstraction." | indented (6 spaces) | not indented |
+## Works: different on purpose
 
-Media and other positions match.
+These depend on code, so a static frame can't show them. The frame shows the resting state.
 
-### Israel Museum Index (`israel-museum.html` ↔ "phone - israel museum index")
+| # | Where | What the site does |
+|---|-------|--------------------|
+| 1 | Every link | The hover line draws from one side to the other |
+| 2 | Cursor | A circle. It turns into its negative over text and grows over links. On the home cards it writes the work's name around itself; on posters it becomes a black rectangle with the poster's details |
+| 3 | Project pages | While scrolling, the big title shrinks into a small one. The description rides up under it, and the small texts are cut off at the same line and fade back in on the way up |
+| 4 | Project pages | Titles and texts fade out while a picture passes under them |
+| 5 | Openings | Words rise in one by one on every page (home, About, project pages). Page changes fade and rise in 0.15s and 0.3s |
+| 6 | WIP | The headline's letters move sideways, fall when clicked and can be thrown. Meetings open as drawers with rows that scroll sideways |
+| 7 | Home | A live corner with the place, time and weather |
 
-No gaps found. Texts, media and positions match.
+## Changed because of a browser limit
 
-### Record Day (`record-day.html` ↔ "phone - Record Day")
-
-| # | What | Figma | Site |
-|---|------|-------|------|
-| 1 | Tags | "…After Effects, Indesgin" (typo) | "…After Effects, Indesign" |
-
-Media and positions match.
-
-### WIP (`wip.html`)
-
-There's no phone frame for WIP in Figma, so I couldn't compare it.
+| # | Where | Figma | Site | Why |
+|---|-------|-------|------|-----|
+| 1 | Reach, logo board | Vector with a noise filter | The same board as a WebP image with the noise baked in | The SVG noise filter crashed iPhone Safari |
+| 2 | Cursor's ring, phones | — | Not drawn on phones | Measuring text in a hidden circle crashed iPhone Safari on a tap |
+| 3 | Videos, phones | — | Lighter copies, loaded only as they come near | Heavy videos stalled on phones. On computers they play at full quality |
+| 4 | Pictures | — | WebP, and 3× exports of text-heavy pages (the WIP interview) | Loading weight, and sharp text on Retina screens |
 
 ---
 
-## Across pages
-
-- **WIP in the nav:** the desktop project frames (Reach, Israel Museum, Record Day) have "About / Contact / IG". The site has "/ WIP" on every page, and Figma has it too on Home, WIP and all the phone frames.
-- **Figma's own mismatches:** Record Day's card labels on Home are 14px Bold while the other three are 16px Bold. "Indesgin" is misspelled in the phone Record Day frame.
+Earlier version: the full measured audit of 9.11, position by position, is in this file's git history (commit 5388503).

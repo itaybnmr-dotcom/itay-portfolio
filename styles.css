@@ -90,6 +90,7 @@
   --nav-letter-spacing: -0.02em;
 
   /* Thickness of the line under links on hover */
+  --dim: 0.5; /* the small labels on the WIP board (Meeting no. 4), as in Figma */
   --line-thickness: 1.5px;
   --line-gap: 2px; /* the gap the hover line leaves on each side of a letter that reaches down into it (.link-line) */
   --line-raise: 0.05em; /* how far the hover line sits above the bottom of the text: just under the letters, so g, p, y and the brackets cross it */
@@ -695,6 +696,148 @@ nav,
 
 .process__strip--even > * + * + * {
   margin-left: calc(28 * var(--x));
+}
+
+/* Meeting no. 4: a board of text panels, tables and recorded frames, read sideways */
+.process__strip--board {
+  align-items: flex-start;
+}
+
+.process__strip--board > * + *,
+.process__strip--board > * + * + * {
+  margin-top: 0;
+  margin-left: calc(120 * var(--x)); /* as in Figma */
+}
+
+.process__panel {
+  width: 520px; /* fixed like the text in it, as in Figma */
+}
+
+.process__panel--narrow {
+  width: 360px;
+}
+
+.process__panel--text {
+  width: 440px;
+}
+
+.process__panel--table {
+  width: 1000px;
+}
+
+.process__panel > * + * {
+  margin-top: var(--space-m);
+}
+
+.process__heading {
+  font-family: var(--subtitle-font-family);
+  font-size: calc(var(--size-subtitle) * var(--x));
+  font-weight: var(--subtitle-font-weight);
+  letter-spacing: var(--subtitle-letter-spacing);
+  line-height: var(--subtitle-line-height);
+}
+
+.process__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.process__table th,
+.process__table td {
+  padding: 0 var(--space-l) var(--space-m) 0;
+  text-align: left;
+  vertical-align: top;
+  font-weight: inherit;
+}
+
+.process__table th,
+.process__panel--text .process__label {
+  font-size: var(--size-caption);
+}
+
+.process__table th,
+.process__label {
+  opacity: var(--dim);
+}
+
+.process__table th:first-child,
+.process__table td:first-child {
+  width: 150px;
+}
+
+/* Three columns: the middle and the last share the rest */
+.process__table--three th:first-child,
+.process__table--three td:first-child {
+  width: 200px;
+}
+
+/* The motion, playing live: as tall as the frames in Figma */
+.process__strip--board .process__live {
+  width: auto;
+  height: calc(300 * var(--x));
+}
+
+/* A whole screen playing (Meeting no. 6): as tall as the pictures in the other meetings */
+.process__strip--board .process__live--tall {
+  height: calc(440 * var(--x));
+}
+
+/* The interview's first page and the system grow over the page (wip.js) */
+.process__open {
+  display: block;
+}
+
+.process__open .process__media {
+  width: auto;
+  height: 100%;
+}
+
+/* The whole interview, grown over the page from its first page: as wide as that page grows, scrolling up and down */
+.process__full {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: calc(77 * var(--u)) var(--space-m);
+  border: 0;
+  background: var(--color-bg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.process__full::-webkit-scrollbar {
+  display: none;
+}
+
+/* Over the white interview the circle turns into its negative, like over text */
+.has-custom-cursor .process__full .cursor {
+  mix-blend-mode: difference;
+}
+
+.process__full::backdrop {
+  background: var(--color-bg);
+}
+
+.process__full img {
+  display: block;
+  width: min(100%, calc((100vh - 2 * 77 * var(--u)) * 720 / 440)); /* as wide as the first page fits the screen */
+  height: auto;
+  margin: 0 auto;
+}
+
+.process__full[open] img {
+  transform-origin: top center;
+  animation: grow-in 0.7s var(--ease) both;
+}
+
+@keyframes grow-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
 }
 
 video.process__media {

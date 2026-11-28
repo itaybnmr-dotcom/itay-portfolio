@@ -1,6 +1,6 @@
 // ===== The log =====
 // Clicking a meeting that has notes opens its drawer (and closes the one that was open);
-// clicking it again closes it. Its video plays from the beginning while it's open.
+// clicking it again closes it. Its videos play from the beginning while it's open.
 const entries = document.querySelectorAll(".process__entry");
 
 entries.forEach((entry) => {
@@ -10,29 +10,37 @@ entries.forEach((entry) => {
     const opening = !entry.classList.contains("is-open");
     entries.forEach((other) => {
       other.classList.remove("is-open");
-      other.querySelector("video")?.pause();
+      other.querySelectorAll("video").forEach((video) => video.pause());
     });
     entry.classList.toggle("is-open", opening);
     if (!opening) return;
-    const video = entry.querySelector("video");
-    if (video) {
+    entry.querySelectorAll("video").forEach((video) => {
       video.currentTime = 0;
       video.play();
-    }
+    });
     navigator.vibrate?.(8); // a tiny haptic "tick" on phones (Android; iPhones ignore it)
   });
 });
 
-// A mouse wheel scrolls the pictures sideways, until the row's end; then the page scrolls on
-document.querySelectorAll(".process__strip").forEach((strip) => {
-  strip.addEventListener("wheel", (event) => {
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return; // a trackpad already scrolls it sideways
-    const end = strip.scrollWidth - strip.clientWidth;
-    const goingOn = event.deltaY > 0 ? strip.scrollLeft < end - 1 : strip.scrollLeft > 0;
-    if (!goingOn) return;
+// A picture grows over the page when it's clicked (the whole interview from its first page, or the system);
+// a click anywhere or Esc closes it.
+// The cursor's circle moves into it while it's open, since it sits above everything else.
+const full = document.querySelector(".process__full");
+const cursorCircle = document.querySelector(".cursor");
+document.querySelectorAll("[data-full]").forEach((page) => {
+  page.addEventListener("click", (event) => {
     event.preventDefault();
-    strip.scrollLeft += event.deltaY;
-  }, { passive: false });
+    const picture = full.querySelector("img");
+    picture.src = page.href;
+    picture.alt = page.querySelector("img").alt;
+    full.showModal();
+    full.scrollTop = 0;
+    if (cursorCircle) full.append(cursorCircle);
+  });
+});
+full?.addEventListener("click", () => full.close());
+full?.addEventListener("close", () => {
+  if (cursorCircle) document.body.append(cursorCircle);
 });
 
 // ===== Headline animation =====

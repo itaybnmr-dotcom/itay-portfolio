@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Work in Progress</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=185">
+  <link rel="stylesheet" href="styles.css?v=193">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.woff" as="font" type="font/woff" crossorigin>
@@ -15,7 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
   <script src="script.js?v=82" defer></script>
-  <script src="wip.js?v=5" defer></script>
+  <script src="wip.js?v=12" defer></script>
 </head>
 <body>
   <!-- Top bar: name (left), links (right) -->
@@ -49,7 +49,7 @@
             <div class="process__about">
               <p>I'm Itay, a final-year Visual Communication student at Bezalel. I'm interested in how experimental ideas turn into things that work. This site is for studios, employers and collaborators. Within five seconds, I want them to see my projects, how I work, and the range of what I make.</p>
             </div>
-            <!-- Scrolls sideways (a mouse wheel scrolls it too, wip.js) -->
+            <!-- Scrolls sideways only (a sideways swipe or Shift + the wheel); scrolling up and down moves the page -->
             <div class="process__strip">
               <video class="process__media" src="IMG/Process/coming-soon.mp4" width="1920" height="1036" preload="metadata" muted loop playsinline aria-hidden="true"></video>
               <div class="process__shot">
@@ -92,15 +92,10 @@
         <span><span class="link-line">2026</span></span>
         <div class="process__drawer">
           <div class="process__notes">
-            <!-- The system in Figma, the Reach interview (cut into pages that read sideways) and Reach's site, scrolled -->
+            <!-- The system in Figma, the Reach interview's first page (a click grows it into the whole interview) and Reach's site, scrolled -->
             <div class="process__strip process__strip--even">
-              <img class="process__media" src="IMG/Process/comp-and-styles.png" width="3666" height="2097" alt="The system in Figma: components and styles" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-1.png" width="720" height="440" alt="Interview log: Reach" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-2.png" width="720" height="440" alt="" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-3.png" width="720" height="440" alt="" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-4.png" width="720" height="440" alt="" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-5.png" width="720" height="440" alt="" loading="lazy">
-              <img class="process__media" src="IMG/Process/interview-6.png" width="720" height="440" alt="" loading="lazy">
+              <a class="process__open" href="IMG/Process/comp-and-styles.png" data-full><img class="process__media" src="IMG/Process/comp-and-styles.png" width="3666" height="2097" alt="The system in Figma: components and styles" loading="lazy"></a>
+              <a class="process__open" href="IMG/Process/interview.png" data-full><img class="process__media" src="IMG/Process/interview-1.png" width="720" height="440" alt="Interview log: Reach" loading="lazy"></a>
               <video class="process__media" src="IMG/Process/reach-scroll.mp4" width="1440" height="900" preload="metadata" muted loop playsinline aria-hidden="true"></video>
             </div>
           </div>
@@ -111,20 +106,139 @@
         <span><span class="link-line">Figma vs Site</span></span>
         <span><span class="link-line">09.11</span></span>
         <span><span class="link-line">2026</span></span>
+        <div class="process__drawer">
+          <div class="process__notes">
+            <!-- Figma vs Site, laid out like the Figma board "Meeting no. 4 · Figma vs Site" (734:2): the gaps and what was decided,
+                 then two pieces of motion, playing live, and why each sits where it does. Real text, in the site's type. -->
+            <div class="process__strip process__strip--board">
+              <div class="process__panel">
+                <h2 class="process__heading">Figma vs Site</h2>
+                <p>Where the site and Figma part ways, and the motion only the site has. Read it sideways: first the gaps and what was decided for each, then two pieces of motion and why each sits exactly where it does.</p>
+              </div>
+              <div class="process__panel">
+                <h2 class="process__heading">The gaps, and what was decided</h2>
+                <p>The rule: Figma wins, unless the thing depends on code (motion, hover, scroll, a browser limit). Every gap from gaps.md ends in one of three: a fix in the code, an update in Figma, or “works”, different on purpose.</p>
+              </div>
+              <div class="process__panel process__panel--table">
+                <p class="process__label">The site went back to Figma</p>
+                <h2 class="process__heading">Fixed in code</h2>
+                <table class="process__table"><tr><th>Where</th><th>Figma</th><th>Site</th><th>Decision</th></tr><tr><td>Home</td><td>Everything under the bar starts at y 177</td><td>Sat about 60px higher</td><td>Footer moved 105px higher, then the page rebuilt from “Home screen experiments”</td></tr><tr><td>WIP</td><td>Rows 52px apart, intro 14px</td><td>Rows 24px apart, intro 16px</td><td>Rebuilt from the “WIP” frame</td></tr><tr><td>Phones</td><td>New frames: 18px bar, “Instagram” spelled out, numbered works</td><td>Older phone layout</td><td>Rebuilt from the frames</td></tr><tr><td>Israel Museum, phone</td><td>No “Visit the site”</td><td>Shown</td><td>Removed on phones</td></tr><tr><td>Reach</td><td>Intro breaks before “personalized”</td><td>Broke elsewhere</td><td>Intro box set to Figma’s 404px</td></tr></table>
+              </div>
+              <div class="process__panel process__panel--table">
+                <p class="process__label">The site is right</p>
+                <h2 class="process__heading">Update in Figma</h2>
+                <table class="process__table"><tr><th>Where</th><th>Figma</th><th>Site</th><th>Decision</th></tr><tr><td>Top bar</td><td>“Multidisciplinary Designer based in TLV” in the middle</td><td>Removed</td><td>Decided after the design; the frames still show it</td></tr><tr><td>WIP in the menu</td><td>On the phone frames</td><td>Computers only</td><td>WIP is built for a computer: sideways rows and drawers</td></tr><tr><td>More to come soon</td><td>The After Effects film</td><td>The globe and the running strip</td><td>The film read as a project of its own</td></tr><tr><td>Poster Archive</td><td>Handmade posters run 15px past the edge, overlapping</td><td>Inside the margin, 10px apart</td><td>The frame breaks the page’s own margin</td></tr><tr><td>Record Day, phone</td><td>“Indesgin”</td><td>“Indesign”</td><td>Typo in the frame</td></tr></table>
+              </div>
+              <div class="process__panel process__panel--table">
+                <p class="process__label">Different on purpose</p>
+                <h2 class="process__heading">Works</h2>
+                <table class="process__table"><tr><th>Where</th><th>Figma</th><th>Site</th><th>Decision</th></tr><tr><td>Every link</td><td>A static link</td><td>The line draws from one side to the other</td><td>Motion; a frame shows the resting state</td></tr><tr><td>Cursor</td><td>None</td><td>A circle: negative over text, a button over a work</td><td>Hover; see motion, example 2</td></tr><tr><td>Project pages</td><td>A fixed title</td><td>The title shrinks into the bar while scrolling</td><td>Scroll; see motion, example 1</td></tr><tr><td>Reach, phone</td><td>Vector board with a noise filter</td><td>The same board as a WebP</td><td>The SVG filter crashed iPhone Safari</td></tr></table>
+              </div>
+              <div class="process__panel">
+                <h2 class="process__heading">Motion, and why exactly there</h2>
+                <p>Two pieces of motion only the site has, recorded from the live site, then what each does and why it sits where it does.</p>
+              </div>
+              <div class="process__panel process__panel--narrow">
+                <p class="process__label">Example 1 · Project pages, the first 400px of scrolling</p>
+                <h2 class="process__heading">The title shrinks into the bar</h2>
+              </div>
+              <!-- Recorded from the live site -->
+              <video class="process__media process__live process__live--title" src="IMG/Process/motion-title.mp4" width="2880" height="660" preload="metadata" muted loop playsinline aria-label="The Reach title shrinking into the bar while scrolling, and growing back"></video>
+              <div class="process__panel process__panel--text">
+                <p class="process__label">What</p>
+                <p>As you scroll into a case study, the big three-word title shrinks in place into a small title at the top, and the description rides up under it. The course, the tags and “Visit the site” are cut off at one line, as if they go under the title, and fade back in on the way up.</p>
+              </div>
+              <div class="process__panel process__panel--text">
+                <p class="process__label">Why exactly there</p>
+                <p>The title is the biggest thing on the page and the first thing you read, but once you're inside the work it would cover it. Shrinking keeps it as a label for where you are instead of throwing it away, and each word stays in its own column, so the page keeps its grid. It happens only over the first 400px, exactly where the title meets the first picture. Phones don't get it: the screen needs the space, and a plain column reads better.</p>
+              </div>
+              <div class="process__panel process__panel--narrow">
+                <p class="process__label">Example 2 · Home, over the works</p>
+                <h2 class="process__heading">The cursor becomes the button</h2>
+              </div>
+              <!-- Recorded from the live site -->
+              <video class="process__media process__live process__live--cursor" src="IMG/Process/motion-cursor.mp4" width="2880" height="1052" preload="metadata" muted loop playsinline aria-label="The cursor moving over the works on the home page"></video>
+              <div class="process__panel process__panel--text">
+                <p class="process__label">What</p>
+                <p>Over a work, the cursor's circle grows and writes “More info” around itself, in that work's own color (red over Reach, white over the museum), and the line under the work's name and tags draws in from side to side.</p>
+              </div>
+              <div class="process__panel process__panel--text">
+                <p class="process__label">Why exactly there</p>
+                <p>The works are the only things on the home page that open a case study, and the site has no buttons: it's black and white, and color comes only from the work. So the cursor itself becomes the button. The picture stays clean, and color shows up only where a work is. Everywhere else the circle stays small and only flips to its negative over text, so the one place it grows says “this opens”.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </li>
       <li class="process__entry">
         <span><span class="link-line">Meeting no. 5</span></span>
         <span><span class="link-line">A system built to hold change</span></span>
         <span><span class="link-line">16.11</span></span>
         <span><span class="link-line">2026</span></span>
+        <div class="process__drawer">
+          <div class="process__notes">
+            <!-- A system that holds change: the stress test (what broke, and the component or variable it was fixed in)
+                 and the user test (the five-second test, where people got stuck, what changed) -->
+            <div class="process__strip process__strip--board">
+              <div class="process__panel">
+                <h2 class="process__heading">Stress test</h2>
+                <p>Phones, Safari, long names, parts taken away. When something broke, I fixed it once, in the component or the variable it came from, so every page took the&nbsp;fix.</p>
+              </div>
+              <div class="process__panel process__panel--table">
+                <p class="process__label">What broke, and where it was fixed</p>
+                <h2 class="process__heading">Fixed in the component or the variable</h2>
+                <table class="process__table"><tr><th>Where</th><th>What broke</th><th>Fixed in</th><th>The fix</th></tr><tr><td>Cursor</td><td>A tap on a phone wrote “More info” around the hidden circle again and again, until Safari ran out of memory and reloaded the site. It came back once more, through a new path</td><td>The cursor component</td><td>The circle only listens to a real mouse. Fixed in the one function every caller goes through, so a new path can't reach it again</td></tr><tr><td>Cursor ring</td><td>Each browser measured the ring's words differently, and Reach lost its last dot</td><td>The cursor component</td><td>The words are measured the same way in every browser</td></tr><tr><td>Hover line</td><td>Under long names and letters like g, p, y the line cut through the letters</td><td>The link-line component, two variables</td><td>The line sits just under the letters (--line-raise) and leaves a gap where a letter drops into it (--line-gap)</td></tr><tr><td>Phone cards</td><td>Tags of different lengths broke into lines differently on each card</td><td>The card component</td><td>Every card's tags take the same width, so they break alike</td></tr><tr><td>Phone margins</td><td>Figma's phone frames are tighter than the computer's</td><td>One variable</td><td>--space-m becomes 12px on phones, and every margin follows</td></tr><tr><td>Colors</td><td>Colors were written straight into the rules, so a change meant hunting for them</td><td>Variables</td><td>Every color moved to a variable on :root (--color-bg, --color-accent, --color-board-museum…)</td></tr><tr><td>Project pages</td><td>On the museum page the course and the tags start on one line but disappeared at different times</td><td>The shared project-page script</td><td>One rule: texts that start on the same line are cut at the same line. All five project pages took it</td></tr><tr><td>Top bar</td><td>Removing the tagline from the middle</td><td>The top-bar component</td><td>Its grid went from three columns to two; all eight pages followed from one line</td></tr></table>
+              </div>
+              <div class="process__panel">
+                <h2 class="process__heading">User test</h2>
+                <p>Three people, each shown the home page for five seconds and asked what this site is. Then they used it freely, and I watched where they got stuck.</p>
+              </div>
+              <div class="process__panel">
+                <p class="process__label">The five-second test · all three</p>
+                <h2 class="process__heading">“A designer who works across several fields”</h2>
+              </div>
+              <div class="process__panel process__panel--table">
+                <p class="process__label">Where they got stuck, and what I fixed</p>
+                <h2 class="process__heading">What I changed</h2>
+                <table class="process__table process__table--three"><tr><th>Who</th><th>What happened</th><th>What I fixed</th></tr><tr><td>All three</td><td>Five seconds on the home page: “a site of a designer who works across several fields”</td><td>That's the message the home page is built to give, so it stayed</td></tr><tr><td>Two of three</td><td>Got stuck on Contact in the footer: not because it was hard to find, but because it was too small, almost invisible</td><td>Contact in the menu glides down to the footer; Email rolls into the address and a click copies it (“Copied!”), on phones too</td></tr><tr><td>A friend who isn't a designer</td><td>Got stuck on the Poster Archive: the explanations over the posters and the order of the page felt strange</td><td>Took his advice: the explanations are gone, and the page is laid out again so the posters sit right</td></tr></table>
+              </div>
+            </div>
+          </div>
+        </div>
       </li>
       <li class="process__entry process__entry--bold">
         <span><span class="link-line">Meeting no. 6</span></span>
         <span><span class="link-line">Polish &amp; Publish</span></span>
         <span><span class="link-line">23.11</span></span>
         <span><span class="link-line">2026</span></span>
+        <div class="process__drawer">
+          <div class="process__notes">
+            <!-- The last round of polish: mostly the home page, as it is now, next to the first index it grew from -->
+            <div class="process__strip process__strip--board">
+              <div class="process__panel">
+                <h2 class="process__heading">The last round of polish</h2>
+                <p>What changed after today's feedback is mostly the home page. I built a system that holds two works to a row, with columns that change from row to row, more air around them, and “More to come soon” at the end. This time I wanted the home page to feel like a gallery.</p>
+              </div>
+              <!-- Recorded from the live site: the opening, then scrolling down through the works -->
+              <video class="process__media process__live process__live--tall" src="IMG/Process/home-scroll.mp4" width="1920" height="1200" preload="metadata" muted loop playsinline aria-label="The home page now, scrolled from the top to the bottom"></video>
+              <div class="process__panel process__panel--narrow">
+                <p class="process__label">Where it started · 12.11</p>
+                <h2 class="process__heading">The first index</h2>
+                <p>The works as rows: a row opens a crack on hover, and on a click a card fills the screen while the others squash.</p>
+              </div>
+              <!-- Recorded from the site as it was on 12.11 (commit 13cefdf) -->
+              <video class="process__media process__live process__live--tall" src="IMG/Process/index-first.mp4" width="1920" height="1200" preload="metadata" muted loop playsinline aria-label="The first index: rows that open into cards"></video>
+            </div>
+          </div>
+        </div>
       </li>
     </ol>
+
+    <!-- A picture grown over the page by a click on it (wip.js): the whole interview from its first page, or the system;
+         a click or Esc closes it -->
+    <dialog class="process__full">
+      <img src="" alt="">
+    </dialog>
 
     <!-- The wide gaps between the words are part of the design -->
     <h1 class="process__title">The       Work  in      Progress...</h1>

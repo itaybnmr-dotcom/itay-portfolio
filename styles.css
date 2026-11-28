@@ -1949,6 +1949,11 @@ video.process__media {
     height: 60vw;
   }
 
+  /* The WIP page is for computers: phones don't get its link */
+  .top-bar__wip {
+    display: none;
+  }
+
   /* No hover on phones: no fading, and the line marks the open row instead */
   .process__index:hover .process__entry:not(:hover) {
     opacity: 1;

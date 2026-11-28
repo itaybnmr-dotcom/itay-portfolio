@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Itay Benma — Work in Progress</title>
   <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=184">
+  <link rel="stylesheet" href="styles.css?v=185">
   <!-- The fonts load right away, so a new page shows up already in its own type -->
   <link rel="preload" href="fonts/ABCDiatype-Medium-Trial.woff" as="font" type="font/woff" crossorigin>
   <link rel="preload" href="fonts/RecklessCondensedS-TRIAL-Light.woff" as="font" type="font/woff" crossorigin>
@@ -15,7 +15,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js" defer></script>
   <!-- "?v=": raise the number after changing a script or styles.css, so browsers drop their old saved copy -->
   <script src="script.js?v=82" defer></script>
-  <script src="wip.js?v=4" defer></script>
+  <script src="wip.js?v=5" defer></script>
 </head>
 <body>
   <!-- Top bar: name (left), links (right) -->
@@ -25,8 +25,7 @@
     <nav class="top-bar__links">
       <a class="link-line" href="about.html">About</a> /
       <!-- Kept together: on phones they share one line in the stacked menu -->
-      <span class="top-bar__pair"><a class="link-line" href="index.html#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener"><span class="top-bar__ig">IG</span><span class="top-bar__instagram">Instagram</span></a></span> /
-      <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a>
+      <span class="top-bar__pair"><a class="link-line" href="index.html#contact">Contact</a> / <a class="link-line" href="https://www.instagram.com/itay_benma/" target="_blank" rel="noopener"><span class="top-bar__ig">IG</span><span class="top-bar__instagram">Instagram</span></a></span><span class="top-bar__wip"> / <a class="link-line is-current" href="wip.html" aria-current="page">WIP</a></span><!-- computers only -->
     </nav>
   </header>
 
@@ -91,6 +90,21 @@
         <span><span class="link-line">System</span></span>
         <span><span class="link-line">02.11</span></span>
         <span><span class="link-line">2026</span></span>
+        <div class="process__drawer">
+          <div class="process__notes">
+            <!-- The system in Figma, the Reach interview (cut into pages that read sideways) and Reach's site, scrolled -->
+            <div class="process__strip process__strip--even">
+              <img class="process__media" src="IMG/Process/comp-and-styles.png" width="3666" height="2097" alt="The system in Figma: components and styles" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-1.png" width="720" height="440" alt="Interview log: Reach" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-2.png" width="720" height="440" alt="" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-3.png" width="720" height="440" alt="" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-4.png" width="720" height="440" alt="" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-5.png" width="720" height="440" alt="" loading="lazy">
+              <img class="process__media" src="IMG/Process/interview-6.png" width="720" height="440" alt="" loading="lazy">
+              <video class="process__media" src="IMG/Process/reach-scroll.mp4" width="1440" height="900" preload="metadata" muted loop playsinline aria-hidden="true"></video>
+            </div>
+          </div>
+        </div>
       </li>
       <li class="process__entry">
         <span><span class="link-line">Meeting no. 4</span></span>
